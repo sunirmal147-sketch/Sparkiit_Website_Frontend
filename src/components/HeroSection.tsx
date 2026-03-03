@@ -1,9 +1,22 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, useScroll, useTransform } from "framer-motion";
 import { Play } from "lucide-react";
+import { useRef } from "react";
 
 export default function HeroSection() {
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start start", "end start"],
+    });
+
+    // Parallax and fade effects for the text
+    const xIdea = useTransform(scrollYProgress, [0, 1], [0, 150]);
+    const xInnovate = useTransform(scrollYProgress, [0, 1], [0, 300]);
+    const xTransform = useTransform(scrollYProgress, [0, 1], [0, 450]);
+    const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
     const textAnimation: Variants = {
         hidden: { opacity: 0, y: 50 },
         visible: (i: number) => ({
@@ -17,8 +30,10 @@ export default function HeroSection() {
         }),
     };
 
+    const xTransforms = [xIdea, xInnovate, xTransform];
+
     return (
-        <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 pt-32 overflow-hidden">
+        <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 pt-32 overflow-hidden">
             {/* Background gradients/effects mimicking the reference */}
             <div className="absolute top-0 right-0 w-[80vw] h-[80vh] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-red-600/10 blur-[120px] rounded-full pointer-events-none" />
@@ -27,25 +42,33 @@ export default function HeroSection() {
                 <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold uppercase leading-[0.9] tracking-tighter">
                     {["IDEA", "INNOVATE", "TRANSFORM"].map((word, index) => (
                         <div key={index} className="overflow-hidden flex items-center">
-                            {index === 1 && (
-                                <motion.span
-                                    initial={{ scale: 0, rotate: -45 }}
-                                    animate={{ scale: 1, rotate: 0 }}
-                                    transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-                                    className="inline-block mr-4 text-[#a8e03e]"
-                                >
-                                    ✦
-                                </motion.span>
-                            )}
-                            <motion.span
-                                custom={index}
-                                variants={textAnimation}
-                                initial="hidden"
-                                animate="visible"
-                                className="inline-block"
+                            <motion.div
+                                style={{
+                                    x: xTransforms[index],
+                                    opacity: opacity,
+                                }}
+                                className="flex items-center"
                             >
-                                {word}
-                            </motion.span>
+                                {index === 1 && (
+                                    <motion.span
+                                        initial={{ scale: 0, rotate: -45 }}
+                                        animate={{ scale: 1, rotate: 0 }}
+                                        transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+                                        className="inline-block mr-4 text-[#a8e03e]"
+                                    >
+                                        ✦
+                                    </motion.span>
+                                )}
+                                <motion.span
+                                    custom={index}
+                                    variants={textAnimation}
+                                    initial="hidden"
+                                    animate="visible"
+                                    className="inline-block"
+                                >
+                                    {word}
+                                </motion.span>
+                            </motion.div>
                         </div>
                     ))}
                 </h1>
