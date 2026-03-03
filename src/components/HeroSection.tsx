@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Play } from "lucide-react";
 
 export default function HeroSection() {
-    const textAnimation = {
+    const textAnimation: Variants = {
         hidden: { opacity: 0, y: 50 },
         visible: (i: number) => ({
             opacity: 1,
