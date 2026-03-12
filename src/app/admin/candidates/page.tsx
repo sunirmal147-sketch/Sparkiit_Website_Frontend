@@ -44,7 +44,6 @@ export default function CandidatesPage() {
     const [selectedCourse, setSelectedCourse] = useState("");
 
     const fetchCandidates = useCallback(() => {
-        setLoading(true);
         const token = localStorage.getItem("adminToken");
         const q = search ? `?search=${encodeURIComponent(search)}` : "";
         fetch(`${API_BASE}/candidates${q}`, {

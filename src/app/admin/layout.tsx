@@ -48,29 +48,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const pathname = usePathname();
     const router = useRouter();
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const [user, setUser] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    const [user] = useState<Record<string, unknown> | null>(() => {
+        if (typeof window !== "undefined") {
+            const userData = localStorage.getItem("adminUser");
+            const token = localStorage.getItem("adminToken");
+            return (userData && token) ? JSON.parse(userData) : null;
+        }
+        return null;
+    });
 
     useEffect(() => {
-        const token = localStorage.getItem("adminToken");
-        const userData = localStorage.getItem("adminUser");
-
-        if (pathname === "/admin/login") {
-            setLoading(false);
-            return;
-        }
-
-        if (!token || !userData) {
+        if (pathname === "/admin/login") return;
+        if (!user) {
             router.push("/admin/login");
-        } else {
-            setUser(JSON.parse(userData));
         }
-        setLoading(false);
-    }, [pathname, router]);
+    }, [pathname, router, user]);
 
-    if (loading) return null;
-    if (!user && pathname !== "/admin/login") return null;
     if (pathname === "/admin/login") return <>{children}</>;
+    if (!user) return null;
 
 
     return (

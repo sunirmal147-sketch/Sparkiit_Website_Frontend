@@ -14,21 +14,19 @@ interface User {
 
 export default function UsersPage() {
     const [users, setUsers] = useState<User[]>([]);
-    const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
     const [form, setForm] = useState({ username: "", email: "", password: "", role: "ADMIN" });
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
 
     const fetchUsers = useCallback(() => {
-        setLoading(true);
         const token = localStorage.getItem("adminToken");
         fetch(`${API_BASE}/users`, {
             headers: { "Authorization": `Bearer ${token}` }
         })
             .then((r) => r.json())
-            .then((d) => { setUsers(d.data || []); setLoading(false); })
-            .catch(() => setLoading(false));
+            .then((d) => { if (d.data) setUsers(d.data); })
+            .catch(() => { });
     }, []);
 
     useEffect(() => { fetchUsers(); }, [fetchUsers]);

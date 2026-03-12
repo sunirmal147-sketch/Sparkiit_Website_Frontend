@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useHomepageData } from "@/hooks/useHomepageData";
 
-const services = [
+const fallbackServices = [
     "Application Development",
     "UI/UX Strategy & Design",
     "Blockchain Solutions",
@@ -13,6 +14,11 @@ const services = [
 ];
 
 export default function ServicesOverview() {
+    const { data } = useHomepageData();
+    const services = data?.services && data.services.length > 0
+        ? data.services.map(s => s.title)
+        : fallbackServices;
+
     return (
         <section className="py-24 px-6 md:px-20 bg-[#050505] border-y border-white/5">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">

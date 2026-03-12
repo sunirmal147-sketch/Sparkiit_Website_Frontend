@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useHomepageData } from "@/hooks/useHomepageData";
 
-const steps = [
+const fallbackSteps = [
     {
         num: "01",
         title: "STRATEGY",
@@ -21,20 +22,29 @@ const steps = [
 ];
 
 export default function WorkingProcess() {
+    const { data } = useHomepageData();
+
+    const process = data?.content?.process || {
+        title: "WORKING PROCESS.",
+        description: "A systematic approach to turning complex ideas into seamless digital experiences."
+    };
+
     return (
         <section className="py-24 px-6 md:px-20 bg-[#050505]">
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
                     <h2 className="text-5xl md:text-7xl font-bold text-white uppercase tracking-tighter">
-                        WORKING <br /> PROCESS.
+                        {(process.title || "").split(' <br /> ').map((line: string, i: number) => (
+                            <span key={i}>{line}{i < (process.title || "").split(' <br /> ').length - 1 && <br />}</span>
+                        ))}
                     </h2>
                     <p className="max-w-sm text-gray-500 font-medium">
-                        A systematic approach to turning complex ideas into seamless digital experiences.
+                        {process.description}
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-white/5 pt-12">
-                    {steps.map((step, index) => (
+                    {fallbackSteps.map((step, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, y: 30 }}

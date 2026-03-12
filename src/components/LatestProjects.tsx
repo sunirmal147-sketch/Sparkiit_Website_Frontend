@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useHomepageData } from "@/hooks/useHomepageData";
 
-const projects = [
+const fallbackProjects = [
     {
         num: "01",
         title: "DEX PROTOCOL",
@@ -31,6 +32,9 @@ const projects = [
 ];
 
 export default function LatestProjects() {
+    const { data } = useHomepageData();
+    const projects = data?.projects && data.projects.length > 0 ? data.projects : fallbackProjects;
+
     return (
         <section className="py-24 px-6 md:px-20 bg-[#050505]">
             <div className="max-w-7xl mx-auto">

@@ -7,12 +7,10 @@ export default function ParallaxImage({
     src,
     alt,
     className = "",
-    speed = 0.5,
 }: {
     src: string;
     alt: string;
     className?: string;
-    speed?: number;
 }) {
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({

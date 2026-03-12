@@ -38,7 +38,7 @@ export default function AboutPage() {
                         className="lg:w-1/3 bg-white/5 p-8 rounded-3xl border border-white/10"
                     >
                         <p className="text-gray-400 leading-relaxed mb-8">
-                            A collective of designers, developers, and strategists dedicated to pushing the boundaries of what's possible in the digital realm.
+                            A collective of designers, developers, and strategists dedicated to pushing the boundaries of what&apos;s possible in the digital realm.
                         </p>
                         <button className="bg-[#a8e03e] text-black px-8 py-4 rounded-full font-bold uppercase text-xs tracking-widest hover:scale-105 transition-transform">
                             Get Started

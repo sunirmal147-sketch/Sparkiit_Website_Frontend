@@ -1,8 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useHomepageData } from "@/hooks/useHomepageData";
 
 export default function OurStory() {
+    const { data } = useHomepageData();
+
+    const story = data?.content?.story || {
+        title: "The journey of Sparkiit",
+        subtitle: "Since 2021, we have been at the forefront of digital innovation, helping brands navigate the complex landscape of Web3, Blockchain, and immersive technology.",
+        description: "Our mission is to empower visionaries with the tools and strategies needed to transform industries. We believe that technology should be a catalyst for change, not a barrier. By blending creative design with deep technical expertise, we create experiences that are not only beautiful but also functional and secure."
+    };
+
     return (
         <section className="py-24 px-6 md:px-20 bg-[#050505]">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-start">
@@ -23,7 +32,9 @@ export default function OurStory() {
                         transition={{ duration: 0.6, delay: 0.1 }}
                         className="text-4xl md:text-5xl font-bold text-white uppercase tracking-tighter leading-tight"
                     >
-                        The journey of <br /> Sparkiit
+                        {(story.title || "").split(' <br /> ').map((line, i) => (
+                            <span key={i}>{line}{i < (story.title || "").split(' <br /> ').length - 1 && <br />}</span>
+                        ))}
                     </motion.h2>
                 </div>
 
@@ -35,7 +46,7 @@ export default function OurStory() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="text-xl md:text-2xl text-gray-400 leading-relaxed font-light"
                     >
-                        Since 2021, we have been at the forefront of digital innovation, helping brands navigate the complex landscape of Web3, Blockchain, and immersive technology.
+                        {story.subtitle}
                     </motion.p>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -44,7 +55,7 @@ export default function OurStory() {
                         transition={{ duration: 0.6, delay: 0.3 }}
                         className="text-lg text-gray-500 leading-relaxed"
                     >
-                        Our mission is to empower visionaries with the tools and strategies needed to transform industries. We believe that technology should be a catalyst for change, not a barrier. By blending creative design with deep technical expertise, we create experiences that are not only beautiful but also functional and secure.
+                        {story.description}
                     </motion.p>
                     <div className="pt-8">
                         <motion.button

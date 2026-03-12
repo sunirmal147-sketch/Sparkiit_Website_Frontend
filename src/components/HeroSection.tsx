@@ -3,13 +3,23 @@
 import { motion, Variants, useScroll, useTransform } from "framer-motion";
 import { Play } from "lucide-react";
 import { useRef } from "react";
+import { useHomepageData } from "@/hooks/useHomepageData";
 
 export default function HeroSection() {
+    const { data } = useHomepageData();
     const sectionRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start start", "end start"],
     });
+
+    const hero = data?.content?.hero || {
+        word1: "IDEA",
+        word2: "INNOVATE",
+        word3: "TRANSFORM",
+        tagline: "Design and development for Blockchain, DeFi, Web3, and Crypto Start-ups.",
+        ctaText: "Let's Talk"
+    };
 
     // Parallax and fade effects for the text
     const xIdea = useTransform(scrollYProgress, [0, 1], [0, 150]);
@@ -31,6 +41,7 @@ export default function HeroSection() {
     };
 
     const xTransforms = [xIdea, xInnovate, xTransform];
+    const words = [hero.word1, hero.word2, hero.word3];
 
     return (
         <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 pt-32 overflow-hidden">
@@ -40,7 +51,7 @@ export default function HeroSection() {
 
             <div className="relative z-10 max-w-5xl">
                 <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold uppercase leading-[0.9] tracking-tighter">
-                    {["IDEA", "INNOVATE", "TRANSFORM"].map((word, index) => (
+                    {words.map((word, index) => (
                         <div key={index} className="overflow-hidden flex items-center">
                             <motion.div
                                 style={{
@@ -77,11 +88,11 @@ export default function HeroSection() {
             <div className="relative z-10 mt-20 flex flex-col md:flex-row items-start md:items-end justify-between gap-10 border-t border-white/10 pt-10">
                 <div className="max-w-md">
                     <p className="text-sm md:text-base text-gray-400 uppercase tracking-widest leading-relaxed">
-                        Design and development for Blockchain, DeFi, Web3, and Crypto Start-ups.
+                        {hero.tagline}
                     </p>
                     <button className="mt-8 flex items-center gap-2 bg-[#a8e03e] text-black px-6 py-3 rounded-full font-bold uppercase text-sm hover:bg-[#96c937] transition-colors">
                         <span className="border border-black rounded-full p-1 border-opacity-30">→</span>
-                        Let&apos;s Talk
+                        {hero.ctaText}
                     </button>
                 </div>
 

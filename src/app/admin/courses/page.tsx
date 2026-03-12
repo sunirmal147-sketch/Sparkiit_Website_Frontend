@@ -35,7 +35,6 @@ export default function CoursesPage() {
     const [courses, setCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
-    const [category, setCategory] = useState("");
     const [statusFilter, setStatusFilter] = useState("");
     const [sortBy, setSortBy] = useState("newest");
     const [modalOpen, setModalOpen] = useState(false);
@@ -46,10 +45,8 @@ export default function CoursesPage() {
     const [newLink, setNewLink] = useState("");
 
     const fetchCourses = useCallback(() => {
-        setLoading(true);
         const params = new URLSearchParams();
         if (search) params.append("search", search);
-        if (category) params.append("category", category);
         if (statusFilter) params.append("status", statusFilter);
         if (sortBy) params.append("sortBy", sortBy);
 
@@ -60,7 +57,7 @@ export default function CoursesPage() {
             .then((r) => r.json())
             .then((d) => { setCourses(d.data || []); setLoading(false); })
             .catch(() => setLoading(false));
-    }, [search, category, statusFilter, sortBy]);
+    }, [search, statusFilter, sortBy]);
 
     useEffect(() => { fetchCourses(); }, [fetchCourses]);
 
