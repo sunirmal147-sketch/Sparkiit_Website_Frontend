@@ -44,7 +44,7 @@ export default function ProjectsPage() {
                 <div className="max-w-7xl mx-auto text-center border-t border-white/5 pt-24">
                     <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-12">HAVE A PROJECT IN <br /> MIND?</h2>
                     <button className="bg-[#a8e03e] text-black px-12 py-6 rounded-full font-bold uppercase text-sm tracking-widest hover:scale-105 transition-transform">
-                        Let's Talk
+                        Let&apos;s Talk
                     </button>
                 </div>
             </section>

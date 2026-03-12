@@ -81,7 +81,7 @@ export default function HeroSection() {
                     </p>
                     <button className="mt-8 flex items-center gap-2 bg-[#a8e03e] text-black px-6 py-3 rounded-full font-bold uppercase text-sm hover:bg-[#96c937] transition-colors">
                         <span className="border border-black rounded-full p-1 border-opacity-30">→</span>
-                        Let's Talk
+                        Let&apos;s Talk
                     </button>
                 </div>
 

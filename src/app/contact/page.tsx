@@ -26,7 +26,7 @@ export default function ContactPage() {
                             transition={{ duration: 0.8 }}
                             className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-12"
                         >
-                            LET'S WORK <br /> <span className="text-white/20">TOGETHER.</span>
+                            LET&apos;S WORK <br /> <span className="text-white/20">TOGETHER.</span>
                         </motion.h1>
 
                         <div className="space-y-10">
