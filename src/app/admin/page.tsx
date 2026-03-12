@@ -18,7 +18,10 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${API_BASE}/stats`)
+        const token = localStorage.getItem("adminToken");
+        fetch(`${API_BASE}/stats`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((r) => r.json())
             .then((d) => { setStats(d.data); setLoading(false); })
             .catch(() => setLoading(false));

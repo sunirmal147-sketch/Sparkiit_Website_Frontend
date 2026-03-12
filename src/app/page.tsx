@@ -55,7 +55,7 @@ export default function Home() {
 
       {/* Final Call to Action / Footer Area */}
       <section className="min-h-[50vh] flex flex-col items-center justify-center p-20 bg-[#a8e03e] text-black">
-        <h2 className="text-6xl md:text-9xl font-bold uppercase tracking-tighter text-center">Let's Build.</h2>
+        <h2 className="text-6xl md:text-9xl font-bold uppercase tracking-tighter text-center">Let&apos;s Build.</h2>
         <p className="mt-6 text-xl font-medium">Ready to transform education?</p>
       </section>
 
