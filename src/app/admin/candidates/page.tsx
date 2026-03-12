@@ -45,15 +45,21 @@ export default function CandidatesPage() {
 
     const fetchCandidates = useCallback(() => {
         setLoading(true);
+        const token = localStorage.getItem("adminToken");
         const q = search ? `?search=${encodeURIComponent(search)}` : "";
-        fetch(`${API_BASE}/candidates${q}`)
+        fetch(`${API_BASE}/candidates${q}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((r) => r.json())
             .then((d) => { setCandidates(d.data || []); setLoading(false); })
             .catch(() => setLoading(false));
     }, [search]);
 
     const fetchCourses = useCallback(() => {
-        fetch(`${API_BASE}/courses`)
+        const token = localStorage.getItem("adminToken");
+        fetch(`${API_BASE}/courses`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((r) => r.json())
             .then((d) => setAllCourses(d.data || []))
             .catch(() => { });
@@ -68,8 +74,16 @@ export default function CandidatesPage() {
         setSaving(true);
         const url = editing ? `${API_BASE}/candidates/${editing._id}` : `${API_BASE}/candidates`;
         const method = editing ? "PUT" : "POST";
+        const token = localStorage.getItem("adminToken");
         try {
-            await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+            await fetch(url, {
+                method,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(form)
+            });
             setModalOpen(false);
             fetchCandidates();
         } catch { /* noop */ }
@@ -77,36 +91,52 @@ export default function CandidatesPage() {
     };
 
     const handleDelete = async (id: string) => {
-        await fetch(`${API_BASE}/candidates/${id}`, { method: "DELETE" });
+        const token = localStorage.getItem("adminToken");
+        await fetch(`${API_BASE}/candidates/${id}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
         setDeleteConfirm(null);
         fetchCandidates();
     };
 
     const handleAssign = async () => {
         if (!assignModal || !selectedCourse) return;
+        const token = localStorage.getItem("adminToken");
         await fetch(`${API_BASE}/candidates/${assignModal._id}/assign-course`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify({ courseId: selectedCourse }),
         });
         setSelectedCourse("");
         fetchCandidates();
         // Refresh the assignModal data
-        const r = await fetch(`${API_BASE}/candidates/${assignModal._id}`);
+        const r = await fetch(`${API_BASE}/candidates/${assignModal._id}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
         const d = await r.json();
         if (d.data) setAssignModal(d.data);
     };
 
     const handleRemoveCourse = async (candidateId: string, courseId: string) => {
+        const token = localStorage.getItem("adminToken");
         await fetch(`${API_BASE}/candidates/${candidateId}/remove-course`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify({ courseId }),
         });
         fetchCandidates();
         // Refresh assign modal
         if (assignModal && assignModal._id === candidateId) {
-            const r = await fetch(`${API_BASE}/candidates/${candidateId}`);
+            const r = await fetch(`${API_BASE}/candidates/${candidateId}`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
             const d = await r.json();
             if (d.data) setAssignModal(d.data);
         }

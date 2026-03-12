@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const navItems = [
     {
@@ -32,11 +32,46 @@ const navItems = [
             </svg>
         ),
     },
+    {
+        label: "Admins",
+        href: "/admin/users",
+        role: "SUPER_ADMIN",
+        icon: (
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+        ),
+    },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
+    const router = useRouter();
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const token = localStorage.getItem("adminToken");
+        const userData = localStorage.getItem("adminUser");
+
+        if (pathname === "/admin/login") {
+            setLoading(false);
+            return;
+        }
+
+        if (!token || !userData) {
+            router.push("/admin/login");
+        } else {
+            setUser(JSON.parse(userData));
+        }
+        setLoading(false);
+    }, [pathname, router]);
+
+    if (loading) return null;
+    if (!user && pathname !== "/admin/login") return null;
+    if (pathname === "/admin/login") return <>{children}</>;
+
 
     return (
         <div style={{ display: "flex", minHeight: "100vh", background: "#0a0a0a", color: "#e5e5e5", fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
@@ -97,7 +132,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <div style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", padding: sidebarOpen ? "8px 12px" : "8px 4px", marginBottom: 4 }}>
                         {sidebarOpen ? "Management" : ""}
                     </div>
-                    {navItems.map((item) => {
+                    {navItems.filter(item => !item.role || item.role === user?.role).map((item) => {
                         const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
                         return (
                             <Link
@@ -124,6 +159,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             </Link>
                         );
                     })}
+
                 </nav>
 
                 {/* Toggle Sidebar */}
