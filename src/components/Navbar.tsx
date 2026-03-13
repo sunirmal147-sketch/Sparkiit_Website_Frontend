@@ -49,6 +49,7 @@ export default function Navbar() {
                         <div className="absolute top-full left-0 mt-2 w-48 bg-[#050505] border border-white/10 rounded-xl py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-xl shadow-2xl">
                             <Link href="/projects" className="block px-6 py-2 text-sm text-white/60 hover:text-[#a8e03e] transition-colors uppercase tracking-widest font-bold">Projects</Link>
                             <Link href="/blog" className="block px-6 py-2 text-sm text-white/60 hover:text-[#a8e03e] transition-colors uppercase tracking-widest font-bold">Blogs</Link>
+                            <Link href="/verify" className="block px-6 py-2 text-sm text-white/60 hover:text-[#a8e03e] transition-colors uppercase tracking-widest font-bold">Verify Certificate</Link>
                         </div>
                     </div>
                 </div>
