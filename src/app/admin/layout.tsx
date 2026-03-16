@@ -3,124 +3,283 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { 
+    LayoutDashboard, GraduationCap, Award, Badge, FileText, 
+    ShoppingBag, Ticket, HandCoins, Users, MapPin, 
+    Blocks, Copyright, Settings, LayoutGrid, FilePlus, 
+    Hash, HelpCircle, ChevronDown, ChevronRight, Settings2,
+    Briefcase,
+    Workflow,
+    PanelBottom
+} from "lucide-react";
 
-const navItems = [
+// Nav Data Structure
+type NavItem = {
+    label: string;
+    href?: string;
+    icon: React.ReactNode;
+    role?: string;
+    subItems?: { label: string; href: string; icon: React.ReactNode }[];
+};
+
+type NavGroup = {
+    title: string;
+    items: NavItem[];
+};
+
+const navGroups: NavGroup[] = [
     {
-        label: "Dashboard",
-        href: "/admin",
-        icon: (
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" />
-            </svg>
-        ),
+        title: "DASHBOARD",
+        items: [
+            { label: "Dashboard", href: "/admin", icon: <LayoutDashboard size={20} strokeWidth={1.8} /> },
+        ]
     },
     {
-        label: "Courses",
-        href: "/admin/courses",
-        icon: (
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-        ),
+        title: "MANAGE CONTENTS",
+        items: [
+            { label: "Manage Courses", href: "/admin/courses", icon: <GraduationCap size={20} strokeWidth={1.8} /> },
+            { 
+                label: "Certificate Builder", 
+                icon: <Settings2 size={20} strokeWidth={1.8} />,
+                subItems: [
+                    { label: "Internship Certificate Builder", href: "/admin/certificate-builder/internship", icon: <Award size={18} strokeWidth={1.8} /> },
+                    { label: "Project Certificate Builder", href: "/admin/certificate-builder/project", icon: <Award size={18} strokeWidth={1.8} /> },
+                ]
+            },
+            { label: "Certificate Management", href: "/admin/certificates", icon: <Award size={20} strokeWidth={1.8} /> },
+            { label: "Manage Projects", href: "/admin/projects", icon: <Briefcase size={20} strokeWidth={1.8} /> },
+            { label: "Manage Services", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} /> },
+            { label: "Badges", href: "/admin/badges", icon: <Badge size={20} strokeWidth={1.8} /> },
+            { label: "Manage Blogs", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} /> },
+        ]
     },
     {
-        label: "Candidates",
-        href: "/admin/candidates",
-        icon: (
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-        ),
+        title: "MANAGE ORDERS",
+        items: [
+            { label: "Manage Order", href: "/admin/orders", icon: <ShoppingBag size={20} strokeWidth={1.8} /> },
+            { label: "Manage Coupon", href: "/admin/coupons", icon: <Ticket size={20} strokeWidth={1.8} /> },
+            { label: "Withdraw Payment", href: "/admin/withdrawals", icon: <HandCoins size={20} strokeWidth={1.8} /> },
+        ]
     },
     {
-        label: "Home CMS",
-        href: "/admin/content",
-        icon: (
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-        ),
+        title: "MANAGE USERS",
+        items: [
+            { label: "Manage Users", href: "/admin/users", icon: <Users size={20} strokeWidth={1.8} />, role: "SUPER_ADMIN" },
+            { label: "Locations", href: "/admin/locations", icon: <MapPin size={20} strokeWidth={1.8} /> },
+        ]
     },
     {
-        label: "Manage Projects",
-        href: "/admin/projects",
-        icon: (
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
-        ),
+        title: "SITE CONTENTS",
+        items: [
+            { label: "Sections", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} /> },
+            { label: "Brands", href: "/admin/brands", icon: <Copyright size={20} strokeWidth={1.8} /> },
+            { label: "Footer Setting", href: "/admin/footer-settings", icon: <PanelBottom size={20} strokeWidth={1.8} /> },
+        ]
     },
     {
-        label: "Manage Services",
-        href: "/admin/services",
-        icon: (
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-        ),
+        title: "MANAGE WEBSITE",
+        items: [
+            { label: "Menu Builder", href: "/admin/menu-builder", icon: <LayoutGrid size={20} strokeWidth={1.8} /> },
+            { label: "Page Builder", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} /> },
+            { label: "Social Links", href: "/admin/social-links", icon: <Hash size={20} strokeWidth={1.8} /> },
+            { label: "FAQs", href: "/admin/faqs", icon: <HelpCircle size={20} strokeWidth={1.8} /> },
+        ]
     },
     {
-        label: "Certificates",
-        href: "/admin/certificates",
-        icon: (
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-            </svg>
-        ),
-    },
-    {
-        label: "Admins",
-        href: "/admin/users",
-        role: "SUPER_ADMIN",
-        icon: (
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-        ),
-    },
+        title: "SETTINGS",
+        items: [
+            { label: "Settings", href: "/admin/settings", icon: <Settings size={20} strokeWidth={1.8} /> },
+        ]
+    }
 ];
+
+function NavItemComponent({ item, sidebarOpen, pathname, userRole, onClick }: { item: any, sidebarOpen: boolean, pathname: string, userRole: string | undefined, onClick?: () => void }) {
+    const [isOpen, setIsOpen] = useState(false);
+    
+    // Role check
+    if (item.role && item.role !== userRole) return null;
+
+    const isActive = item.href ? (pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href))) : false;
+    const isSubActive = item.subItems?.some((sub: any) => pathname.startsWith(sub.href));
+
+    useEffect(() => {
+        if (isSubActive) setIsOpen(true);
+    }, [isSubActive]);
+
+    if (item.subItems) {
+        return (
+            <div style={{ marginBottom: 4 }}>
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        width: "100%",
+                        gap: 12,
+                        padding: sidebarOpen ? "11px 14px" : "11px 16px",
+                        borderRadius: 10,
+                        border: "none",
+                        fontSize: 14,
+                        fontWeight: isSubActive ? 600 : 450,
+                        color: isSubActive ? "#a8e03e" : "rgba(255,255,255,0.55)",
+                        background: isSubActive ? "rgba(168, 224, 62, 0.08)" : "transparent",
+                        transition: "all 0.2s ease",
+                        justifyContent: sidebarOpen ? "flex-start" : "center",
+                        cursor: "pointer",
+                    }}
+                >
+                    <span style={{ flexShrink: 0, opacity: isSubActive ? 1 : 0.6 }}>{item.icon}</span>
+                    {sidebarOpen && (
+                        <>
+                            <span style={{ flex: 1, textAlign: "left" }}>{item.label}</span>
+                            {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                        </>
+                    )}
+                </button>
+                {isOpen && sidebarOpen && (
+                    <div style={{ paddingLeft: 34, marginTop: 4, display: "flex", flexDirection: "column", gap: 4 }}>
+                        {item.subItems.map((sub: any) => {
+                            const isSubItemActive = pathname === sub.href;
+                            return (
+                                <Link
+                                    key={sub.href}
+                                    href={sub.href}
+                                    onClick={onClick}
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 10,
+                                        padding: "8px 12px",
+                                        borderRadius: 8,
+                                        textDecoration: "none",
+                                        fontSize: 13,
+                                        fontWeight: isSubItemActive ? 600 : 450,
+                                        color: isSubItemActive ? "#a8e03e" : "rgba(255,255,255,0.55)",
+                                        background: isSubItemActive ? "rgba(168, 224, 62, 0.08)" : "transparent",
+                                        transition: "all 0.2s ease",
+                                    }}
+                                >
+                                    <span style={{ flexShrink: 0, opacity: isSubItemActive ? 1 : 0.6 }}>{sub.icon}</span>
+                                    <span>{sub.label}</span>
+                                </Link>
+                            )
+                        })}
+                    </div>
+                )}
+            </div>
+        )
+    }
+
+    return (
+        <Link
+            href={item.href}
+            onClick={onClick}
+            style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: sidebarOpen ? "11px 14px" : "11px 16px",
+                marginBottom: 4,
+                borderRadius: 10,
+                textDecoration: "none",
+                fontSize: 14,
+                fontWeight: isActive ? 600 : 450,
+                color: isActive ? "#a8e03e" : "rgba(255,255,255,0.55)",
+                background: isActive ? "rgba(168, 224, 62, 0.08)" : "transparent",
+                transition: "all 0.2s ease",
+                justifyContent: sidebarOpen ? "flex-start" : "center",
+            }}
+        >
+            <span style={{ flexShrink: 0, opacity: isActive ? 1 : 0.6 }}>{item.icon}</span>
+            {sidebarOpen && <span>{item.label}</span>}
+        </Link>
+    );
+}
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const router = useRouter();
+    const [user, setUser] = useState<any>(null);
+    const [isMounted, setIsMounted] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const [user] = useState<Record<string, unknown> | null>(() => {
-        if (typeof window !== "undefined") {
-            const userData = localStorage.getItem("adminUser");
-            const token = localStorage.getItem("adminToken");
-            return (userData && token) ? JSON.parse(userData) : null;
-        }
-        return null;
-    });
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 1024);
+            if (window.innerWidth < 1024) setSidebarOpen(false);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    useEffect(() => {
+        setIsMounted(true);
+        const userData = localStorage.getItem("adminUser");
+        const token = localStorage.getItem("adminToken");
+        if (userData && token) {
+            setUser(JSON.parse(userData));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!isMounted) return;
         if (pathname === "/admin/login") return;
         if (!user) {
             router.push("/admin/login");
         }
-    }, [pathname, router, user]);
+    }, [pathname, router, user, isMounted]);
 
+    if (!isMounted) return null;
     if (pathname === "/admin/login") return <>{children}</>;
     if (!user) return null;
+
+    // Helper to find current page name for header
+    let currentPageName = "Dashboard";
+    for (const group of navGroups) {
+        for (const item of group.items) {
+            if (item.href && (pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href)))) {
+                currentPageName = item.label;
+            } else if (item.subItems) {
+                for (const sub of item.subItems) {
+                    if (pathname === sub.href) {
+                        currentPageName = sub.label;
+                    }
+                }
+            }
+        }
+    }
 
 
     return (
         <div style={{ display: "flex", minHeight: "100vh", background: "#0a0a0a", color: "#e5e5e5", fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
+            {/* Sidebar Overlay for Mobile */}
+            {isMobile && sidebarOpen && (
+                <div 
+                    onClick={() => setSidebarOpen(false)}
+                    style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 45, backdropFilter: "blur(4px)" }}
+                />
+            )}
+
             {/* Sidebar */}
             <aside
                 style={{
-                    width: sidebarOpen ? 260 : 72,
+                    width: sidebarOpen ? 260 : (isMobile ? 0 : 72),
                     minHeight: "100vh",
                     background: "linear-gradient(180deg, #111111 0%, #0d0d0d 100%)",
                     borderRight: "1px solid rgba(168, 224, 62, 0.08)",
                     display: "flex",
                     flexDirection: "column",
-                    transition: "width 0.3s cubic-bezier(0.4,0,0.2,1)",
-                    position: "fixed",
+                    transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
+                    position: isMobile ? "fixed" : "fixed",
                     top: 0,
                     left: 0,
                     zIndex: 50,
                     overflow: "hidden",
+                    visibility: isMobile && !sidebarOpen ? "hidden" : "visible",
+                    opacity: isMobile && !sidebarOpen ? 0 : 1,
+                    transform: isMobile && !sidebarOpen ? "translateX(-100%)" : "translateX(0)",
                 }}
             >
                 {/* Logo */}
@@ -159,68 +318,63 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </div>
 
                 {/* Nav Items */}
-                <nav style={{ padding: "16px 12px", flex: 1 }}>
-                    <div style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", padding: sidebarOpen ? "8px 12px" : "8px 4px", marginBottom: 4 }}>
-                        {sidebarOpen ? "Management" : ""}
-                    </div>
-                    {navItems.filter(item => !item.role || item.role === user?.role).map((item) => {
-                        const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 12,
-                                    padding: sidebarOpen ? "11px 14px" : "11px 16px",
-                                    marginBottom: 4,
-                                    borderRadius: 10,
-                                    textDecoration: "none",
-                                    fontSize: 14,
-                                    fontWeight: isActive ? 600 : 450,
-                                    color: isActive ? "#a8e03e" : "rgba(255,255,255,0.55)",
-                                    background: isActive ? "rgba(168, 224, 62, 0.08)" : "transparent",
-                                    transition: "all 0.2s ease",
-                                    justifyContent: sidebarOpen ? "flex-start" : "center",
-                                }}
-                            >
-                                <span style={{ flexShrink: 0, opacity: isActive ? 1 : 0.6 }}>{item.icon}</span>
-                                {sidebarOpen && <span>{item.label}</span>}
-                            </Link>
-                        );
-                    })}
+                <nav style={{ padding: "16px 12px", flex: 1, overflowY: "auto", overflowX: "hidden" }}>
+                    {navGroups.map((group, idx) => {
+                        const visibleItems = group.items.filter(item => !item.role || item.role === user?.role);
+                        if (visibleItems.length === 0) return null;
 
+                        return (
+                            <div key={idx} style={{ marginBottom: 16 }}>
+                                {group.title !== "DASHBOARD" && (
+                                    <div style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", padding: (sidebarOpen || isMobile) ? "8px 12px" : "8px 4px", marginBottom: 4, whiteSpace: "nowrap" }}>
+                                        {(sidebarOpen || (isMobile && sidebarOpen)) ? group.title : <span style={{display: 'block', width: "20px", height: "1px", background: "rgba(255,255,255,0.2)", margin: "0 auto"}}></span>}
+                                    </div>
+                                )}
+                                {visibleItems.map((item, itemIdx) => (
+                                    <NavItemComponent 
+                                        key={itemIdx} 
+                                        item={item} 
+                                        sidebarOpen={sidebarOpen} 
+                                        pathname={pathname} 
+                                        userRole={user?.role as string} 
+                                        onClick={() => isMobile && setSidebarOpen(false)}
+                                    />
+                                ))}
+                            </div>
+                        )
+                    })}
                 </nav>
 
-                {/* Toggle Sidebar */}
-                <button
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                    style={{
-                        margin: "0 12px 20px",
-                        padding: "10px",
-                        borderRadius: 10,
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.06)",
-                        color: "rgba(255,255,255,0.4)",
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        transition: "all 0.2s",
-                    }}
-                >
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} style={{ transform: sidebarOpen ? "rotate(0)" : "rotate(180deg)", transition: "transform 0.3s" }}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-                    </svg>
-                </button>
+                {/* Toggle Sidebar (Only Desktop) */}
+                {!isMobile && (
+                    <button
+                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                        style={{
+                            margin: "0 12px 20px",
+                            padding: "10px",
+                            borderRadius: 10,
+                            background: "rgba(255,255,255,0.04)",
+                            border: "1px solid rgba(255,255,255,0.06)",
+                            color: "rgba(255,255,255,0.4)",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            transition: "all 0.2s",
+                        }}
+                    >
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} style={{ transform: sidebarOpen ? "rotate(0)" : "rotate(180deg)", transition: "transform 0.3s" }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                        </svg>
+                    </button>
+                )}
             </aside>
 
             {/* Main Content */}
             <main
                 style={{
                     flex: 1,
-                    marginLeft: sidebarOpen ? 260 : 72,
+                    marginLeft: isMobile ? 0 : (sidebarOpen ? 260 : 72),
                     transition: "margin-left 0.3s cubic-bezier(0.4,0,0.2,1)",
                     minHeight: "100vh",
                 }}
@@ -233,7 +387,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        padding: "0 32px",
+                        padding: isMobile ? "0 16px" : "0 32px",
                         background: "rgba(10,10,10,0.8)",
                         backdropFilter: "blur(20px)",
                         position: "sticky",
@@ -241,9 +395,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         zIndex: 40,
                     }}
                 >
-                    <h1 style={{ fontSize: 18, fontWeight: 600, color: "#fff", letterSpacing: "-0.01em" }}>
-                        {navItems.find((n) => pathname === n.href || (n.href !== "/admin" && pathname.startsWith(n.href)))?.label || "Dashboard"}
-                    </h1>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        {isMobile && (
+                            <button
+                                onClick={() => setSidebarOpen(true)}
+                                style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", padding: 8 }}
+                            >
+                                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                                </svg>
+                            </button>
+                        )}
+                        <h1 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, color: "#fff", letterSpacing: "-0.01em" }}>{currentPageName}</h1>
+                    </div>
+                    
                     <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
                         <div
                             style={{
@@ -265,7 +430,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </header>
 
                 {/* Page Content */}
-                <div style={{ padding: "28px 32px" }}>{children}</div>
+                <div style={{ padding: isMobile ? "20px 16px" : "28px 32px" }}>{children}</div>
             </main>
         </div>
     );

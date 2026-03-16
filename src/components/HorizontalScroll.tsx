@@ -18,7 +18,7 @@ export default function HorizontalScrollSection() {
                     {[1, 2, 3, 4].map((item) => (
                         <div
                             key={item}
-                            className="group relative h-[60vh] w-[400px] md:w-[600px] overflow-hidden rounded-2xl bg-white/5 border border-white/10 shrink-0 flex items-end p-10"
+                            className="group relative h-[60vh] w-[85vw] md:w-[600px] overflow-hidden rounded-2xl bg-white/5 border border-white/10 shrink-0 flex items-end p-6 md:p-10"
                         >
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
                             <div className="absolute inset-0 bg-blue-500/10 group-hover:bg-blue-500/20 transition-colors duration-500" />

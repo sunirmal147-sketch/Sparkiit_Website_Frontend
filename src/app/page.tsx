@@ -43,7 +43,7 @@ export default function Home() {
             className="w-full h-full"
           />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <h2 className="text-5xl md:text-8xl font-bold text-white uppercase tracking-tighter mix-blend-overlay">
+            <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold text-white uppercase tracking-tighter mix-blend-overlay">
               Learn Together
             </h2>
           </div>
@@ -54,9 +54,9 @@ export default function Home() {
       <CompanyInsights />
 
       {/* Final Call to Action / Footer Area */}
-      <section className="min-h-[50vh] flex flex-col items-center justify-center p-20 bg-[#a8e03e] text-black">
-        <h2 className="text-6xl md:text-9xl font-bold uppercase tracking-tighter text-center">Let&apos;s Build.</h2>
-        <p className="mt-6 text-xl font-medium">Ready to transform education?</p>
+      <section className="min-h-[50vh] flex flex-col items-center justify-center p-10 md:p-20 bg-[#a8e03e] text-black">
+        <h2 className="text-5xl sm:text-7xl md:text-9xl font-bold uppercase tracking-tighter text-center">Let&apos;s Build.</h2>
+        <p className="mt-6 text-lg md:text-xl font-medium">Ready to transform education?</p>
       </section>
 
       <Footer />
