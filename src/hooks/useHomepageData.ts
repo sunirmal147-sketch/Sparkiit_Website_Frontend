@@ -32,6 +32,21 @@ export interface HomepageData {
         process?: {
             title?: string;
             description?: string;
+            step1Title?: string;
+            step1Desc?: string;
+            step2Title?: string;
+            step2Desc?: string;
+            step3Title?: string;
+            step3Desc?: string;
+        };
+        site?: {
+            logoText?: string;
+            footerDesc?: string;
+            copyright?: string;
+            github?: string;
+            twitter?: string;
+            linkedin?: string;
+            instagram?: string;
         };
     };
 }

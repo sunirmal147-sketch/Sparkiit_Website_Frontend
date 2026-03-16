@@ -2,8 +2,20 @@
 
 import Link from "next/link";
 import { Plus, Github, Twitter, Linkedin, Instagram } from "lucide-react";
+import { useHomepageData } from "@/hooks/useHomepageData";
 
 export default function Footer() {
+    const { data } = useHomepageData();
+    const site = data?.content?.site || {
+        logoText: "Sparkiit",
+        footerDesc: "Transforming the digital landscape through innovation, design, and deep technical expertise.",
+        copyright: "© 2026 SPARKIIT AGENCY. ALL RIGHTS RESERVED.",
+        github: "#",
+        twitter: "#",
+        linkedin: "#",
+        instagram: "#"
+    };
+
     return (
         <footer className="bg-[#050505] border-t border-white/5 pt-24 pb-12 px-6 md:px-20">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
@@ -12,16 +24,16 @@ export default function Footer() {
                         <div className="bg-[#a8e03e] text-black w-8 h-8 flex items-center justify-center rounded-sm">
                             <Plus size={20} className="font-bold border-2 border-black rounded-sm" />
                         </div>
-                        <span className="text-xl font-bold tracking-widest uppercase text-white">Sparkiit</span>
+                        <span className="text-xl font-bold tracking-widest uppercase text-white">{site.logoText}</span>
                     </div>
                     <p className="text-gray-500 leading-relaxed mb-8">
-                        Transforming the digital landscape through innovation, design, and deep technical expertise.
+                        {site.footerDesc}
                     </p>
                     <div className="flex gap-4">
-                        <Github className="text-white/40 hover:text-[#a8e03e] cursor-pointer transition-colors" size={20} />
-                        <Twitter className="text-white/40 hover:text-[#a8e03e] cursor-pointer transition-colors" size={20} />
-                        <Linkedin className="text-white/40 hover:text-[#a8e03e] cursor-pointer transition-colors" size={20} />
-                        <Instagram className="text-white/40 hover:text-[#a8e03e] cursor-pointer transition-colors" size={20} />
+                        <Link href={site.github || "#"}><Github className="text-white/40 hover:text-[#a8e03e] cursor-pointer transition-colors" size={20} /></Link>
+                        <Link href={site.twitter || "#"}><Twitter className="text-white/40 hover:text-[#a8e03e] cursor-pointer transition-colors" size={20} /></Link>
+                        <Link href={site.linkedin || "#"}><Linkedin className="text-white/40 hover:text-[#a8e03e] cursor-pointer transition-colors" size={20} /></Link>
+                        <Link href={site.instagram || "#"}><Instagram className="text-white/40 hover:text-[#a8e03e] cursor-pointer transition-colors" size={20} /></Link>
                     </div>
                 </div>
 
@@ -62,7 +74,7 @@ export default function Footer() {
             </div>
 
             <div className="max-w-7xl mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/30 uppercase tracking-[0.2em]">
-                <p>© 2026 SPARKIIT AGENCY. ALL RIGHTS RESERVED.</p>
+                <p>{site.copyright}</p>
                 <div className="flex gap-8">
                     <Link href="#" className="hover:text-white transition-colors">PRIVACY POLICY</Link>
                     <Link href="#" className="hover:text-white transition-colors">TERMS OF SERVICE</Link>

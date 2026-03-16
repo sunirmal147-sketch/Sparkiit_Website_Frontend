@@ -26,8 +26,20 @@ export default function WorkingProcess() {
 
     const process = data?.content?.process || {
         title: "WORKING PROCESS.",
-        description: "A systematic approach to turning complex ideas into seamless digital experiences."
+        description: "A systematic approach to turning complex ideas into seamless digital experiences.",
+        step1Title: "STRATEGY",
+        step1Desc: "We define the vision, goals, and core requirements to ensure a solid foundation for your project.",
+        step2Title: "DESIGN",
+        step2Desc: "Our creative team builds intuitive and visually stunning interfaces that prioritize user experience.",
+        step3Title: "DEVELOP",
+        step3Desc: "Scaleable, secure, and high-performance solutions built with modern technology stacks.",
     };
+
+    const steps = [
+        { num: "01", title: process.step1Title || fallbackSteps[0].title, desc: process.step1Desc || fallbackSteps[0].desc },
+        { num: "02", title: process.step2Title || fallbackSteps[1].title, desc: process.step2Desc || fallbackSteps[1].desc },
+        { num: "03", title: process.step3Title || fallbackSteps[2].title, desc: process.step3Desc || fallbackSteps[2].desc },
+    ];
 
     return (
         <section className="py-24 px-6 md:px-20 bg-[#050505]">
@@ -44,7 +56,7 @@ export default function WorkingProcess() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-white/5 pt-12">
-                    {fallbackSteps.map((step, index) => (
+                    {steps.map((step, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, y: 30 }}

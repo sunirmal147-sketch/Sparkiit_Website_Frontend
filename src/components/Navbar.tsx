@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { Search, ShoppingBasket, User, ChevronDown, LayoutGrid, Plus } from "lucide-react";
 import { useState } from "react";
+import { useHomepageData } from "@/hooks/useHomepageData";
 
 export default function Navbar() {
     const [searchQuery, setSearchQuery] = useState("");
+    const { data } = useHomepageData();
+    const site = data?.content?.site || { logoText: "Sparkiit" };
 
     return (
         <nav className="fixed top-0 w-full z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b border-white/5 bg-[#050505]/50">
@@ -16,7 +19,7 @@ export default function Navbar() {
                         <Plus size={20} className="font-bold border-2 border-black rounded-sm" />
                     </div>
                     <Link href="/" className="text-xl font-bold tracking-widest uppercase text-white">
-                        Sparkiit
+                        {site.logoText}
                     </Link>
                 </div>
 
