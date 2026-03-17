@@ -182,7 +182,7 @@ export default function RecognisedBy() {
                 </div>
 
                 <motion.div style={{ x }} className="flex gap-8 px-6 md:px-20 w-max">
-                    {items.map((item, index) => (
+                    {items.map((item: any, index: number) => (
                         <RecognitionCard key={index} item={item} index={index} />
                     ))}
                     <div className="w-[10vw] md:w-[20vw] flex-shrink-0" />
