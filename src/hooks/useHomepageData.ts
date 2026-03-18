@@ -20,9 +20,18 @@ export interface Recognition {
     image: string;
 }
 
+export interface Testimonial {
+    _id: string;
+    name: string;
+    role: string;
+    content: string;
+    avatar?: string;
+}
+
 export interface HomepageData {
     projects: Project[];
     services: Service[];
+    testimonials?: Testimonial[];
     recognitions?: Recognition[];
     content: {
         hero?: {
