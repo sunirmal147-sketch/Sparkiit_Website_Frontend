@@ -11,7 +11,8 @@ import {
     Briefcase,
     Workflow,
     PanelBottom,
-    LogOut
+    LogOut,
+    Calendar
 } from "lucide-react";
 
 // Nav Data Structure
@@ -33,65 +34,68 @@ const navGroups: NavGroup[] = [
     {
         title: "DASHBOARD",
         items: [
-            { label: "Dashboard", href: "/admin", icon: <LayoutDashboard size={20} strokeWidth={1.8} /> },
+            { label: "DASHBOARD", href: "/admin", icon: <LayoutDashboard size={20} strokeWidth={1.8} /> },
         ]
     },
     {
         title: "MANAGE CONTENTS",
         items: [
-            { label: "Manage Courses", href: "/admin/courses", icon: <GraduationCap size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE COURSES", href: "/admin/courses", icon: <GraduationCap size={20} strokeWidth={1.8} /> },
             { 
-                label: "Certificate Builder", 
+                label: "CERTIFICATE BUILDER", 
                 icon: <Settings2 size={20} strokeWidth={1.8} />,
                 subItems: [
-                    { label: "Internship Certificate Builder", href: "/admin/certificate-builder/internship", icon: <Award size={18} strokeWidth={1.8} /> },
-                    { label: "Project Certificate Builder", href: "/admin/certificate-builder/project", icon: <Award size={18} strokeWidth={1.8} /> },
+                    { label: "INTERNSHIP BUILDER", href: "/admin/certificate-builder/internship", icon: <Award size={18} strokeWidth={1.8} /> },
+                    { label: "PROJECT BUILDER", href: "/admin/certificate-builder/project", icon: <Award size={18} strokeWidth={1.8} /> },
                 ]
             },
-            { label: "Certificate Management", href: "/admin/certificates", icon: <Award size={20} strokeWidth={1.8} /> },
-            { label: "Manage Projects", href: "/admin/projects", icon: <Briefcase size={20} strokeWidth={1.8} /> },
-            { label: "Manage Services", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} /> },
-            { label: "Badges", href: "/admin/badges", icon: <Badge size={20} strokeWidth={1.8} /> },
-            { label: "Manage Blogs", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} /> },
+            { label: "CERTIFICATE MANAGEMENT", href: "/admin/certificates", icon: <Award size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE PROJECTS", href: "/admin/projects", icon: <Briefcase size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE SERVICES", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} /> },
+            { label: "BADGES", href: "/admin/badges", icon: <Badge size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE BLOGS", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} /> },
         ]
     },
     {
         title: "MANAGE ORDERS",
         items: [
-            { label: "Manage Order", href: "/admin/orders", icon: <ShoppingBag size={20} strokeWidth={1.8} /> },
-            { label: "Manage Coupon", href: "/admin/coupons", icon: <Ticket size={20} strokeWidth={1.8} /> },
-            { label: "Withdraw Payment", href: "/admin/withdrawals", icon: <HandCoins size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE ORDERS", href: "/admin/orders", icon: <ShoppingBag size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE COUPONS", href: "/admin/coupons", icon: <Ticket size={20} strokeWidth={1.8} /> },
+            { label: "WITHDRAW PAYMENTS", href: "/admin/withdrawals", icon: <HandCoins size={20} strokeWidth={1.8} /> },
         ]
     },
     {
         title: "MANAGE USERS",
         items: [
-            { label: "Manage Users", href: "/admin/users", icon: <Users size={20} strokeWidth={1.8} />, role: "SUPER_ADMIN" },
-            { label: "Locations", href: "/admin/locations", icon: <MapPin size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE CANDIDATES", href: "/admin/candidates", icon: <Users size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE USERS", href: "/admin/users", icon: <Settings size={20} strokeWidth={1.8} />, role: "SUPER_ADMIN" },
+            { label: "LOCATIONS", href: "/admin/locations", icon: <MapPin size={20} strokeWidth={1.8} /> },
         ]
     },
     {
         title: "SITE CONTENTS",
         items: [
-            { label: "Sections", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} /> },
-            { label: "Brands", href: "/admin/brands", icon: <Copyright size={20} strokeWidth={1.8} /> },
-            { label: "Footer Setting", href: "/admin/footer-settings", icon: <PanelBottom size={20} strokeWidth={1.8} /> },
+            { label: "SECTIONS", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} /> },
+            { label: "BRANDS", href: "/admin/brands", icon: <Copyright size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE MENTORS", href: "/admin/mentors", icon: <Users size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE EVENTS", href: "/admin/events", icon: <Calendar size={20} strokeWidth={1.8} /> },
+            { label: "FOOTER SETTINGS", href: "/admin/footer-settings", icon: <PanelBottom size={20} strokeWidth={1.8} /> },
         ]
     },
     {
         title: "MANAGE WEBSITE",
         items: [
-            { label: "Menu Builder", href: "/admin/menu-builder", icon: <LayoutGrid size={20} strokeWidth={1.8} /> },
-            { label: "Page Builder", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} /> },
-            { label: "Social Links", href: "/admin/social-links", icon: <Hash size={20} strokeWidth={1.8} /> },
-            { label: "FAQs", href: "/admin/faqs", icon: <HelpCircle size={20} strokeWidth={1.8} /> },
+            { label: "MENU BUILDER", href: "/admin/menu-builder", icon: <LayoutGrid size={20} strokeWidth={1.8} /> },
+            { label: "PAGE BUILDER", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} /> },
+            { label: "SOCIAL LINKS", href: "/admin/social-links", icon: <Hash size={20} strokeWidth={1.8} /> },
+            { label: "FAQS", href: "/admin/faqs", icon: <HelpCircle size={20} strokeWidth={1.8} /> },
         ]
     },
     {
         title: "SETTINGS",
         items: [
-            { label: "Settings", href: "/admin/settings", icon: <Settings size={20} strokeWidth={1.8} /> },
-            { label: "Logout", href: "#", icon: <LogOut size={20} strokeWidth={1.8} />, onClick: () => {} }, // Placeholder, will be replaced by actual logout handler
+            { label: "SETTINGS", href: "/admin/settings", icon: <Settings size={20} strokeWidth={1.8} /> },
+            { label: "LOGOUT", href: "#", icon: <LogOut size={20} strokeWidth={1.8} />, onClick: () => {} },
         ]
     }
 ];

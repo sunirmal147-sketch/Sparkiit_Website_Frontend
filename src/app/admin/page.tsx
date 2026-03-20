@@ -1,6 +1,73 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { 
+    BookOpen, Users, ShoppingCart, FileText, 
+    Award, Briefcase, Monitor, Ticket, 
+    Wallet, ChevronRight, LayoutDashboard,
+    PlusCircle, Badge, Settings2, Workflow,
+    MapPin, Blocks, Copyright, PanelBottom,
+    LayoutGrid, FilePlus, Hash, HelpCircle,
+    HandCoins, Settings, Calendar
+} from "lucide-react";
+
+function ActionSection({ title, actions, cardStyle }: any) {
+    return (
+        <div style={{ marginBottom: 48 }}>
+            <h2 style={{ fontSize: 13, fontWeight: 800, color: "rgba(255, 255, 255, 0.3)", marginBottom: 20, textTransform: "uppercase", letterSpacing: "0.15em" }}>
+                {title}
+            </h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 20 }}>
+                {actions.map((action: any, i: number) => (
+                    <Link key={i} href={action.link} style={{ textDecoration: "none" }}>
+                        <div style={{
+                            ...cardStyle,
+                            cursor: "pointer",
+                            transition: "all 0.2s ease",
+                            position: "relative",
+                            overflow: "hidden",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 12,
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = "translateY(-4px)";
+                            e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+                            e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = "translateY(0)";
+                            e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                            e.currentTarget.style.background = "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)";
+                        }}
+                        >
+                            <div style={{ 
+                                width: 44, 
+                                height: 44, 
+                                borderRadius: 12, 
+                                background: `${action.color}15`, 
+                                color: action.color,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginBottom: 4
+                            }}>
+                                <action.icon size={22} />
+                            </div>
+                            <div>
+                                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 2 }}>{action.title}</h3>
+                                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", fontWeight: 400 }}>{action.desc}</p>
+                            </div>
+                            <div style={{ position: "absolute", right: 20, bottom: 20, opacity: 0.2 }}>
+                                <ChevronRight size={18} />
+                            </div>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
+}
 
 const API_BASE = "http://localhost:5000/api/admin";
 
@@ -20,7 +87,8 @@ export default function AdminDashboard() {
     useEffect(() => {
         const token = localStorage.getItem("adminToken");
         fetch(`${API_BASE}/stats`, {
-            headers: { "Authorization": `Bearer ${token}` }
+            headers: { "Authorization": `Bearer ${token}` },
+            credentials: "include",
         })
             .then((r) => r.json())
             .then((d) => { setStats(d.data); setLoading(false); })
@@ -52,6 +120,37 @@ export default function AdminDashboard() {
         letterSpacing: "0.06em",
     };
 
+    const contentActions = [
+        { title: "MANAGE COURSES", desc: "Curriculum & Lessons", icon: BookOpen, link: "/admin/courses", color: "#a8e03e" },
+        { title: "MANAGE BLOGS", desc: "Articles & News", icon: FileText, link: "/admin/blogs", color: "#5eead4" },
+        { title: "MANAGE PROJECTS", desc: "Assignments & Submissions", icon: Briefcase, link: "/admin/projects", color: "#c084fc" },
+        { title: "CERTIFICATES", desc: "Issue & Track", icon: Award, link: "/admin/certificates", color: "#f472b6" },
+        { title: "CERT BUILDER", desc: "Design Templates", icon: Settings2, link: "/admin/certificate-builder/internship", color: "#f87171" },
+        { title: "MANAGE SERVICES", desc: "Platform Config", icon: Monitor, link: "/admin/services", color: "#60a5fa" },
+        { title: "BADGES", desc: "Student Rewards", icon: Badge, link: "/admin/badges", color: "#fbbf24" },
+    ];
+
+    const businessActions = [
+        { title: "MANAGE CANDIDATES", desc: "Students & Metrics", icon: Users, link: "/admin/candidates", color: "#818cf8" },
+        { title: "MANAGE ORDERS", desc: "Sales & Payments", icon: ShoppingCart, link: "/admin/orders", color: "#fb923c" },
+        { title: "COUPONS", desc: "Discounts & Promos", icon: Ticket, link: "/admin/coupons", color: "#f59e0b" },
+        { title: "WITHDRAWALS", desc: "Payment Processing", icon: HandCoins, link: "/admin/withdrawals", color: "#10b981" },
+        { title: "LOCATIONS", desc: "Branch Management", icon: MapPin, link: "/admin/locations", color: "#6366f1" },
+    ];
+
+    const websiteActions = [
+        { title: "SECTIONS", desc: "Home Page Layout", icon: Blocks, link: "/admin/sections", color: "#ec4899" },
+        { title: "BRANDS", desc: "Partner Logos", icon: Copyright, link: "/admin/brands", color: "#a855f7" },
+        { title: "MANAGE MENTORS", desc: "Slider Profiles", icon: Users, link: "/admin/mentors", color: "#10b981" },
+        { title: "MANAGE EVENTS", desc: "Ongoing/Upcoming/Past", icon: Calendar, link: "/admin/events", color: "#a8e03e" },
+        { title: "FOOTER", desc: "Bottom Layout", icon: PanelBottom, link: "/admin/footer-settings", color: "#64748b" },
+        { title: "MENU BUILDER", desc: "Navigation Links", icon: LayoutGrid, link: "/admin/menu-builder", color: "#06b6d4" },
+        { title: "PAGE BUILDER", desc: "Static Pages", icon: FilePlus, link: "/admin/page-builder", color: "#84cc16" },
+        { title: "SOCIAL LINKS", desc: "Profiles & Icons", icon: Hash, link: "/admin/social-links", color: "#f43f5e" },
+        { title: "FAQs", desc: "Help Center", icon: HelpCircle, link: "/admin/faqs", color: "#3b82f6" },
+        { title: "SETTINGS", desc: "Global Config", icon: Settings, link: "/admin/settings", color: "#94a3b8" },
+    ];
+
     if (loading) {
         return (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 400, color: "rgba(255,255,255,0.3)" }}>
@@ -65,7 +164,24 @@ export default function AdminDashboard() {
     }
 
     return (
-        <div>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            {/* Header */}
+            <div style={{ marginBottom: 32 }}>
+                <h1 style={{ fontSize: 28, fontWeight: 800, color: "#fff", marginBottom: 8, textTransform: "uppercase" }}>
+                    Admin <span style={{ color: "#a8e03e" }}>Control Center</span>
+                </h1>
+                <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>Welcome back. What would you like to manage today?</p>
+            </div>
+
+            {/* Content Categories */}
+            <ActionSection title="Content Management" actions={contentActions} cardStyle={cardStyle} />
+            <ActionSection title="Students & Business" actions={businessActions} cardStyle={cardStyle} />
+            <ActionSection title="Website & Configuration" actions={websiteActions} cardStyle={cardStyle} />
+
+            <h2 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 24, marginTop: 12, textTransform: "uppercase", letterSpacing: "0.05em", display: "flex", alignItems: "center", gap: 10 }}>
+                <LayoutDashboard size={20} color="#a8e03e" /> Overview Analytics
+            </h2>
+
             {/* Stats Cards */}
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginBottom: 32 }}>
                 <div style={cardStyle}>

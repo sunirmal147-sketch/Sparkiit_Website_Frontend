@@ -17,6 +17,27 @@ interface Candidate {
     email: string;
     phone: string;
     enrolledCourses: Course[];
+    paymentDetails?: {
+        paidAmount: number;
+        remainingAmount: number;
+    };
+    performanceMetrics?: {
+        overallScore: number;
+        attendance: number;
+        progress: number;
+        averageScore: number;
+    };
+    batchRank?: string;
+    stipendEligible?: boolean;
+    skills?: {
+        tech: number;
+        softSkills: number;
+        blockchain: number;
+        smartContracts: number;
+        frontend: number;
+        ai: number;
+        systemDesign: number;
+    };
     status: "active" | "inactive";
     createdAt: string;
 }
@@ -25,10 +46,41 @@ interface CandidateForm {
     name: string;
     email: string;
     phone: string;
+    paymentDetails: {
+        paidAmount: number;
+        remainingAmount: number;
+    };
+    performanceMetrics: {
+        overallScore: number;
+        attendance: number;
+        progress: number;
+        averageScore: number;
+    };
+    batchRank: string;
+    stipendEligible: boolean;
+    skills: {
+        tech: number;
+        softSkills: number;
+        blockchain: number;
+        smartContracts: number;
+        frontend: number;
+        ai: number;
+        systemDesign: number;
+    };
     status: "active" | "inactive";
 }
 
-const emptyCandidate: CandidateForm = { name: "", email: "", phone: "", status: "active" };
+const emptyCandidate: CandidateForm = { 
+    name: "", 
+    email: "", 
+    phone: "", 
+    paymentDetails: { paidAmount: 0, remainingAmount: 0 }, 
+    performanceMetrics: { overallScore: 0, attendance: 0, progress: 0, averageScore: 0 },
+    batchRank: "N/A",
+    stipendEligible: false,
+    skills: { tech: 0, softSkills: 0, blockchain: 0, smartContracts: 0, frontend: 0, ai: 0, systemDesign: 0 },
+    status: "active" 
+};
 
 export default function CandidatesPage() {
     const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -67,7 +119,21 @@ export default function CandidatesPage() {
     useEffect(() => { fetchCandidates(); fetchCourses(); }, [fetchCandidates, fetchCourses]);
 
     const openCreate = () => { setEditing(null); setForm(emptyCandidate); setModalOpen(true); };
-    const openEdit = (c: Candidate) => { setEditing(c); setForm({ name: c.name, email: c.email, phone: c.phone, status: c.status }); setModalOpen(true); };
+    const openEdit = (c: Candidate) => { 
+        setEditing(c); 
+        setForm({ 
+            name: c.name, 
+            email: c.email, 
+            phone: c.phone, 
+            paymentDetails: c.paymentDetails || { paidAmount: 0, remainingAmount: 0 }, 
+            performanceMetrics: c.performanceMetrics || { overallScore: 0, attendance: 0, progress: 0, averageScore: 0 },
+            batchRank: c.batchRank || "N/A",
+            stipendEligible: c.stipendEligible || false,
+            skills: c.skills || { tech: 0, softSkills: 0, blockchain: 0, smartContracts: 0, frontend: 0, ai: 0, systemDesign: 0 },
+            status: c.status 
+        }); 
+        setModalOpen(true); 
+    };
 
     const handleSave = async () => {
         setSaving(true);
@@ -217,7 +283,7 @@ export default function CandidatesPage() {
                     <table style={{ width: "100%", borderCollapse: "collapse" }}>
                         <thead>
                             <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                                {["Name", "Email", "Phone", "Courses", "Status", "Actions"].map((h) => (
+                                {["Name", "Email", "Phone", "Courses", "Paid (₹)", "Remaining (₹)", "Status", "Actions"].map((h) => (
                                     <th key={h} style={{ padding: "14px 20px", fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "left" }}>
                                         {h}
                                     </th>
@@ -245,6 +311,8 @@ export default function CandidatesPage() {
                                             )}
                                         </div>
                                     </td>
+                                    <td style={{ padding: "14px 20px", fontSize: 13, color: "#a8e03e", fontWeight: 600 }}>₹{c.paymentDetails?.paidAmount || 0}</td>
+                                    <td style={{ padding: "14px 20px", fontSize: 13, color: "#f87171", fontWeight: 600 }}>₹{c.paymentDetails?.remainingAmount || 0}</td>
                                     <td style={{ padding: "14px 20px" }}>
                                         <span style={{
                                             fontSize: 11, fontWeight: 600, padding: "3px 12px", borderRadius: 20,
@@ -301,6 +369,66 @@ export default function CandidatesPage() {
                                         <option value="active">Active</option>
                                         <option value="inactive">Inactive</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                                <div>
+                                    <label style={labelStyle}>Paid Amount (₹)</label>
+                                    <input style={inputStyle} type="number" value={form.paymentDetails.paidAmount} onChange={(e) => setForm({ ...form, paymentDetails: { ...form.paymentDetails, paidAmount: Number(e.target.value) } })} placeholder="0" />
+                                </div>
+                                <div>
+                                    <label style={labelStyle}>Remaining Amount (₹)</label>
+                                    <input style={inputStyle} type="number" value={form.paymentDetails.remainingAmount} onChange={(e) => setForm({ ...form, paymentDetails: { ...form.paymentDetails, remainingAmount: Number(e.target.value) } })} placeholder="0" />
+                                </div>
+                            </div>
+
+                            {/* New Dashboard Metrics */}
+                            <div style={{ padding: "16px 0", borderTop: "1px solid rgba(255,255,255,0.06)", marginTop: 8 }}>
+                                <h3 style={{ fontSize: 13, fontWeight: 700, color: "#a8e03e", marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.05em" }}>Dashboard Metrics</h3>
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+                                    <div>
+                                        <label style={labelStyle}>Batch Rank</label>
+                                        <input style={inputStyle} value={form.batchRank} onChange={(e) => setForm({ ...form, batchRank: e.target.value })} placeholder="#..." />
+                                    </div>
+                                    <div>
+                                        <label style={labelStyle}>Stipend Eligible</label>
+                                        <select style={{ ...inputStyle, cursor: "pointer" }} value={form.stipendEligible ? "true" : "false"} onChange={(e) => setForm({ ...form, stipendEligible: e.target.value === "true" })}>
+                                            <option value="false">No</option>
+                                            <option value="true">Eligible</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+                                    <div>
+                                        <label style={labelStyle}>Attendance %</label>
+                                        <input style={inputStyle} type="number" value={form.performanceMetrics.attendance} onChange={(e) => setForm({ ...form, performanceMetrics: { ...form.performanceMetrics, attendance: Number(e.target.value) } })} />
+                                    </div>
+                                    <div>
+                                        <label style={labelStyle}>Progress %</label>
+                                        <input style={inputStyle} type="number" value={form.performanceMetrics.progress} onChange={(e) => setForm({ ...form, performanceMetrics: { ...form.performanceMetrics, progress: Number(e.target.value) } })} />
+                                    </div>
+                                    <div>
+                                        <label style={labelStyle}>Avg Score %</label>
+                                        <input style={inputStyle} type="number" value={form.performanceMetrics.averageScore} onChange={(e) => setForm({ ...form, performanceMetrics: { ...form.performanceMetrics, averageScore: Number(e.target.value) } })} />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Skill Matrix */}
+                            <div style={{ padding: "16px 0", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                                <h3 style={{ fontSize: 13, fontWeight: 700, color: "#a8e03e", marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.05em" }}>Skill Matrix (%)</h3>
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                                    {Object.keys(form.skills).map((skill) => (
+                                        <div key={skill}>
+                                            <label style={labelStyle}>{skill.replace(/([A-Z])/g, ' $1')}</label>
+                                            <input 
+                                                style={inputStyle} 
+                                                type="number" 
+                                                value={(form.skills as any)[skill]} 
+                                                onChange={(e) => setForm({ ...form, skills: { ...form.skills, [skill]: Number(e.target.value) } })} 
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>

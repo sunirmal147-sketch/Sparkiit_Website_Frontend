@@ -8,7 +8,10 @@ import WorkingProcess from "@/components/WorkingProcess";
 import LatestProjects from "@/components/LatestProjects";
 import ServicesOverview from "@/components/ServicesOverview";
 import CompanyInsights from "@/components/CompanyInsights";
+import RoadmapSection from "@/components/RoadmapSection";
 import AmbassadorEngagement from "@/components/Testimonials";
+import MentorsSection from "@/components/MentorsSection";
+import ReviewSection from "@/components/ReviewSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -28,6 +31,9 @@ export default function Home() {
 
       {/* Our Story Section */}
       <OurStory />
+
+      {/* Review / Rating Section */}
+      <ReviewSection />
 
       {/* Working Process Section */}
       <WorkingProcess />
@@ -54,13 +60,13 @@ export default function Home() {
       {/* Company Insights Section */}
       <CompanyInsights />
 
+      {/* Roadmap Section */}
+      <RoadmapSection />
+
       <AmbassadorEngagement />
 
       {/* Final Call to Action / Footer Area */}
-      <section className="min-h-[50vh] flex flex-col items-center justify-center p-10 md:p-20 bg-[#a8e03e] text-black">
-        <h2 className="text-5xl sm:text-7xl md:text-9xl font-bold uppercase tracking-tighter text-center">Let&apos;s Build.</h2>
-        <p className="mt-6 text-lg md:text-xl font-medium">Ready to transform education?</p>
-      </section>
+      <MentorsSection />
 
       <Footer />
     </main>
