@@ -1,13 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LineChart, ArrowUpRight, Target, Zap, Waves } from "lucide-react";
+import { LineChart, ArrowUpRight, Target, Zap, Waves, ShieldCheck } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function PerformancePage() {
+    const [stats, setStats] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/public/dashboard`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                setStats(data);
+            } catch (error) {
+                console.error("Dashboard fetch error:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStats();
+    }, []);
+
+    if (loading) return <div className="animate-pulse text-gray-500">Loading metrics...</div>;
+
     const metrics = [
-        { title: "Average Score", value: "88%", delta: "+5%", icon: Target, color: "text-[#a8e03e]" },
-        { title: "Course Progress", value: "64%", delta: "+12%", icon: Zap, color: "text-orange-500" },
-        { title: "Attendance", value: "95%", delta: "Stable", icon: Waves, color: "text-blue-500" },
+        { title: "AVERAGE SCORE", value: `${stats?.stats?.averageScore || 0}%`, delta: "+5%", icon: Target, color: "text-[#a8e03e]" },
+        { title: "COURSE PROGRESS", value: `${stats?.stats?.progress || 0}%`, delta: "+12%", icon: Zap, color: "text-orange-500" },
+        { title: "ATTENDANCE", value: `${stats?.stats?.attendance || 0}%`, delta: "Stable", icon: Waves, color: "text-blue-500" },
+        { title: "STIPEND ELIGIBILITY", value: stats?.stipendEligible ? "ELIGIBLE" : "NOT ELIGIBLE", delta: "100%", icon: ShieldCheck, color: "text-emerald-500" },
     ];
 
     return (
@@ -17,7 +42,7 @@ export default function PerformancePage() {
                 <p className="text-gray-400 mt-2">Data-driven insights into your learning curve.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {metrics.map((m, i) => (
                     <motion.div
                         key={i}
@@ -53,12 +78,20 @@ export default function PerformancePage() {
                 </div>
 
                 <div className="space-y-8">
-                    {["Blockchain Architecture", "Smart Contract Dev", "Frontend Systems", "AI Integration", "System Design"].map((skill, i) => {
-                        const val = [85, 92, 78, 65, 80][i];
+                    {[
+                        { name: "Tech", key: "tech" },
+                        { name: "Soft Skills", key: "softSkills" },
+                        { name: "Blockchain", key: "blockchain" },
+                        { name: "Smart Contracts", key: "smartContracts" },
+                        { name: "Frontend", key: "frontend" },
+                        { name: "AI", key: "ai" },
+                        { name: "System Design", key: "systemDesign" }
+                    ].map((s, i) => {
+                        const val = (stats?.skills as any)?.[s.key] || 0;
                         return (
                             <div key={i} className="space-y-3">
                                 <div className="flex justify-between items-end">
-                                    <span className="text-xs font-black uppercase tracking-widest text-white/50">{skill}</span>
+                                    <span className="text-xs font-black uppercase tracking-widest text-white/50">{s.name}</span>
                                     <span className="text-sm font-black text-[#a8e03e]">{val}%</span>
                                 </div>
                                 <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">

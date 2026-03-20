@@ -1,33 +1,25 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CompanyInsights from "@/components/CompanyInsights";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const blogPosts = [
-    {
-        title: "The Future of Web3 in 2026",
-        date: "MARCH 02, 2026",
-        category: "INSIGHTS",
-        image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop"
-    },
-    {
-        title: "Creating Immersive User Experiences",
-        date: "FEBRUARY 15, 2026",
-        category: "DESIGN",
-        image: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=2874&auto=format&fit=crop"
-    },
-    {
-        title: "Scaling Blockchain Solutions for DeFi",
-        date: "JANUARY 28, 2026",
-        category: "TECH",
-        image: "https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2832&auto=format&fit=crop"
-    }
-];
-
 export default function BlogPage() {
+    const [blogPosts, setBlogPosts] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch("http://localhost:5000/api/public/blogs")
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) setBlogPosts(data.data);
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
+    }, []);
     return (
         <main className="min-h-screen bg-[#050505] text-white">
             <Navbar />
@@ -51,7 +43,7 @@ export default function BlogPage() {
                     </motion.h1>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {blogPosts.map((post, index) => (
+                        {blogPosts.map((post: any, index: number) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 30 }}

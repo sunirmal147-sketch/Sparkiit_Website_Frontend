@@ -6,7 +6,8 @@ import {
     BookOpen, 
     Award, 
     ClipboardCheck, 
-    Trophy 
+    Trophy,
+    ShieldCheck
 } from "lucide-react";
 
 export default function DashboardOverview() {
@@ -34,10 +35,11 @@ export default function DashboardOverview() {
     if (loading) return <div className="animate-pulse text-gray-500">Loading your progress...</div>;
 
     const cards = [
-        { title: "Enrolled Courses", value: stats?.enrolledCourses?.length || 0, icon: BookOpen, color: "text-blue-500", bg: "bg-blue-500/10" },
-        { title: "Certificates", value: 0, icon: Award, color: "text-[#a8e03e]", bg: "bg-[#a8e03e]/10" },
-        { title: "Completed Tests", value: stats?.tests?.length || 0, icon: ClipboardCheck, color: "text-purple-500", bg: "bg-purple-500/10" },
-        { title: "Global Rank", value: "#142", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10" },
+        { title: "ENROLLED COURSES", value: stats?.enrolledCourses?.length || 0, icon: BookOpen, color: "text-blue-500", bg: "bg-blue-500/10" },
+        { title: "CERTIFICATES", value: stats?.certificatesCount || 0, icon: Award, color: "text-[#a8e03e]", bg: "bg-[#a8e03e]/10" },
+        { title: "COMPLETED TESTS", value: stats?.tests?.length || 0, icon: ClipboardCheck, color: "text-purple-500", bg: "bg-purple-500/10" },
+        { title: "BATCH RANK", value: stats?.batchRank || "#N/A", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10" },
+        { title: "STIPEND ELIGIBILITY", value: stats?.stipendEligible ? "ELIGIBLE" : "NOT ELIGIBLE", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-500/10" },
     ];
 
     return (
@@ -47,7 +49,7 @@ export default function DashboardOverview() {
                 <p className="text-gray-400 mt-2">Here's a quick look at your learning progress.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                 {cards.map((card, i) => (
                     <motion.div
                         key={i}
@@ -59,7 +61,7 @@ export default function DashboardOverview() {
                         <div className={`w-12 h-12 rounded-2xl ${card.bg} ${card.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                             <card.icon size={24} />
                         </div>
-                        <h3 className="text-gray-400 font-medium">{card.title}</h3>
+                        <h3 className="text-gray-400 font-bold text-xs tracking-widest">{card.title}</h3>
                         <p className="text-3xl font-bold mt-1 uppercase">{card.value}</p>
                     </motion.div>
                 ))}
@@ -67,7 +69,7 @@ export default function DashboardOverview() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Performance Chart Placeholder */}
-                <div className="p-8 rounded-3xl bg-white/5 border border-white/5 h-80 flex flex-col">
+                <div className="p-8 rounded-3xl bg-white/5 border border-white/5 min-h-[22rem] flex flex-col">
                     <h3 className="text-xl font-bold mb-6 uppercase flex items-center gap-2">
                         <LineChartIcon className="text-[#a8e03e]" /> Performance Tracker
                     </h3>
@@ -84,7 +86,7 @@ export default function DashboardOverview() {
                 </div>
 
                 {/* Recent Activities */}
-                <div className="p-8 rounded-3xl bg-white/5 border border-white/5 h-80">
+                <div className="p-8 rounded-3xl bg-white/5 border border-white/5 min-h-[22rem]">
                      <h3 className="text-xl font-bold mb-6 uppercase">Recent Activities</h3>
                      <div className="space-y-4">
                         {[1, 2, 3].map((_, i) => (
