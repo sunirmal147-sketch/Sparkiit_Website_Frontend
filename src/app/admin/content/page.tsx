@@ -26,7 +26,8 @@ export default function ContentManagement() {
         try {
             const token = localStorage.getItem("adminToken");
             const res = await fetch(`${API_BASE}/content`, {
-                headers: { "Authorization": `Bearer ${token}` }
+                headers: { "Authorization": `Bearer ${token}` },
+                credentials: "include",
             });
             const data = await res.json();
             if (data.success) {
@@ -56,6 +57,7 @@ export default function ContentManagement() {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
                 },
+                credentials: "include",
                 body: JSON.stringify({ updates })
             });
 
