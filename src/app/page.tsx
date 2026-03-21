@@ -1,3 +1,5 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import HorizontalScroll from "@/components/HorizontalScroll";
@@ -16,41 +18,32 @@ import MentorsSection from "@/components/MentorsSection";
 import ReviewSection from "@/components/ReviewSection";
 import Colleges from "@/components/Colleges";
 import Footer from "@/components/Footer";
+import { useHomepageData } from "@/hooks/useHomepageData";
+import React from "react";
 
 export default function Home() {
-  return (
-    <main className="min-h-screen bg-[#050505] text-white selection:bg-[#a8e03e] selection:text-black">
-      <Navbar />
-      <HeroSection />
+  const { data, loading } = useHomepageData();
 
-      {/* Ticker / Marquee Section */}
-      <Marquee />
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <div className="w-16 h-16 border-4 border-[#a8e03e]/20 border-t-[#a8e03e] rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
-      {/* Services Horizontal Scroll (Existing) */}
-      <HorizontalScroll />
-
-      {/* Services Overview Section */}
-      <ServicesOverview />
-
-      {/* Collaborations Section */}
-      <Collaborations />
-
-      {/* Our Story Section */}
-      <OurStory />
-
-      {/* Colleges Section */}
-      <Colleges />
-
-      {/* Review / Rating Section */}
-      <ReviewSection />
-
-      {/* Working Process Section */}
-      <WorkingProcess />
-
-      {/* Latest Projects Section */}
-      <LatestProjects />
-
-      {/* Parallax Image Section (Existing) */}
+  const sectionMap: Record<string, React.ReactNode> = {
+    HeroSection: <HeroSection />,
+    Marquee: <Marquee />,
+    HorizontalScroll: <HorizontalScroll />,
+    ServicesOverview: <ServicesOverview />,
+    Collaborations: <Collaborations />,
+    OurStory: <OurStory />,
+    Colleges: <Colleges />,
+    ReviewSection: <ReviewSection />,
+    WorkingProcess: <WorkingProcess />,
+    LatestProjects: <LatestProjects />,
+    ParallaxImage: (
       <section className="h-[80vh] w-full p-6 md:p-10 bg-[#050505] flex items-center justify-center">
         <div className="w-full max-w-6xl h-[80vh] rounded-3xl overflow-hidden relative">
           <ParallaxImage
@@ -65,20 +58,39 @@ export default function Home() {
           </div>
         </div>
       </section>
+    ),
+    CompanyInsights: <CompanyInsights />,
+    RoadmapSection: <RoadmapSection />,
+    FeaturedIn: <FeaturedIn />,
+    Testimonials: <AmbassadorEngagement />,
+    MentorsSection: <MentorsSection />,
+  };
 
-      {/* Company Insights Section */}
-      <CompanyInsights />
+  // Default structure if backend returns empty
+  const defaultStructureNames = [
+    "HeroSection", "Marquee", "HorizontalScroll", "ServicesOverview", 
+    "Collaborations", "OurStory", "Colleges", "ReviewSection", 
+    "WorkingProcess", "LatestProjects", "ParallaxImage", 
+    "CompanyInsights", "RoadmapSection", "FeaturedIn", 
+    "Testimonials", "MentorsSection"
+  ];
 
-      {/* Roadmap Section */}
-      <RoadmapSection />
+  const pageStructure = data?.pageStructure && data.pageStructure.length > 0
+    ? data.pageStructure
+        .filter(s => s.enabled)
+        .sort((a, b) => a.order - b.order)
+        .map(s => s.name)
+    : defaultStructureNames;
 
-      {/* Featured In Section */}
-      <FeaturedIn />
-
-      <AmbassadorEngagement />
-
-      {/* Final Call to Action / Footer Area */}
-      <MentorsSection />
+  return (
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-[#a8e03e] selection:text-black">
+      <Navbar />
+      
+      {pageStructure.map((sectionName, index) => (
+        <React.Fragment key={`${sectionName}-${index}`}>
+          {sectionMap[sectionName]}
+        </React.Fragment>
+      ))}
 
       <Footer />
     </main>

@@ -20,6 +20,7 @@ type NavItem = {
     label: string;
     href?: string;
     icon: React.ReactNode;
+    permissionKey?: string;
     role?: string;
     onClick?: () => void;
     subItems?: { label: string; href: string; icon: React.ReactNode }[];
@@ -34,66 +35,70 @@ const navGroups: NavGroup[] = [
     {
         title: "DASHBOARD",
         items: [
-            { label: "DASHBOARD", href: "/admin", icon: <LayoutDashboard size={20} strokeWidth={1.8} /> },
+            { label: "DASHBOARD", href: "/admin", icon: <LayoutDashboard size={20} strokeWidth={1.8} />, permissionKey: "DASHBOARD" },
         ]
     },
     {
         title: "STUDENT DASHBOARD MANAGEMENT",
         items: [
-            { label: "USERS MANAGEMENT", href: "/admin/candidates", icon: <Users size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE PROJECTS", href: "/admin/projects", icon: <Briefcase size={20} strokeWidth={1.8} /> },
+            { label: "USERS MANAGEMENT", href: "/admin/candidates", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "STUDENT_USERS_MANAGEMENT" },
+            { label: "MANAGE PROJECTS", href: "/admin/projects", icon: <Briefcase size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_PROJECTS" },
             { label: "CERTIFICATE BUILDER", 
                 icon: <Settings2 size={20} strokeWidth={1.8} />,
+                permissionKey: "CERTIFICATE_BUILDER",
                 subItems: [
                     { label: "INTERNSHIP BUILDER", href: "/admin/certificate-builder/internship", icon: <Award size={18} strokeWidth={1.8} /> },
                     { label: "PROJECT BUILDER", href: "/admin/certificate-builder/project", icon: <Award size={18} strokeWidth={1.8} /> },
                 ]
             },
-            { label: "CERTIFICATE MANAGEMENT", href: "/admin/certificates", icon: <Award size={20} strokeWidth={1.8} /> },
-            { label: "BADGES", href: "/admin/badges", icon: <Badge size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE ORDERS", href: "/admin/orders", icon: <ShoppingBag size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE COUPONS", href: "/admin/coupons", icon: <Ticket size={20} strokeWidth={1.8} /> },
-            { label: "WITHDRAW PAYMENTS", href: "/admin/withdrawals", icon: <HandCoins size={20} strokeWidth={1.8} /> },
-            { label: "LOCATIONS", href: "/admin/locations", icon: <MapPin size={20} strokeWidth={1.8} /> },
+            { label: "CERTIFICATE MANAGEMENT", href: "/admin/certificates", icon: <Award size={20} strokeWidth={1.8} />, permissionKey: "CERTIFICATE_MANAGEMENT" },
+            { label: "BADGES", href: "/admin/badges", icon: <Badge size={20} strokeWidth={1.8} />, permissionKey: "BADGES" },
+            { label: "MANAGE ORDERS", href: "/admin/orders", icon: <ShoppingBag size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_ORDERS" },
+            { label: "MANAGE COUPONS", href: "/admin/coupons", icon: <Ticket size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_COUPONS" },
+            { label: "WITHDRAW PAYMENTS", href: "/admin/withdrawals", icon: <HandCoins size={20} strokeWidth={1.8} />, permissionKey: "WITHDRAW_PAYMENTS" },
+            { label: "LOCATIONS", href: "/admin/locations", icon: <MapPin size={20} strokeWidth={1.8} />, permissionKey: "LOCATIONS" },
         ]
     },
     {
         title: "CMS DASHBOARD MANAGEMENT",
         items: [
-            { label: "CMS USER", href: "/admin/users", icon: <Settings size={20} strokeWidth={1.8} /> },
+            { label: "CMS USER", href: "/admin/users", icon: <Settings size={20} strokeWidth={1.8} />, permissionKey: "CMS_USER" },
         ]
     },
     {
         title: "WEBSITE & CONFIGURATION",
         items: [
-            { label: "MANAGE COURSES", href: "/admin/courses", icon: <GraduationCap size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE BLOGS", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE SERVICES", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} /> },
-            { label: "SECTIONS", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} /> },
-            { label: "BRANDS", href: "/admin/brands", icon: <Copyright size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE MENTORS", href: "/admin/mentors", icon: <Users size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE EVENTS", href: "/admin/events", icon: <Calendar size={20} strokeWidth={1.8} /> },
-            { label: "FOOTER SETTINGS", href: "/admin/footer-settings", icon: <PanelBottom size={20} strokeWidth={1.8} /> },
-            { label: "MENU BUILDER", href: "/admin/menu-builder", icon: <LayoutGrid size={20} strokeWidth={1.8} /> },
-            { label: "PAGE BUILDER", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} /> },
-            { label: "SOCIAL LINKS", href: "/admin/social-links", icon: <Hash size={20} strokeWidth={1.8} /> },
-            { label: "FAQS", href: "/admin/faqs", icon: <HelpCircle size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE COURSES", href: "/admin/courses", icon: <GraduationCap size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_COURSES" },
+            { label: "MANAGE BLOGS", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_BLOGS" },
+            { label: "MANAGE SERVICES", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_SERVICES" },
+            { label: "SECTIONS", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} />, permissionKey: "SECTIONS" },
+            { label: "BRANDS", href: "/admin/brands", icon: <Copyright size={20} strokeWidth={1.8} />, permissionKey: "BRANDS" },
+            { label: "MANAGE MENTORS", href: "/admin/mentors", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_MENTORS" },
+            { label: "MANAGE EVENTS", href: "/admin/events", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_EVENTS" },
+            { label: "FOOTER SETTINGS", href: "/admin/footer-settings", icon: <PanelBottom size={20} strokeWidth={1.8} />, permissionKey: "FOOTER_SETTINGS" },
+            { label: "MENU BUILDER", href: "/admin/menu-builder", icon: <LayoutGrid size={20} strokeWidth={1.8} />, permissionKey: "MENU_BUILDER" },
+            { label: "PAGE BUILDER", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} />, permissionKey: "PAGE_BUILDER" },
+            { label: "SOCIAL LINKS", href: "/admin/social-links", icon: <Hash size={20} strokeWidth={1.8} />, permissionKey: "SOCIAL_LINKS" },
+            { label: "FAQS", href: "/admin/faqs", icon: <HelpCircle size={20} strokeWidth={1.8} />, permissionKey: "FAQS" },
         ]
     },
     {
         title: "SETTINGS",
         items: [
-            { label: "SETTINGS", href: "/admin/settings", icon: <Settings size={20} strokeWidth={1.8} /> },
+            { label: "SETTINGS", href: "/admin/settings", icon: <Settings size={20} strokeWidth={1.8} />, permissionKey: "SETTINGS" },
             { label: "LOGOUT", href: "#", icon: <LogOut size={20} strokeWidth={1.8} />, onClick: () => {} },
         ]
     }
 ];
 
-function NavItemComponent({ item, sidebarOpen, pathname, userRole, onClick }: { item: any, sidebarOpen: boolean, pathname: string, userRole: string | undefined, onClick?: () => void }) {
+function NavItemComponent({ item, sidebarOpen, pathname, user, onClick }: { item: any, sidebarOpen: boolean, pathname: string, user: any, onClick?: () => void }) {
     const [isOpen, setIsOpen] = useState(false);
     
-    // Role check
-    if (item.role && item.role !== userRole) return null;
+    // Role & Permission check
+    // SUPER_ADMIN sees everything. Others must have the specific permissionKey (or no key meant for everyone like Logout)
+    if (user?.role !== 'SUPER_ADMIN' && item.permissionKey && !user?.allowedSections?.includes(item.permissionKey)) {
+        return null;
+    }
 
     const isActive = item.href ? (pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href))) : false;
     const isSubActive = item.subItems?.some((sub: any) => pathname.startsWith(sub.href));
@@ -409,7 +414,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Nav Items */}
                 <nav style={{ padding: "16px 12px", flex: 1, overflowY: "auto", overflowX: "hidden" }}>
                     {navGroups.map((group, idx) => {
-                        const visibleItems = group.items.filter(item => !item.role || item.role === user?.role);
+                        const visibleItems = group.items.filter(item => {
+                            if (user?.role === 'SUPER_ADMIN') return true;
+                            if (!item.permissionKey) return true; // Settings, Logout
+                            return user?.allowedSections?.includes(item.permissionKey);
+                        });
+                        
                         if (visibleItems.length === 0) return null;
 
                         return (
@@ -425,7 +435,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                         item={item}
                                         sidebarOpen={sidebarOpen}
                                         pathname={pathname}
-                                        userRole={user?.role as string}
+                                        user={user}
                                         onClick={() => isMobile && setSidebarOpen(false)}
                                     />
                                 ))}

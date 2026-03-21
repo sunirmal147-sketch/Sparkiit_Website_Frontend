@@ -23,7 +23,7 @@ export default function Collaborations() {
                     viewport={{ once: true }}
                     className="text-[#a8e03e] font-bold uppercase tracking-[0.3em] text-[10px] border border-[#a8e03e]/20 px-4 py-2 rounded-full backdrop-blur-sm"
                 >
-                    Our Collaborations
+                    Collaborations
                 </motion.span>
                 <motion.h2 
                     initial={{ opacity: 0, y: 20 }}

@@ -70,6 +70,11 @@ export interface HomepageData {
             rating?: string;
         };
     };
+    pageStructure: {
+        name: string;
+        enabled: boolean;
+        order: number;
+    }[];
 }
 
 export function useHomepageData() {
