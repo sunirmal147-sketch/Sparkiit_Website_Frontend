@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { Loader2, Save, RotateCcw, AlertCircle, CheckCircle2 } from "lucide-react";
 
-const API_BASE = "http://localhost:5000/api/admin";
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000") + "/api/admin";
+
 
 interface ContentItem {
     _id: string;

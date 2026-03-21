@@ -69,7 +69,8 @@ function ActionSection({ title, actions, cardStyle }: any) {
     );
 }
 
-const API_BASE = "http://localhost:5000/api/admin";
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000") + "/api/admin";
+
 
 interface StatsData {
     totalCourses: number;
@@ -120,25 +121,26 @@ export default function AdminDashboard() {
         letterSpacing: "0.06em",
     };
 
-    const contentActions = [
-        { title: "MANAGE COURSES", desc: "Curriculum & Lessons", icon: BookOpen, link: "/admin/courses", color: "#a8e03e" },
-        { title: "MANAGE BLOGS", desc: "Articles & News", icon: FileText, link: "/admin/blogs", color: "#5eead4" },
+    const studentActions = [
+        { title: "USERS MANAGEMENT", desc: "Students & Metrics", icon: Users, link: "/admin/candidates", color: "#818cf8" },
         { title: "MANAGE PROJECTS", desc: "Assignments & Submissions", icon: Briefcase, link: "/admin/projects", color: "#c084fc" },
         { title: "CERTIFICATES", desc: "Issue & Track", icon: Award, link: "/admin/certificates", color: "#f472b6" },
         { title: "CERT BUILDER", desc: "Design Templates", icon: Settings2, link: "/admin/certificate-builder/internship", color: "#f87171" },
-        { title: "MANAGE SERVICES", desc: "Platform Config", icon: Monitor, link: "/admin/services", color: "#60a5fa" },
         { title: "BADGES", desc: "Student Rewards", icon: Badge, link: "/admin/badges", color: "#fbbf24" },
-    ];
-
-    const businessActions = [
-        { title: "MANAGE CANDIDATES", desc: "Students & Metrics", icon: Users, link: "/admin/candidates", color: "#818cf8" },
         { title: "MANAGE ORDERS", desc: "Sales & Payments", icon: ShoppingCart, link: "/admin/orders", color: "#fb923c" },
         { title: "COUPONS", desc: "Discounts & Promos", icon: Ticket, link: "/admin/coupons", color: "#f59e0b" },
         { title: "WITHDRAWALS", desc: "Payment Processing", icon: HandCoins, link: "/admin/withdrawals", color: "#10b981" },
         { title: "LOCATIONS", desc: "Branch Management", icon: MapPin, link: "/admin/locations", color: "#6366f1" },
     ];
+    
+    const cmsActions = [
+        { title: "CMS USER", desc: "Admin & Staff Roles", icon: Settings, link: "/admin/users", color: "#a8e03e" },
+    ];
 
     const websiteActions = [
+        { title: "MANAGE COURSES", desc: "Curriculum & Lessons", icon: BookOpen, link: "/admin/courses", color: "#a8e03e" },
+        { title: "MANAGE BLOGS", desc: "Articles & News", icon: FileText, link: "/admin/blogs", color: "#5eead4" },
+        { title: "MANAGE SERVICES", desc: "Platform Config", icon: Monitor, link: "/admin/services", color: "#60a5fa" },
         { title: "SECTIONS", desc: "Home Page Layout", icon: Blocks, link: "/admin/sections", color: "#ec4899" },
         { title: "BRANDS", desc: "Partner Logos", icon: Copyright, link: "/admin/brands", color: "#a855f7" },
         { title: "MANAGE MENTORS", desc: "Slider Profiles", icon: Users, link: "/admin/mentors", color: "#10b981" },
@@ -173,10 +175,10 @@ export default function AdminDashboard() {
                 <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>Welcome back. What would you like to manage today?</p>
             </div>
 
-            {/* Content Categories */}
-            <ActionSection title="Content Management" actions={contentActions} cardStyle={cardStyle} />
-            <ActionSection title="Students & Business" actions={businessActions} cardStyle={cardStyle} />
-            <ActionSection title="Website & Configuration" actions={websiteActions} cardStyle={cardStyle} />
+            {/* Dashboard Sections */}
+            <ActionSection title="STUDENT DASHBOARD MANAGEMENT" actions={studentActions} cardStyle={cardStyle} />
+            <ActionSection title="CMS DASHBOARD MANAGEMENT" actions={cmsActions} cardStyle={cardStyle} />
+            <ActionSection title="WEBSITE & CONFIGURATION" actions={websiteActions} cardStyle={cardStyle} />
 
             <h2 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 24, marginTop: 12, textTransform: "uppercase", letterSpacing: "0.05em", display: "flex", alignItems: "center", gap: 10 }}>
                 <LayoutDashboard size={20} color="#a8e03e" /> Overview Analytics

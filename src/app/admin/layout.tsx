@@ -38,11 +38,11 @@ const navGroups: NavGroup[] = [
         ]
     },
     {
-        title: "MANAGE CONTENTS",
+        title: "STUDENT DASHBOARD MANAGEMENT",
         items: [
-            { label: "MANAGE COURSES", href: "/admin/courses", icon: <GraduationCap size={20} strokeWidth={1.8} /> },
-            { 
-                label: "CERTIFICATE BUILDER", 
+            { label: "USERS MANAGEMENT", href: "/admin/candidates", icon: <Users size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE PROJECTS", href: "/admin/projects", icon: <Briefcase size={20} strokeWidth={1.8} /> },
+            { label: "CERTIFICATE BUILDER", 
                 icon: <Settings2 size={20} strokeWidth={1.8} />,
                 subItems: [
                     { label: "INTERNSHIP BUILDER", href: "/admin/certificate-builder/internship", icon: <Award size={18} strokeWidth={1.8} /> },
@@ -50,41 +50,30 @@ const navGroups: NavGroup[] = [
                 ]
             },
             { label: "CERTIFICATE MANAGEMENT", href: "/admin/certificates", icon: <Award size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE PROJECTS", href: "/admin/projects", icon: <Briefcase size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE SERVICES", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} /> },
             { label: "BADGES", href: "/admin/badges", icon: <Badge size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE BLOGS", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} /> },
-        ]
-    },
-    {
-        title: "MANAGE ORDERS",
-        items: [
             { label: "MANAGE ORDERS", href: "/admin/orders", icon: <ShoppingBag size={20} strokeWidth={1.8} /> },
             { label: "MANAGE COUPONS", href: "/admin/coupons", icon: <Ticket size={20} strokeWidth={1.8} /> },
             { label: "WITHDRAW PAYMENTS", href: "/admin/withdrawals", icon: <HandCoins size={20} strokeWidth={1.8} /> },
-        ]
-    },
-    {
-        title: "MANAGE USERS",
-        items: [
-            { label: "MANAGE CANDIDATES", href: "/admin/candidates", icon: <Users size={20} strokeWidth={1.8} /> },
-            { label: "MANAGE USERS", href: "/admin/users", icon: <Settings size={20} strokeWidth={1.8} />, role: "SUPER_ADMIN" },
             { label: "LOCATIONS", href: "/admin/locations", icon: <MapPin size={20} strokeWidth={1.8} /> },
         ]
     },
     {
-        title: "SITE CONTENTS",
+        title: "CMS DASHBOARD MANAGEMENT",
         items: [
+            { label: "CMS USER", href: "/admin/users", icon: <Settings size={20} strokeWidth={1.8} /> },
+        ]
+    },
+    {
+        title: "WEBSITE & CONFIGURATION",
+        items: [
+            { label: "MANAGE COURSES", href: "/admin/courses", icon: <GraduationCap size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE BLOGS", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} /> },
+            { label: "MANAGE SERVICES", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} /> },
             { label: "SECTIONS", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} /> },
             { label: "BRANDS", href: "/admin/brands", icon: <Copyright size={20} strokeWidth={1.8} /> },
             { label: "MANAGE MENTORS", href: "/admin/mentors", icon: <Users size={20} strokeWidth={1.8} /> },
             { label: "MANAGE EVENTS", href: "/admin/events", icon: <Calendar size={20} strokeWidth={1.8} /> },
             { label: "FOOTER SETTINGS", href: "/admin/footer-settings", icon: <PanelBottom size={20} strokeWidth={1.8} /> },
-        ]
-    },
-    {
-        title: "MANAGE WEBSITE",
-        items: [
             { label: "MENU BUILDER", href: "/admin/menu-builder", icon: <LayoutGrid size={20} strokeWidth={1.8} /> },
             { label: "PAGE BUILDER", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} /> },
             { label: "SOCIAL LINKS", href: "/admin/social-links", icon: <Hash size={20} strokeWidth={1.8} /> },
@@ -227,7 +216,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         const checkSession = async () => {
             setIsLoading(true);
             try {
-                const res = await fetch("http://localhost:5000/api/admin/me", {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/admin/me`, {
                     credentials: "include"
                 });
                 const data = await res.json();
@@ -290,7 +279,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     const handleLogout = async () => {
         try {
-            await fetch("http://localhost:5000/api/admin/logout", {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/admin/logout`, {
                 credentials: "include"
             });
             setUser(null);
@@ -317,7 +306,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
 
     // Update logout item in navGroups
-    navGroups[6].items[1].onClick = handleLogout;
+    navGroups[4].items[1].onClick = handleLogout;
 
     return (
         <div style={{ display: "flex", minHeight: "100vh", background: "#0a0a0a", color: "#e5e5e5", fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
