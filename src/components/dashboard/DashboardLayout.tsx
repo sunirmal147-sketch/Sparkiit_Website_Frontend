@@ -14,7 +14,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const sidebarLinks = [
     { title: "Overview", icon: LayoutDashboard, href: "/dashboard" },
@@ -30,9 +31,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const router = useRouter();
 
+    useEffect(() => {
+        const token = Cookies.get('token') || localStorage.getItem('token');
+        if (!token) {
+            router.push('/login');
+        }
+    }, [router]);
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        Cookies.remove('token');
         router.push('/login');
     };
 

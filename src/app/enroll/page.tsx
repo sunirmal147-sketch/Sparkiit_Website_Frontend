@@ -49,7 +49,7 @@ export default function EnrollPage() {
             }
 
             if (enrollmentType === 'trial') {
-                const res = await fetch('http://localhost:5000/api/public/bookings', {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/public/bookings`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ export default function EnrollPage() {
                 }
             } else {
                 // Full Course Enrollment -> Create Order
-                const res = await fetch('http://localhost:5000/api/public/payments/create-order', {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/public/payments/create-order`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -306,7 +306,7 @@ export default function EnrollPage() {
                                     We've sent a confirmation email with all the details.
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center gap-4 px-6">
-                                    <PremiumButton text="Go to Dashboard" onClick={() => window.location.href = "/profile"} />
+                                    <PremiumButton text="Go to Dashboard" onClick={() => window.location.href = "/dashboard"} />
                                     <PremiumButton text="Browse More Courses" variant="secondary" onClick={() => setStep(1)} />
                                 </div>
                             </motion.div>

@@ -7,7 +7,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CertificateCard from "@/components/CertificateCard";
 
-const API_BASE = 'http://localhost:5000/api/public';
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/public';
+
 
 export default function VerifyPage() {
     const [email, setEmail] = useState("");

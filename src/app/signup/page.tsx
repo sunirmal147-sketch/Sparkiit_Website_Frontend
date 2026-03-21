@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import Cookies from "js-cookie";
 
 export default function SignupPage() {
     const [formData, setFormData] = useState({ name: "", email: "", password: "", phone: "" });
@@ -27,7 +28,9 @@ export default function SignupPage() {
             if (data.success) {
                 localStorage.setItem("user", JSON.stringify(data.data));
                 localStorage.setItem("token", data.data.token);
-                router.push("/");
+                // Save token to cookies
+                Cookies.set("token", data.data.token, { expires: 30 });
+                router.push("/dashboard");
                 router.refresh();
             } else {
                 setError(data.message || "Signup failed");
