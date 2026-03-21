@@ -23,6 +23,13 @@ export default function AdminLogin() {
                 credentials: "include",
             });
 
+            if (!res.ok && res.status !== 401 && res.status !== 403) {
+                // Server error or deployment issue (not an auth error)
+                console.error("Server Error:", res.status, res.statusText);
+                setError(`Server error (${res.status}). The backend may not be running.`);
+                return;
+            }
+
             const data = await res.json();
 
             if (data.success) {
@@ -34,7 +41,7 @@ export default function AdminLogin() {
             }
         } catch (err: any) {
             console.error("Login Fetch Error:", err);
-            setError(`Connection Error: ${err.message || "Please check your network"}`);
+            setError(`Connection Error: Could not reach the server. Please check if the backend is deployed correctly.`);
         } finally {
             setLoading(false);
         }
