@@ -29,7 +29,11 @@ export default function SignupPage() {
                 localStorage.setItem("user", JSON.stringify(data.data));
                 localStorage.setItem("token", data.data.token);
                 // Save token to cookies
-                Cookies.set("token", data.data.token, { expires: 30 });
+                Cookies.set("token", data.data.token, { 
+                    expires: 30,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'lax'
+                });
                 router.push("/dashboard");
                 router.refresh();
             } else {
