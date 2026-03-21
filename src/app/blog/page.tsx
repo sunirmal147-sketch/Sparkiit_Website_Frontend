@@ -12,7 +12,8 @@ export default function BlogPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/public/blogs")
+        const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/public';
+        fetch(`${API_BASE}/blogs`)
             .then(res => res.json())
             .then(data => {
                 if (data.success) setBlogPosts(data.data);
