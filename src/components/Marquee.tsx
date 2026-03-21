@@ -8,10 +8,10 @@ const logosGroup1 = [
 
 export default function Marquee() {
     return (
-        <section className="py-24 border-y border-white/5 overflow-hidden bg-[#050505] flex flex-col gap-12">
+        <section className="py-12 border-y border-white/5 overflow-hidden bg-[#050505] flex flex-col gap-12">
             <div className="max-w-7xl mx-auto px-6 md:px-20 mb-4 text-center">
                 <span className="text-[#a8e03e] font-bold uppercase tracking-[0.3em] text-[10px] border border-[#a8e03e]/20 px-4 py-2 rounded-full backdrop-blur-sm">
-                    Collaborators
+                    Hiring Partners
                 </span>
             </div>
 

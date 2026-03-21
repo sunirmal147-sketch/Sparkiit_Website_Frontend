@@ -55,7 +55,7 @@ export default function RoadmapSection() {
     }, []);
 
     return (
-        <section id="roadmap-section" className="py-20 md:py-28 bg-[#050505] relative overflow-hidden">
+        <section id="roadmap-section" className="py-10 md:py-14 bg-[#050505] relative overflow-hidden">
             {/* Title */}
             <div className="max-w-7xl mx-auto px-6 md:px-16 mb-10 relative z-10">
                 <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>

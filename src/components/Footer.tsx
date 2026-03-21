@@ -17,8 +17,8 @@ export default function Footer() {
     };
 
     return (
-        <footer className="bg-[#050505] border-t border-white/5 pt-24 pb-12 px-6 md:px-20">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
+        <footer className="bg-[#050505] border-t border-white/5 pt-12 pb-12 px-6 md:px-20">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-12">
                 <div className="lg:col-span-1">
                     <div className="flex items-center gap-2 mb-8">
                         <div className="bg-[#a8e03e] text-black w-8 h-8 flex items-center justify-center rounded-sm">

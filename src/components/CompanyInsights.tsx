@@ -30,9 +30,9 @@ function Counter({ value }: { value: number }) {
 
 export default function CompanyInsights() {
     return (
-        <section className="py-24 px-6 md:px-20 bg-[#050505]">
+        <section className="py-12 px-6 md:px-20 bg-[#050505]">
             <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
                     {stats.map((stat, index) => (
                         <motion.div
                             key={index}
@@ -50,7 +50,7 @@ export default function CompanyInsights() {
                     ))}
                 </div>
 
-                <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-t border-white/5 pt-20">
+                <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-t border-white/5 pt-10">
                     <div className="max-w-xl">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white uppercase tracking-tighter mb-6">
                             LATEST INSIGHTS & <br /> ARTICLES.

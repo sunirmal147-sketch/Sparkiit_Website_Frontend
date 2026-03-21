@@ -60,7 +60,7 @@ export default function HeroSection() {
     const words = [hero.word1, hero.word2, hero.word3];
 
     return (
-        <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 pt-32 overflow-hidden">
+        <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 pt-20 overflow-hidden">
             {/* Background gradients/effects mimicking the reference */}
             <div className="absolute top-0 right-0 w-[80vw] h-[80vh] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-red-600/10 blur-[120px] rounded-full pointer-events-none" />

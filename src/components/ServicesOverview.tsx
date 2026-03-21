@@ -31,7 +31,7 @@ export default function ServicesOverview() {
         : fallbackServices;
 
     return (
-        <section ref={containerRef} className="py-32 px-6 md:px-20 bg-[#050505] border-y border-white/5 overflow-hidden">
+        <section ref={containerRef} className="py-16 px-6 md:px-20 bg-[#050505] border-y border-white/5 overflow-hidden">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
                 <motion.div style={{ x: xParallax }} className="lg:w-1/3">
                     <motion.p 

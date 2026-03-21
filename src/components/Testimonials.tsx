@@ -97,7 +97,7 @@ const Testimonials = () => {
   const doubledTestimonials = [...testimonials, ...testimonials, ...testimonials];
 
   return (
-    <section ref={containerRef} className="bg-[#050505] py-32 overflow-hidden relative">
+    <section ref={containerRef} className="bg-[#050505] py-16 overflow-hidden relative">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
         <div className="absolute top-1/4 -left-20 w-[600px] h-[600px] bg-[#a8e03e]/10 rounded-full blur-[120px]" />

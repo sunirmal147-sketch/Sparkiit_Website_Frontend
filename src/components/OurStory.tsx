@@ -24,7 +24,7 @@ export default function OurStory() {
     };
 
     return (
-        <section ref={containerRef} className="py-32 px-6 md:px-20 bg-[#050505] overflow-hidden">
+        <section ref={containerRef} className="py-16 px-6 md:px-20 bg-[#050505] overflow-hidden">
             <motion.div 
                 style={{ y: yParallax, opacity: opacityFade }}
                 className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-start"

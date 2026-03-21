@@ -4,14 +4,17 @@ import HorizontalScroll from "@/components/HorizontalScroll";
 import ParallaxImage from "@/components/ParallaxImage";
 import Marquee from "@/components/Marquee";
 import OurStory from "@/components/OurStory";
+import Collaborations from "@/components/Collaborations";
 import WorkingProcess from "@/components/WorkingProcess";
 import LatestProjects from "@/components/LatestProjects";
 import ServicesOverview from "@/components/ServicesOverview";
 import CompanyInsights from "@/components/CompanyInsights";
 import RoadmapSection from "@/components/RoadmapSection";
 import AmbassadorEngagement from "@/components/Testimonials";
+import FeaturedIn from "@/components/FeaturedIn";
 import MentorsSection from "@/components/MentorsSection";
 import ReviewSection from "@/components/ReviewSection";
+import Colleges from "@/components/Colleges";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -29,8 +32,14 @@ export default function Home() {
       {/* Services Overview Section */}
       <ServicesOverview />
 
+      {/* Collaborations Section */}
+      <Collaborations />
+
       {/* Our Story Section */}
       <OurStory />
+
+      {/* Colleges Section */}
+      <Colleges />
 
       {/* Review / Rating Section */}
       <ReviewSection />
@@ -42,7 +51,7 @@ export default function Home() {
       <LatestProjects />
 
       {/* Parallax Image Section (Existing) */}
-      <section className="h-screen w-full p-6 md:p-20 bg-[#050505] flex items-center justify-center">
+      <section className="h-[80vh] w-full p-6 md:p-10 bg-[#050505] flex items-center justify-center">
         <div className="w-full max-w-6xl h-[80vh] rounded-3xl overflow-hidden relative">
           <ParallaxImage
             src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=3271&auto=format&fit=crop"
@@ -62,6 +71,9 @@ export default function Home() {
 
       {/* Roadmap Section */}
       <RoadmapSection />
+
+      {/* Featured In Section */}
+      <FeaturedIn />
 
       <AmbassadorEngagement />
 
