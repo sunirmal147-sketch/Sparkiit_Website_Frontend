@@ -135,13 +135,13 @@ export default function AdminEventsPage() {
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
                     <h1 className="text-4xl font-black text-white uppercase tracking-tighter mb-2">
-                        Manage <span className="text-[#a8e03e]">Events</span>
+                        Manage <span className="text-[#00875a]">Events</span>
                     </h1>
                     <p className="text-white/40 text-sm uppercase tracking-widest font-medium">Create and manage Sparkiit community events</p>
                 </div>
                 <button 
                     onClick={() => handleOpenModal()}
-                    className="bg-[#a8e03e] hover:bg-[#bef251] text-black font-black px-8 py-4 rounded-2xl flex items-center gap-2 transition-all transform hover:scale-105 active:scale-95 uppercase tracking-widest text-xs"
+                    className="bg-[#00875a] hover:bg-[#00c978] text-white font-black px-8 py-4 rounded-2xl flex items-center gap-2 transition-all transform hover:scale-105 active:scale-95 uppercase tracking-widest text-xs"
                 >
                     <Plus size={18} strokeWidth={3} />
                     Add New Event
@@ -169,7 +169,7 @@ export default function AdminEventsPage() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {events.map((event) => (
-                        <div key={event._id} className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden group hover:border-[#a8e03e]/40 transition-all duration-500">
+                        <div key={event._id} className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden group hover:border-[#00875a]/40 transition-all duration-500">
                             <div className="h-48 relative overflow-hidden">
                                 <img src={event.image} alt="" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                                 <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/10 text-white">
@@ -215,7 +215,7 @@ export default function AdminEventsPage() {
                         >
                             <div className="p-8 border-b border-white/10 flex items-center justify-between">
                                 <h2 className="text-xl font-black text-white uppercase tracking-tighter">
-                                    {editingEvent ? "Edit" : "Create"} <span className="text-[#a8e03e]">Event</span>
+                                    {editingEvent ? "Edit" : "Create"} <span className="text-[#00875a]">Event</span>
                                 </h2>
                                 <button onClick={() => setIsModalOpen(false)} className="text-white/40 hover:text-white transition-colors">
                                     <X size={24} />
@@ -229,7 +229,7 @@ export default function AdminEventsPage() {
                                         <input 
                                             type="text" 
                                             required
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#a8e03e] outline-none transition-all"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#00875a] outline-none transition-all"
                                             value={formData.title}
                                             onChange={(e) => setFormData({...formData, title: e.target.value})}
                                         />
@@ -237,7 +237,7 @@ export default function AdminEventsPage() {
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1">Type</label>
                                         <select 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#a8e03e] outline-none transition-all"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#00875a] outline-none transition-all"
                                             value={formData.type}
                                             onChange={(e) => setFormData({...formData, type: e.target.value})}
                                         >
@@ -253,7 +253,7 @@ export default function AdminEventsPage() {
                                     <textarea 
                                         required
                                         rows={3}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#a8e03e] outline-none transition-all resize-none"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#00875a] outline-none transition-all resize-none"
                                         value={formData.description}
                                         onChange={(e) => setFormData({...formData, description: e.target.value})}
                                     />
@@ -265,7 +265,7 @@ export default function AdminEventsPage() {
                                         <input 
                                             type="date" 
                                             required
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#a8e03e] outline-none transition-all"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#00875a] outline-none transition-all"
                                             value={formData.date}
                                             onChange={(e) => setFormData({...formData, date: e.target.value})}
                                         />
@@ -275,7 +275,7 @@ export default function AdminEventsPage() {
                                         <input 
                                             type="text" 
                                             required
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#a8e03e] outline-none transition-all"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#00875a] outline-none transition-all"
                                             value={formData.location}
                                             onChange={(e) => setFormData({...formData, location: e.target.value})}
                                         />
@@ -287,7 +287,7 @@ export default function AdminEventsPage() {
                                     <input 
                                         type="text" 
                                         required
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#a8e03e] outline-none transition-all"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#00875a] outline-none transition-all"
                                         value={formData.image}
                                         onChange={(e) => setFormData({...formData, image: e.target.value})}
                                     />
@@ -304,7 +304,7 @@ export default function AdminEventsPage() {
                                     <button 
                                         type="submit" 
                                         disabled={saving}
-                                        className="flex-1 bg-[#a8e03e] text-black font-black py-4 rounded-xl hover:bg-[#bef251] disabled:opacity-50 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs"
+                                        className="flex-1 bg-[#00875a] text-white font-black py-4 rounded-xl hover:bg-[#00c978] disabled:opacity-50 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs"
                                     >
                                         {saving ? <RefreshCw className="animate-spin" size={16} /> : <Save size={16} />}
                                         {saving ? "Saving..." : "Save Event"}

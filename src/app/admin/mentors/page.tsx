@@ -118,7 +118,7 @@ export default function MentorsPage() {
                     style={{
                         padding: "12px 24px",
                         borderRadius: 12,
-                        background: "#a8e03e",
+                        background: "#00875a",
                         color: "#000",
                         fontWeight: 700,
                         fontSize: 14,
@@ -127,7 +127,7 @@ export default function MentorsPage() {
                         display: "flex",
                         alignItems: "center",
                         gap: 8,
-                        boxShadow: "0 4px 20px rgba(168,224,62,0.25)",
+                        boxShadow: "0 4px 20px rgba(0,135,90,0.25)",
                     }}
                 >
                     <Plus size={18} />
@@ -179,7 +179,7 @@ export default function MentorsPage() {
                                 <div style={{ display: "flex", gap: 10 }}>
                                     <button 
                                         onClick={() => openEdit(m)} 
-                                        style={{ flex: 1, padding: "10px", borderRadius: 10, background: "rgba(168,224,62,0.1)", border: "1px solid rgba(168,224,62,0.2)", color: "#a8e03e", cursor: "pointer", fontWeight: 600, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
+                                        style={{ flex: 1, padding: "10px", borderRadius: 10, background: "rgba(0,135,90,0.1)", border: "1px solid rgba(0,135,90,0.2)", color: "#00875a", cursor: "pointer", fontWeight: 600, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
                                     >
                                         <Edit2 size={14} /> EDIT
                                     </button>
@@ -238,7 +238,7 @@ export default function MentorsPage() {
                                     flex: 2, 
                                     padding: "14px", 
                                     borderRadius: 12, 
-                                    background: "#a8e03e", 
+                                    background: "#00875a", 
                                     color: "#000", 
                                     fontWeight: 800, 
                                     border: "none", 

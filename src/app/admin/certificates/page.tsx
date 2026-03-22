@@ -104,7 +104,7 @@ export default function CertificateManagement() {
     if (loading && !search) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <Loader2 className="animate-spin text-[#a8e03e]" size={32} />
+                <Loader2 className="animate-spin text-[#00875a]" size={32} />
             </div>
         );
     }
@@ -118,7 +118,7 @@ export default function CertificateManagement() {
                 </div>
                 <button 
                     onClick={() => setEditingCert({ certificateId: "", candidateName: "", candidateEmail: "", courseName: "", issueDate: new Date().toISOString().split('T')[0], grade: "" })}
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#a8e03e] text-black font-bold hover:scale-[1.02] active:scale-[0.98] transition-all"
+                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#00875a] text-white font-bold hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                     <Plus size={20} />
                     Issue Certificate
@@ -131,7 +131,7 @@ export default function CertificateManagement() {
                     placeholder="Search by name, email, or certificate ID..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-[#a8e03e]/40 transition-all"
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-[#00875a]/40 transition-all"
                 />
             </div>
 
@@ -150,7 +150,7 @@ export default function CertificateManagement() {
                     <tbody className="divide-y divide-white/5">
                         {certificates.map((cert) => (
                             <tr key={cert._id} className="hover:bg-white/2 transition-colors">
-                                <td className="px-8 py-6 font-mono text-sm text-[#a8e03e]">{cert.certificateId}</td>
+                                <td className="px-8 py-6 font-mono text-sm text-[#00875a]">{cert.certificateId}</td>
                                 <td className="px-8 py-6">
                                     <div className="font-bold text-white">{cert.candidateName}</div>
                                     <div className="text-xs text-white/40 lowercase">{cert.candidateEmail}</div>
@@ -160,7 +160,7 @@ export default function CertificateManagement() {
                                     {new Date(cert.issueDate).toLocaleDateString()}
                                 </td>
                                 <td className="px-8 py-6">
-                                    <span className="bg-[#a8e03e]/10 text-[#a8e03e] px-3 py-1 rounded-full text-xs font-black">
+                                    <span className="bg-[#00875a]/10 text-[#00875a] px-3 py-1 rounded-full text-xs font-black">
                                         {cert.grade || "N/A"}
                                     </span>
                                 </td>
@@ -202,7 +202,7 @@ export default function CertificateManagement() {
                                         type="text" 
                                         value={editingCert.certificateId}
                                         onChange={e => setEditingCert({...editingCert, certificateId: e.target.value})}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#a8e03e]/40"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                         placeholder="SPK-2026-X"
                                     />
                                 </div>
@@ -212,7 +212,7 @@ export default function CertificateManagement() {
                                         type="text" 
                                         value={editingCert.grade}
                                         onChange={e => setEditingCert({...editingCert, grade: e.target.value})}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#a8e03e]/40"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                         placeholder="A+"
                                     />
                                 </div>
@@ -225,7 +225,7 @@ export default function CertificateManagement() {
                                     type="text" 
                                     value={editingCert.candidateName}
                                     onChange={e => setEditingCert({...editingCert, candidateName: e.target.value})}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#a8e03e]/40"
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -236,7 +236,7 @@ export default function CertificateManagement() {
                                     type="email" 
                                     value={editingCert.candidateEmail}
                                     onChange={e => setEditingCert({...editingCert, candidateEmail: e.target.value})}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#a8e03e]/40"
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -247,7 +247,7 @@ export default function CertificateManagement() {
                                     type="text" 
                                     value={editingCert.courseName}
                                     onChange={e => setEditingCert({...editingCert, courseName: e.target.value})}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#a8e03e]/40"
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                 />
                             </div>
                         </div>
@@ -261,7 +261,7 @@ export default function CertificateManagement() {
                             <button 
                                 onClick={handleSave}
                                 disabled={saving}
-                                className="flex items-center gap-2 px-8 py-2 rounded-xl bg-[#a8e03e] text-black font-bold hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                                className="flex items-center gap-2 px-8 py-2 rounded-xl bg-[#00875a] text-white font-bold hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                             >
                                 {saving ? <Loader2 className="animate-spin" size={18} /> : <Award size={18} />}
                                 Issue Now

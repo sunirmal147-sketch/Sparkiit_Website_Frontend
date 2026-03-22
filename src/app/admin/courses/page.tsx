@@ -123,7 +123,7 @@ export default function CoursesPage() {
 
     const statusBadge = (s: string) => {
         const colors: Record<string, { bg: string; color: string }> = {
-            active: { bg: "rgba(168,224,62,0.12)", color: "#a8e03e" },
+            active: { bg: "rgba(0,135,90,0.12)", color: "#00875a" },
             draft: { bg: "rgba(251,191,36,0.12)", color: "#fbbf24" },
             archived: { bg: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.4)" },
         };
@@ -160,8 +160,8 @@ export default function CoursesPage() {
                         style={{
                             padding: "10px 24px",
                             borderRadius: 10,
-                            background: "linear-gradient(135deg, #a8e03e 0%, #7cb518 100%)",
-                            color: "#050505",
+                            background: "linear-gradient(135deg, #00875a 0%, #006644 100%)",
+                            color: "#ffffff",
                             fontWeight: 700,
                             fontSize: 14,
                             border: "none",
@@ -210,7 +210,7 @@ export default function CoursesPage() {
             <div style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, overflow: "hidden" }}>
                 {loading ? (
                     <div style={{ padding: 60, textAlign: "center", color: "rgba(255,255,255,0.3)" }}>
-                        <div style={{ width: 32, height: 32, border: "3px solid rgba(168,224,62,0.2)", borderTop: "3px solid #a8e03e", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 12px" }} />
+                        <div style={{ width: 32, height: 32, border: "3px solid rgba(0,135,90,0.2)", borderTop: "3px solid #00875a", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 12px" }} />
                         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
                         Loading courses...
                     </div>
@@ -294,7 +294,7 @@ export default function CoursesPage() {
                                 <label style={labelStyle}>Course Links</label>
                                 <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
                                     <input style={inputStyle} value={newLink} onChange={(e) => setNewLink(e.target.value)} placeholder="Add a link..." onKeyPress={(e) => e.key === 'Enter' && addLink()} />
-                                    <button onClick={addLink} style={{ padding: "0 20px", borderRadius: 10, background: "rgba(168,224,62,0.1)", border: "1px solid #a8e03e", color: "#a8e03e", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Add</button>
+                                    <button onClick={addLink} style={{ padding: "0 20px", borderRadius: 10, background: "rgba(0,135,90,0.1)", border: "1px solid #00875a", color: "#00875a", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Add</button>
                                 </div>
                                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                                     {form.links.map((link, idx) => (
@@ -309,7 +309,7 @@ export default function CoursesPage() {
 
                         <div style={{ display: "flex", gap: 12, marginTop: 32, justifyContent: "flex-end" }}>
                             <button onClick={() => setModalOpen(false)} style={{ padding: "12px 24px", color: "rgba(255,255,255,0.4)", background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
-                            <button onClick={handleSave} disabled={saving} style={{ padding: "12px 32px", borderRadius: 12, background: "#a8e03e", color: "#050505", fontWeight: 700, border: "none", cursor: "pointer" }}>{saving ? "Saving..." : "Save Changes"}</button>
+                            <button onClick={handleSave} disabled={saving} style={{ padding: "12px 32px", borderRadius: 12, background: "#00875a", color: "#ffffff", fontWeight: 700, border: "none", cursor: "pointer" }}>{saving ? "Saving..." : "Save Changes"}</button>
                         </div>
                     </div>
                 </div>
