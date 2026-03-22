@@ -36,7 +36,7 @@ export default function DashboardOverview() {
 
     const cards = [
         { title: "ENROLLED COURSES", value: stats?.enrolledCourses?.length || 0, icon: BookOpen, color: "text-blue-500", bg: "bg-blue-500/10" },
-        { title: "CERTIFICATES", value: stats?.certificatesCount || 0, icon: Award, color: "text-[#a8e03e]", bg: "bg-[#a8e03e]/10" },
+        { title: "CERTIFICATES", value: stats?.certificatesCount || 0, icon: Award, color: "text-[#00875a]", bg: "bg-[#00875a]/10" },
         { title: "COMPLETED TESTS", value: stats?.tests?.length || 0, icon: ClipboardCheck, color: "text-purple-500", bg: "bg-purple-500/10" },
         { title: "BATCH RANK", value: stats?.batchRank || "#N/A", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10" },
         { title: "STIPEND ELIGIBILITY", value: stats?.stipendEligible ? "ELIGIBLE" : "NOT ELIGIBLE", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-500/10" },
@@ -45,7 +45,7 @@ export default function DashboardOverview() {
     return (
         <div className="space-y-12">
             <div>
-                <h1 className="text-4xl font-bold tracking-tight uppercase">Welcome Back, <span className="text-[#a8e03e]">Learner</span></h1>
+                <h1 className="text-4xl font-bold tracking-tight uppercase">Welcome Back, <span className="text-[#00875a]">Learner</span></h1>
                 <p className="text-gray-400 mt-2">Here's a quick look at your learning progress.</p>
             </div>
 
@@ -56,7 +56,7 @@ export default function DashboardOverview() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="p-6 rounded-3xl bg-white/5 border border-white/5 hover:border-[#a8e03e]/20 transition-all group"
+                        className="p-6 rounded-3xl bg-white/5 border border-white/5 hover:border-[#00875a]/20 transition-all group"
                     >
                         <div className={`w-12 h-12 rounded-2xl ${card.bg} ${card.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                             <card.icon size={24} />
@@ -71,7 +71,7 @@ export default function DashboardOverview() {
                 {/* Performance Chart Placeholder */}
                 <div className="p-8 rounded-3xl bg-white/5 border border-white/5 min-h-[22rem] flex flex-col">
                     <h3 className="text-xl font-bold mb-6 uppercase flex items-center gap-2">
-                        <LineChartIcon className="text-[#a8e03e]" /> Performance Tracker
+                        <LineChartIcon className="text-[#00875a]" /> Performance Tracker
                     </h3>
                     <div className="flex-1 flex items-end gap-2 px-4 pb-4">
                         {[40, 70, 45, 90, 65, 80, 50, 95].map((h, i) => (
@@ -79,7 +79,7 @@ export default function DashboardOverview() {
                                 key={i}
                                 initial={{ height: 0 }}
                                 animate={{ height: `${h}%` }}
-                                className="flex-1 bg-gradient-to-t from-[#a8e03e]/20 to-[#a8e03e] rounded-t-lg"
+                                className="flex-1 bg-gradient-to-t from-[#00875a]/20 to-[#00875a] rounded-t-lg"
                             />
                         ))}
                     </div>
@@ -91,7 +91,7 @@ export default function DashboardOverview() {
                      <div className="space-y-4">
                         {[1, 2, 3].map((_, i) => (
                             <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5">
-                                <div className="w-2 h-2 rounded-full bg-[#a8e03e]" />
+                                <div className="w-2 h-2 rounded-full bg-[#00875a]" />
                                 <div className="flex-1">
                                     <p className="font-medium">Completed module "Introduction to Web3"</p>
                                     <p className="text-xs text-gray-500">2 hours ago</p>

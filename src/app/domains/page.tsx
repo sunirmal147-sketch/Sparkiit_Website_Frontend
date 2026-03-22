@@ -97,7 +97,7 @@ export default function DomainsPage() {
                     <motion.p
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="text-[#a8e03e] font-bold uppercase tracking-[0.3em] text-xs mb-6"
+                        className="text-[#00875a] font-bold uppercase tracking-[0.3em] text-xs mb-6"
                     >
                         Our Domains
                     </motion.p>
@@ -112,7 +112,7 @@ export default function DomainsPage() {
 
                     {loading ? (
                         <div className="h-64 flex items-center justify-center">
-                            <div className="w-12 h-12 border-4 border-[#a8e03e] border-t-transparent rounded-full animate-spin"></div>
+                            <div className="w-12 h-12 border-4 border-[#00875a] border-t-transparent rounded-full animate-spin"></div>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -123,13 +123,13 @@ export default function DomainsPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.6, delay: index * 0.1 }}
-                                    className="bg-white/5 p-6 md:p-10 rounded-[40px] border border-white/10 hover:border-[#a8e03e]/30 transition-all flex flex-col group relative overflow-hidden"
+                                    className="bg-white/5 p-6 md:p-10 rounded-[40px] border border-white/10 hover:border-[#00875a]/30 transition-all flex flex-col group relative overflow-hidden"
                                 >
                                     <div className="absolute top-0 right-0 p-8">
-                                        <span className="text-[#a8e03e] font-black text-2xl">₹{course.price}</span>
+                                        <span className="text-[#00875a] font-black text-2xl">₹{course.price}</span>
                                     </div>
 
-                                    <h2 className="text-3xl font-bold mb-4 pr-24 group-hover:text-[#a8e03e] transition-colors">{course.title}</h2>
+                                    <h2 className="text-3xl font-bold mb-4 pr-24 group-hover:text-[#00875a] transition-colors">{course.title}</h2>
                                     <p className="text-gray-400 leading-relaxed mb-8 text-lg line-clamp-3">{course.description}</p>
                                     
                                     <div className="mt-auto flex flex-col sm:flex-row sm:items-center justify-between gap-6">
@@ -143,7 +143,7 @@ export default function DomainsPage() {
                                         </div>
                                         <button 
                                             onClick={() => handleBuyNow(course._id)}
-                                            className="bg-[#a8e03e] text-black font-black px-8 py-4 rounded-2xl hover:bg-white transition-all active:scale-95 whitespace-nowrap"
+                                            className="bg-[#00875a] text-white font-black px-8 py-4 rounded-2xl hover:bg-white transition-all active:scale-95 whitespace-nowrap"
                                         >
                                             BUY NOW
                                         </button>

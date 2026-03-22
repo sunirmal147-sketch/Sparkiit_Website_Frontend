@@ -30,11 +30,11 @@ export default function CertificatesPage() {
         <div className="space-y-12">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
-                    <h1 className="text-4xl font-bold tracking-tight uppercase">My <span className="text-[#a8e03e]">Certificates</span></h1>
+                    <h1 className="text-4xl font-bold tracking-tight uppercase">My <span className="text-[#00875a]">Certificates</span></h1>
                     <p className="text-gray-400 mt-2">Verified proof of your technical expertise.</p>
                 </div>
                 <div className="bg-white/5 border border-white/10 px-6 py-3 rounded-2xl flex items-center gap-3">
-                    <ShieldCheck className="text-[#a8e03e]" />
+                    <ShieldCheck className="text-[#00875a]" />
                     <span className="text-xs font-bold uppercase tracking-widest">Global Validator Active</span>
                 </div>
             </div>
@@ -55,10 +55,10 @@ export default function CertificatesPage() {
                             transition={{ delay: i * 0.1 }}
                             className="bg-[#0a0a0a] border border-white/5 rounded-3xl p-8 relative overflow-hidden group"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#a8e03e]/5 blur-3xl rounded-full" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#00875a]/5 blur-3xl rounded-full" />
                             
                             <div className="flex gap-6 items-start">
-                                <div className="w-16 h-16 rounded-2xl bg-[#a8e03e]/10 flex items-center justify-center text-[#a8e03e]">
+                                <div className="w-16 h-16 rounded-2xl bg-[#00875a]/10 flex items-center justify-center text-[#00875a]">
                                     <Award size={32} />
                                 </div>
                                 <div className="flex-1">
@@ -66,7 +66,7 @@ export default function CertificatesPage() {
                                     <p className="text-gray-500 text-sm font-mono uppercase mb-6">ID: {cert.certificateId}</p>
                                     
                                     <div className="flex flex-wrap gap-4">
-                                        <button className="flex items-center gap-2 px-6 py-3 bg-[#a8e03e] text-black font-black text-xs uppercase rounded-xl hover:scale-105 transition-transform">
+                                        <button className="flex items-center gap-2 px-6 py-3 bg-[#00875a] text-white font-black text-xs uppercase rounded-xl hover:scale-105 transition-transform">
                                             <Download size={16} /> Download PDF
                                         </button>
                                         <button className="px-6 py-3 bg-white/5 border border-white/10 font-bold text-xs uppercase rounded-xl hover:bg-white/10 transition-all">

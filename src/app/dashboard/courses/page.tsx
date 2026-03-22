@@ -29,7 +29,7 @@ export default function CoursesPage() {
     return (
         <div className="space-y-12">
             <div>
-                <h1 className="text-4xl font-bold tracking-tight uppercase">My <span className="text-[#a8e03e]">Enrolled</span> Courses</h1>
+                <h1 className="text-4xl font-bold tracking-tight uppercase">My <span className="text-[#00875a]">Enrolled</span> Courses</h1>
                 <p className="text-gray-400 mt-2">Access your learning materials and track your progress.</p>
             </div>
 
@@ -47,7 +47,7 @@ export default function CoursesPage() {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: i * 0.1 }}
-                            className="group bg-[#0a0a0a] rounded-3xl overflow-hidden border border-white/5 hover:border-[#a8e03e]/30 transition-all flex flex-col"
+                            className="group bg-[#0a0a0a] rounded-3xl overflow-hidden border border-white/5 hover:border-[#00875a]/30 transition-all flex flex-col"
                         >
                             <div className="relative h-48">
                                 <Image 
@@ -58,7 +58,7 @@ export default function CoursesPage() {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
                                 <div className="absolute bottom-4 left-4">
-                                    <span className="bg-[#a8e03e] text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">
+                                    <span className="bg-[#00875a] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">
                                         {course.category}
                                     </span>
                                 </div>
@@ -73,7 +73,7 @@ export default function CoursesPage() {
                                     </div>
                                     <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                                         <div 
-                                            className="h-full bg-[#a8e03e]" 
+                                            className="h-full bg-[#00875a]" 
                                             style={{ width: `${Math.floor(Math.random() * 100)}%` }}
                                         />
                                     </div>
@@ -88,7 +88,7 @@ export default function CoursesPage() {
                         <div className="col-span-full py-20 text-center border-2 border-dashed border-white/5 rounded-3xl">
                             <p className="text-gray-500 uppercase font-bold tracking-widest leading-relaxed">
                                 You haven't enrolled in any courses yet.<br />
-                                <span className="text-[#a8e03e] cursor-pointer hover:underline">Browse our catalog</span>
+                                <span className="text-[#00875a] cursor-pointer hover:underline">Browse our catalog</span>
                             </p>
                         </div>
                     )}

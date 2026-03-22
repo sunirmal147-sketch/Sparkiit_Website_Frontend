@@ -29,7 +29,7 @@ export default function PerformancePage() {
     if (loading) return <div className="animate-pulse text-gray-500">Loading metrics...</div>;
 
     const metrics = [
-        { title: "AVERAGE SCORE", value: `${stats?.stats?.averageScore || 0}%`, delta: "+5%", icon: Target, color: "text-[#a8e03e]" },
+        { title: "AVERAGE SCORE", value: `${stats?.stats?.averageScore || 0}%`, delta: "+5%", icon: Target, color: "text-[#00875a]" },
         { title: "COURSE PROGRESS", value: `${stats?.stats?.progress || 0}%`, delta: "+12%", icon: Zap, color: "text-orange-500" },
         { title: "ATTENDANCE", value: `${stats?.stats?.attendance || 0}%`, delta: "Stable", icon: Waves, color: "text-blue-500" },
         { title: "STIPEND ELIGIBILITY", value: stats?.stipendEligible ? "ELIGIBLE" : "NOT ELIGIBLE", delta: "100%", icon: ShieldCheck, color: "text-emerald-500" },
@@ -38,7 +38,7 @@ export default function PerformancePage() {
     return (
         <div className="space-y-12 pb-12">
             <div>
-                <h1 className="text-4xl font-bold tracking-tight uppercase">Performance <span className="text-[#a8e03e]">Analytics</span></h1>
+                <h1 className="text-4xl font-bold tracking-tight uppercase">Performance <span className="text-[#00875a]">Analytics</span></h1>
                 <p className="text-gray-400 mt-2">Data-driven insights into your learning curve.</p>
             </div>
 
@@ -55,7 +55,7 @@ export default function PerformancePage() {
                             <div className={`p-4 rounded-2xl bg-white/5 ${m.color}`}>
                                 <m.icon size={24} />
                             </div>
-                            <span className="text-[10px] font-black uppercase text-[#a8e03e] bg-[#a8e03e]/10 px-3 py-1 rounded-full flex items-center gap-1">
+                            <span className="text-[10px] font-black uppercase text-[#00875a] bg-[#00875a]/10 px-3 py-1 rounded-full flex items-center gap-1">
                                 <ArrowUpRight size={12} /> {m.delta}
                             </span>
                         </div>
@@ -72,7 +72,7 @@ export default function PerformancePage() {
                         <p className="text-gray-500 text-sm mt-1">Growth distribution across core domains.</p>
                    </div>
                    <div className="flex gap-4">
-                        <span className="flex items-center gap-2 text-[10px] font-bold uppercase"><div className="w-2 h-2 rounded-full bg-[#a8e03e]"/> Tech</span>
+                        <span className="flex items-center gap-2 text-[10px] font-bold uppercase"><div className="w-2 h-2 rounded-full bg-[#00875a]"/> Tech</span>
                         <span className="flex items-center gap-2 text-[10px] font-bold uppercase"><div className="w-2 h-2 rounded-full bg-blue-500"/> Soft Skills</span>
                    </div>
                 </div>
@@ -92,14 +92,14 @@ export default function PerformancePage() {
                             <div key={i} className="space-y-3">
                                 <div className="flex justify-between items-end">
                                     <span className="text-xs font-black uppercase tracking-widest text-white/50">{s.name}</span>
-                                    <span className="text-sm font-black text-[#a8e03e]">{val}%</span>
+                                    <span className="text-sm font-black text-[#00875a]">{val}%</span>
                                 </div>
                                 <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
                                      <motion.div 
                                         initial={{ width: 0 }}
                                         whileInView={{ width: `${val}%` }}
                                         transition={{ duration: 1, delay: i * 0.1 }}
-                                        className="h-full bg-gradient-to-r from-[#a8e03e]/50 to-[#a8e03e]"
+                                        className="h-full bg-gradient-to-r from-[#00875a]/50 to-[#00875a]"
                                      />
                                 </div>
                             </div>
