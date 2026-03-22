@@ -29,7 +29,7 @@ export default function TestsPage() {
     return (
         <div className="space-y-12">
             <div>
-                <h1 className="text-4xl font-bold tracking-tight uppercase">Assessments & <span className="text-[#a8e03e]">Tests</span></h1>
+                <h1 className="text-4xl font-bold tracking-tight uppercase">Assessments & <span className="text-[#00875a]">Tests</span></h1>
                 <p className="text-gray-400 mt-2">Evaluate your knowledge and track your certification readiness.</p>
             </div>
 
@@ -47,9 +47,9 @@ export default function TestsPage() {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: i * 0.1 }}
-                            className="bg-[#0a0a0a] border border-white/5 rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 group hover:border-[#a8e03e]/30 transition-all"
+                            className="bg-[#0a0a0a] border border-white/5 rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 group hover:border-[#00875a]/30 transition-all"
                         >
-                            <div className="w-16 h-16 rounded-2xl bg-[#a8e03e]/10 flex items-center justify-center text-[#a8e03e]">
+                            <div className="w-16 h-16 rounded-2xl bg-[#00875a]/10 flex items-center justify-center text-[#00875a]">
                                 <ClipboardList size={32} />
                             </div>
                             
@@ -69,7 +69,7 @@ export default function TestsPage() {
                                 </div>
                             </div>
 
-                            <button className="px-8 py-4 bg-[#a8e03e] text-black font-black text-xs uppercase rounded-2xl hover:scale-105 transition-transform flex items-center gap-2">
+                            <button className="px-8 py-4 bg-[#00875a] text-white font-black text-xs uppercase rounded-2xl hover:scale-105 transition-transform flex items-center gap-2">
                                 <PlayCircle size={18} /> Start Test
                             </button>
                         </motion.div>

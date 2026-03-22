@@ -21,7 +21,7 @@ export default function Collaborations() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-[#a8e03e] font-bold uppercase tracking-[0.3em] text-[10px] border border-[#a8e03e]/20 px-4 py-2 rounded-full backdrop-blur-sm"
+                    className="text-[#00875a] font-bold uppercase tracking-[0.3em] text-[10px] border border-[#00875a]/20 px-4 py-2 rounded-full backdrop-blur-sm"
                 >
                     Collaborations
                 </motion.span>
@@ -32,7 +32,7 @@ export default function Collaborations() {
                     transition={{ delay: 0.1 }}
                     className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mt-6"
                 >
-                    Building the <span className="text-[#a8e03e]">Future Together</span>
+                    Building the <span className="text-[#00875a]">Future Together</span>
                 </motion.h2>
             </div>
 
@@ -48,7 +48,7 @@ export default function Collaborations() {
                 >
                     {[...collaborators, ...collaborators].map((item, index) => (
                         <div key={index} className="flex items-center gap-4 group cursor-default">
-                            <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl md:text-3xl font-black text-[#a8e03e] group-hover:bg-[#a8e03e] group-hover:text-black transition-all duration-300">
+                            <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl md:text-3xl font-black text-[#00875a] group-hover:bg-[#00875a] group-hover:text-white transition-all duration-300">
                                 {item.logo}
                             </div>
                             <span className="text-2xl md:text-4xl font-bold text-white/50 group-hover:text-white transition-colors duration-300 uppercase tracking-tighter">

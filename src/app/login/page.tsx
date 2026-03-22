@@ -47,7 +47,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#050505] flex items-center justify-center p-6 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#a8e03e]/10 via-transparent to-transparent">
+        <div className="min-h-screen bg-[#050505] flex items-center justify-center p-6 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#00875a]/10 via-transparent to-transparent">
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -64,7 +64,7 @@ export default function LoginPage() {
                         <input 
                             required
                             type="email" 
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-[#a8e03e]/40 focus:ring-1 focus:ring-[#a8e03e]/40 transition-all outline-none"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-[#00875a]/40 focus:ring-1 focus:ring-[#00875a]/40 transition-all outline-none"
                             placeholder="john@example.com"
                             value={formData.email}
                             onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -75,7 +75,7 @@ export default function LoginPage() {
                         <input 
                             required
                             type="password" 
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-[#a8e03e]/40 focus:ring-1 focus:ring-[#a8e03e]/40 transition-all outline-none"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-[#00875a]/40 focus:ring-1 focus:ring-[#00875a]/40 transition-all outline-none"
                             placeholder="••••••••"
                             value={formData.password}
                             onChange={(e) => setFormData({...formData, password: e.target.value})}
@@ -86,14 +86,14 @@ export default function LoginPage() {
 
                     <button 
                         disabled={loading}
-                        className="w-full bg-[#a8e03e] text-black font-bold py-4 rounded-2xl mt-6 hover:bg-[#96c937] transition-all active:scale-[0.98] disabled:opacity-50"
+                        className="w-full bg-[#00875a] text-white font-bold py-4 rounded-2xl mt-6 hover:bg-[#00a86b] transition-all active:scale-[0.98] disabled:opacity-50"
                     >
                         {loading ? "Signing In..." : "Sign In"}
                     </button>
                 </form>
 
                 <p className="text-center mt-8 text-sm text-white/40">
-                    Don't have an account? <Link href="/signup" className="text-[#a8e03e] font-bold">Sign Up</Link>
+                    Don't have an account? <Link href="/signup" className="text-[#00875a] font-bold">Sign Up</Link>
                 </p>
             </motion.div>
         </div>

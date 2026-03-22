@@ -106,7 +106,7 @@ export default function EnrollPage() {
                         <motion.p
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-[#a8e03e] font-bold uppercase tracking-[0.3em] text-xs mb-4"
+                            className="text-[#00875a] font-bold uppercase tracking-[0.3em] text-xs mb-4"
                         >
                             Step {step} of 4
                         </motion.p>
@@ -135,14 +135,14 @@ export default function EnrollPage() {
                                         <div 
                                             key={course._id}
                                             onClick={() => handleCourseSelect(course)}
-                                            className="group bg-white/5 border border-white/10 p-8 rounded-3xl cursor-pointer hover:bg-white/10 transition-all hover:border-[#a8e03e]/30"
+                                            className="group bg-white/5 border border-white/10 p-8 rounded-3xl cursor-pointer hover:bg-white/10 transition-all hover:border-[#00875a]/30"
                                         >
-                                            <p className="text-[#a8e03e] text-xs font-bold uppercase tracking-widest mb-4">{course.category}</p>
+                                            <p className="text-[#00875a] text-xs font-bold uppercase tracking-widest mb-4">{course.category}</p>
                                             <h3 className="text-2xl font-bold mb-4">{course.title}</h3>
                                             <p className="text-gray-400 text-sm line-clamp-3 mb-8">{course.description}</p>
                                             <div className="flex items-center justify-between pt-6 border-t border-white/5">
                                                 <span className="text-xl font-bold">₹{course.price}</span>
-                                                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#a8e03e] group-hover:text-black transition-all">
+                                                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#00875a] group-hover:text-white transition-all">
                                                     <ChevronRight size={20} />
                                                 </div>
                                             </div>
@@ -162,9 +162,9 @@ export default function EnrollPage() {
                             >
                                 <div 
                                     onClick={() => handleTypeSelect('trial')}
-                                    className="group bg-white/5 border border-white/10 p-10 rounded-3xl cursor-pointer hover:bg-white/10 transition-all hover:border-[#a8e03e]/30 text-center"
+                                    className="group bg-white/5 border border-white/10 p-10 rounded-3xl cursor-pointer hover:bg-white/10 transition-all hover:border-[#00875a]/30 text-center"
                                 >
-                                    <div className="w-20 h-20 rounded-2xl bg-[#a8e03e]/10 flex items-center justify-center text-[#a8e03e] mx-auto mb-6">
+                                    <div className="w-20 h-20 rounded-2xl bg-[#00875a]/10 flex items-center justify-center text-[#00875a] mx-auto mb-6">
                                         <Clock size={40} />
                                     </div>
                                     <h3 className="text-3xl font-bold mb-4">Book Trial Slot</h3>
@@ -174,9 +174,9 @@ export default function EnrollPage() {
 
                                 <div 
                                     onClick={() => handleTypeSelect('full')}
-                                    className="group bg-white/5 border border-white/10 p-10 rounded-3xl cursor-pointer hover:bg-white/10 transition-all hover:border-[#a8e03e]/30 text-center"
+                                    className="group bg-white/5 border border-white/10 p-10 rounded-3xl cursor-pointer hover:bg-white/10 transition-all hover:border-[#00875a]/30 text-center"
                                 >
-                                    <div className="w-20 h-20 rounded-2xl bg-[#a8e03e]/10 flex items-center justify-center text-[#a8e03e] mx-auto mb-6">
+                                    <div className="w-20 h-20 rounded-2xl bg-[#00875a]/10 flex items-center justify-center text-[#00875a] mx-auto mb-6">
                                         <GraduationCap size={40} />
                                     </div>
                                     <h3 className="text-3xl font-bold mb-4">Full Enrollment</h3>
@@ -203,7 +203,7 @@ export default function EnrollPage() {
                                 
                                 <div className="bg-white/5 border border-white/10 p-8 rounded-3xl">
                                     <div className="flex items-center gap-4 mb-8">
-                                        <div className="w-16 h-16 rounded-2xl bg-[#a8e03e]/10 flex items-center justify-center text-[#a8e03e]">
+                                        <div className="w-16 h-16 rounded-2xl bg-[#00875a]/10 flex items-center justify-center text-[#00875a]">
                                             <Calendar size={32} />
                                         </div>
                                         <div>
@@ -223,14 +223,14 @@ export default function EnrollPage() {
                                             <div 
                                                 key={idx}
                                                 onClick={() => handleSlotSelect(slot)}
-                                                className="bg-white/5 border border-white/10 p-6 rounded-2xl cursor-pointer hover:border-[#a8e03e] hover:bg-[#a8e03e]/5 transition-all group"
+                                                className="bg-white/5 border border-white/10 p-6 rounded-2xl cursor-pointer hover:border-[#00875a] hover:bg-[#00875a]/5 transition-all group"
                                             >
                                                 <div className="flex justify-between items-center mb-4">
                                                     <span className="text-lg font-bold">{slot.time}</span>
-                                                    <Clock size={18} className="text-gray-500 group-hover:text-[#a8e03e]" />
+                                                    <Clock size={18} className="text-gray-500 group-hover:text-[#00875a]" />
                                                 </div>
                                                 <p className="text-gray-400 text-sm mb-1">{new Date(slot.date).toLocaleDateString()}</p>
-                                                <p className="text-xs text-[#a8e03e]">{slot.capacity - slot.booked} seats left</p>
+                                                <p className="text-xs text-[#00875a]">{slot.capacity - slot.booked} seats left</p>
                                             </div>
                                         ))}
                                     </div>
@@ -255,19 +255,19 @@ export default function EnrollPage() {
 
                                 <div className="bg-white/5 border border-white/10 p-10 rounded-3xl space-y-8">
                                     <div className="space-y-4">
-                                        <p className="text-[#a8e03e] font-bold uppercase tracking-widest text-xs">Summary</p>
+                                        <p className="text-[#00875a] font-bold uppercase tracking-widest text-xs">Summary</p>
                                         <h3 className="text-3xl font-bold">{selectedCourse?.title}</h3>
                                         <div className="flex flex-wrap gap-6 pt-4">
                                             <div className="flex items-center gap-2 text-gray-400">
-                                                <Calendar size={18} className="text-[#a8e03e]" />
+                                                <Calendar size={18} className="text-[#00875a]" />
                                                 <span>{enrollmentType === 'full' ? 'Lifetime Access' : new Date(selectedSlot?.date).toLocaleDateString()}</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-gray-400">
-                                                <Clock size={18} className="text-[#a8e03e]" />
+                                                <Clock size={18} className="text-[#00875a]" />
                                                 <span>{enrollmentType === 'full' ? 'Self-Paced / Flexible' : selectedSlot?.time}</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-gray-400">
-                                                <User size={18} className="text-[#a8e03e]" />
+                                                <User size={18} className="text-[#00875a]" />
                                                 <span>{selectedCourse?.instructor}</span>
                                             </div>
                                         </div>
@@ -294,7 +294,7 @@ export default function EnrollPage() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="text-center py-20 bg-white/5 border border-white/10 rounded-3xl max-w-2xl mx-auto"
                             >
-                                <div className="w-24 h-24 bg-[#a8e03e] text-black rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_50px_rgba(168,224,62,0.3)]">
+                                <div className="w-24 h-24 bg-[#00875a] text-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_50px_rgba(0,135,90,0.3)]">
                                     <Check size={48} />
                                 </div>
                                 <h3 className="text-4xl font-bold mb-4 uppercase tracking-tighter">Success!</h3>

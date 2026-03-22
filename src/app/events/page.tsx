@@ -34,11 +34,11 @@ export default function EventsPage() {
     const filteredEvents = events.filter(event => event.type === activeTab);
 
     return (
-        <main className="min-h-screen bg-[#050505] text-white selection:bg-[#a8e03e] selection:text-black">
+        <main className="min-h-screen bg-[#050505] text-white selection:bg-[#00875a] selection:text-black">
             <Navbar />
             
             {/* Hero Section */}
-            <section className="pt-32 pb-20 px-6 md:px-20 bg-gradient-to-b from-[#a8e03e]/10 to-transparent">
+            <section className="pt-32 pb-20 px-6 md:px-20 bg-gradient-to-b from-[#00875a]/10 to-transparent">
                 <div className="max-w-7xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -46,7 +46,7 @@ export default function EventsPage() {
                         className="max-w-3xl"
                     >
                         <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter mb-6">
-                            Sparkiit <span className="text-[#a8e03e]">Events</span>
+                            Sparkiit <span className="text-[#00875a]">Events</span>
                         </h1>
                         <p className="text-white/40 text-lg md:text-xl uppercase tracking-widest font-medium">
                             Join us at the forefront of educational innovation and technology.
@@ -68,7 +68,7 @@ export default function EventsPage() {
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`flex items-center gap-3 px-8 py-4 rounded-2xl text-xs md:text-sm font-black uppercase tracking-widest transition-all whitespace-nowrap ${
                                 activeTab === tab.id 
-                                ? "bg-[#a8e03e] text-black shadow-[0_0_20px_rgba(168,224,62,0.3)] shadow-inner" 
+                                ? "bg-[#00875a] text-white shadow-[0_0_20px_rgba(0,135,90,0.3)] shadow-inner" 
                                 : "bg-white/5 text-white/40 hover:text-white hover:bg-white/10"
                             }`}
                         >
@@ -104,7 +104,7 @@ export default function EventsPage() {
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.9 }}
                                         transition={{ duration: 0.4, delay: index * 0.1 }}
-                                        className="group relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden hover:border-[#a8e03e]/30 transition-all duration-500"
+                                        className="group relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden hover:border-[#00875a]/30 transition-all duration-500"
                                     >
                                         <div className="h-64 overflow-hidden relative">
                                             <img 
@@ -120,7 +120,7 @@ export default function EventsPage() {
 
                                         <div className="p-8">
                                             <div className="flex flex-col gap-2 mb-6">
-                                                <div className="flex items-center gap-2 text-[#a8e03e] text-xs font-bold uppercase tracking-widest">
+                                                <div className="flex items-center gap-2 text-[#00875a] text-xs font-bold uppercase tracking-widest">
                                                     <Calendar size={14} />
                                                     {new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                                                 </div>
@@ -130,7 +130,7 @@ export default function EventsPage() {
                                                 </div>
                                             </div>
 
-                                            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 group-hover:text-[#a8e03e] transition-colors leading-none">
+                                            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 group-hover:text-[#00875a] transition-colors leading-none">
                                                 {event.title}
                                             </h3>
                                             <p className="text-white/40 text-sm leading-relaxed mb-8 line-clamp-3">
@@ -141,7 +141,7 @@ export default function EventsPage() {
                                                 href={event.link || "#"}
                                                 className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest group-hover:gap-4 transition-all"
                                             >
-                                                Learn More <ArrowRight size={16} className="text-[#a8e03e]" />
+                                                Learn More <ArrowRight size={16} className="text-[#00875a]" />
                                             </a>
                                         </div>
                                     </motion.div>

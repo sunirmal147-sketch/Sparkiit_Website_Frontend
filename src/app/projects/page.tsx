@@ -15,7 +15,7 @@ export default function ProjectsPage() {
                     <motion.p
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="text-[#a8e03e] font-bold uppercase tracking-[0.3em] text-xs mb-6"
+                        className="text-[#00875a] font-bold uppercase tracking-[0.3em] text-xs mb-6"
                     >
                         Portfolio
                     </motion.p>
@@ -30,7 +30,7 @@ export default function ProjectsPage() {
 
                     <div className="flex flex-wrap gap-8 mb-16 border-b border-white/5 pb-8">
                         {["All", "Branding", "Webflow", "UX/UI", "Blockchain"].map((filter, i) => (
-                            <button key={i} className={`uppercase text-sm font-bold tracking-widest ${i === 0 ? "text-[#a8e03e]" : "text-gray-500 hover:text-white"} transition-colors`}>
+                            <button key={i} className={`uppercase text-sm font-bold tracking-widest ${i === 0 ? "text-[#00875a]" : "text-gray-500 hover:text-white"} transition-colors`}>
                                 {filter}
                             </button>
                         ))}
@@ -43,7 +43,7 @@ export default function ProjectsPage() {
             <section className="py-24 px-6 md:px-20">
                 <div className="max-w-7xl mx-auto text-center border-t border-white/5 pt-24">
                     <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-12">HAVE A PROJECT IN <br /> MIND?</h2>
-                    <button className="bg-[#a8e03e] text-black px-12 py-6 rounded-full font-bold uppercase text-sm tracking-widest hover:scale-105 transition-transform">
+                    <button className="bg-[#00875a] text-white px-12 py-6 rounded-full font-bold uppercase text-sm tracking-widest hover:scale-105 transition-transform">
                         Let&apos;s Talk
                     </button>
                 </div>

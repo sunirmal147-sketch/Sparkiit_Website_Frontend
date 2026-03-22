@@ -43,12 +43,12 @@ export default function VerifyPage() {
     };
 
     return (
-        <main className="min-h-screen bg-[#050505] text-white selection:bg-[#a8e03e] selection:text-black">
+        <main className="min-h-screen bg-[#050505] text-white selection:bg-[#00875a] selection:text-black">
             <Navbar />
 
             {/* Hero Section */}
             <section className="pt-40 pb-20 px-6 md:px-20 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#a8e03e]/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00875a]/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
                 
                 <div className="max-w-7xl mx-auto">
                     <motion.div
@@ -57,7 +57,7 @@ export default function VerifyPage() {
                         transition={{ duration: 0.8 }}
                         className="max-w-3xl"
                     >
-                        <p className="text-[#a8e03e] font-bold uppercase tracking-widest text-sm mb-6">Verification Portal</p>
+                        <p className="text-[#00875a] font-bold uppercase tracking-widest text-sm mb-6">Verification Portal</p>
                         <h1 className="text-6xl md:text-8xl font-bold uppercase tracking-tighter mb-8 leading-[0.9]">
                             Validate your <br /> <span className="text-white/20">Achievement.</span>
                         </h1>
@@ -67,19 +67,19 @@ export default function VerifyPage() {
 
                         <form onSubmit={handleVerify} className="relative max-w-xl group">
                             <div className="relative">
-                                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#a8e03e] transition-colors" size={20} />
+                                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#00875a] transition-colors" size={20} />
                                 <input
                                     type="email"
                                     placeholder="Enter your email address"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-6 pl-16 pr-40 text-lg focus:outline-none focus:border-[#a8e03e]/50 focus:ring-1 focus:ring-[#a8e03e]/50 transition-all placeholder:text-gray-600"
+                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-6 pl-16 pr-40 text-lg focus:outline-none focus:border-[#00875a]/50 focus:ring-1 focus:ring-[#00875a]/50 transition-all placeholder:text-gray-600"
                                     required
                                 />
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#a8e03e] text-black px-8 py-3 rounded-xl font-bold uppercase text-sm hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-50 disabled:scale-100"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#00875a] text-white px-8 py-3 rounded-xl font-bold uppercase text-sm hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-50 disabled:scale-100"
                                 >
                                     {loading ? (
                                         <Loader2 className="animate-spin" size={18} />
@@ -107,7 +107,7 @@ export default function VerifyPage() {
                                 exit={{ opacity: 0 }}
                                 className="flex flex-col items-center justify-center py-20"
                             >
-                                <div className="w-20 h-20 rounded-full border-4 border-[#a8e03e]/20 border-t-[#a8e03e] animate-spin mb-6" />
+                                <div className="w-20 h-20 rounded-full border-4 border-[#00875a]/20 border-t-[#00875a] animate-spin mb-6" />
                                 <p className="text-gray-500 font-medium uppercase tracking-widest text-sm">Searching Database...</p>
                             </motion.div>
                         ) : error ? (
@@ -124,7 +124,7 @@ export default function VerifyPage() {
                                 <p className="text-gray-400 mb-8">{error}</p>
                                 <button 
                                     onClick={() => setError(null)}
-                                    className="text-white font-bold uppercase text-xs tracking-widest hover:text-[#a8e03e] transition-colors"
+                                    className="text-white font-bold uppercase text-xs tracking-widest hover:text-[#00875a] transition-colors"
                                 >
                                     Try Another Email
                                 </button>
