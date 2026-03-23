@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -47,7 +48,7 @@ export default function AdminLogin() {
         setError("");
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/admin/login`, {
+            const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
@@ -89,7 +90,7 @@ export default function AdminLogin() {
 
         try {
             // Save attendance
-            const attRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/admin/attendance`, {
+            const attRes = await fetch(`${API_BASE_URL}/api/admin/attendance`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",

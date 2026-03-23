@@ -1,9 +1,10 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { Trash2, Camera, User, Clock, Globe } from "lucide-react";
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000") + "/api/admin";
+const API_BASE = API_BASE_URL + "/api/admin";
 
 interface AttendanceRecord {
     _id: string;

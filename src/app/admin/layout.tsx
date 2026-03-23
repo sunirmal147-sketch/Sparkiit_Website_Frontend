@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -222,7 +223,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         const checkSession = async () => {
             setIsLoading(true);
             try {
-                let apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+                let apiBase = API_BASE_URL;
                 // Remove trailing slash if exists
                 if (apiBase.endsWith('/')) apiBase = apiBase.slice(0, -1);
                 
@@ -314,7 +315,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem("adminToken");
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/admin/logout`, {
+            await fetch(`${API_BASE_URL}/api/admin/logout`, {
                 credentials: "include",
                 headers: token ? { "Authorization": `Bearer ${token}` } : {}
             });

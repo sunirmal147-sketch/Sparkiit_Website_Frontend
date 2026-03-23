@@ -1,9 +1,10 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import React, { useState, useEffect } from "react";
 import { Loader2, Plus, Trash2, Edit2, Save, X, Award, Mail, Book } from "lucide-react";
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000") + "/api/admin";
+const API_BASE = API_BASE_URL + "/api/admin";
 
 interface Certificate {
     _id: string;
