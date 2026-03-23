@@ -53,18 +53,18 @@ export default function Navbar() {
             }}
             animate={hidden ? "hidden" : "visible"}
             transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="fixed top-0 w-full z-50 flex items-center justify-between px-6 md:px-20 py-4 backdrop-blur-md border-b border-white/5 bg-[#050505]/50"
+            className="fixed top-0 w-full z-50 flex items-center justify-between px-5 md:px-20 py-4 backdrop-blur-md border-b border-white/5 bg-[#050505]/50"
         >
             {/* Left Side: Logo and Links */}
-            <div className="flex items-center gap-10">
-                <div className="flex items-center gap-2">
-                    <div className="bg-[#00875a] text-white w-8 h-8 flex items-center justify-center rounded-sm">
-                        <Plus size={20} className="font-bold border-2 border-black rounded-sm" />
+            <div className="flex items-center gap-4 md:gap-10">
+                <Link href="/" className="flex items-center gap-2 shrink-0 group">
+                    <div className="bg-[#00875a] text-white w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-sm group-hover:scale-105 transition-transform">
+                        <Plus size={18} className="font-bold border-2 border-black rounded-sm" />
                     </div>
-                    <Link href="/" className="text-xl font-bold tracking-widest uppercase text-white">
+                    <span className="text-lg md:text-xl font-bold tracking-widest uppercase text-white truncate max-w-[120px] xs:max-w-none group-hover:text-[#00875a] transition-colors">
                         {site.logoText}
-                    </Link>
-                </div>
+                    </span>
+                </Link>
 
                 <div className="hidden xl:flex items-center gap-8">
                     <Link href="/" className="text-sm font-medium text-[#00875a] transition-colors">
@@ -104,7 +104,7 @@ export default function Navbar() {
             </div>
 
             {/* Right Side: Search and User Actions */}
-            <div className="flex items-center gap-4 md:gap-6">
+            <div className="flex items-center gap-2 md:gap-6">
                 {/* Search Bar Container */}
                 <div className="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full h-11 pl-4 pr-1 focus-within:border-[#00875a]/40 transition-all duration-300">
                     <div className="flex items-center gap-2 cursor-pointer group pr-3 border-r border-white/5">
@@ -127,10 +127,10 @@ export default function Navbar() {
                 </div>
 
                 {/* Icons */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 md:gap-2">
                     <div className="relative p-2 rounded-full hover:bg-white/5 cursor-pointer transition-colors group">
-                        <ShoppingBasket size={22} className="text-white/60 group-hover:text-white transition-colors" />
-                        <span className="absolute top-1 right-1 bg-[#00875a] text-white text-[10px] font-black w-4 h-4 flex items-center justify-center rounded-full">
+                        <ShoppingBasket size={20} className="text-white/60 group-hover:text-white md:w-[22px] md:h-[22px]" />
+                        <span className="absolute top-1 right-1 bg-[#00875a] text-white text-[9px] font-black w-3.5 h-3.5 flex items-center justify-center rounded-full">
                             0
                         </span>
                     </div>
@@ -141,7 +141,7 @@ export default function Navbar() {
                             className="p-2 rounded-full hover:bg-white/5 cursor-pointer transition-colors"
                             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                         >
-                            <User size={22} className="text-white/60 group-hover:text-white transition-colors" />
+                            <User size={22} className="text-white/60 group-hover:text-white" />
                         </div>
 
                         <div className="absolute right-0 mt-2 w-56 bg-[#0a0a0a] border border-white/10 rounded-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-xl shadow-2xl">
@@ -189,40 +189,53 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu Overlay */}
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="fixed inset-0 top-[72px] bg-[#050505] z-40 overflow-y-auto px-6 py-10 xl:hidden"
+                        initial={{ opacity: 0, x: "100%" }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: "100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed inset-0 h-[100dvh] bg-[#050505] z-[100] overflow-y-auto px-6 py-20 xl:hidden"
                     >
                         <div className="flex flex-col gap-6">
+                            <div className="flex items-center justify-between mb-8">
+                                <Link href="/" className="flex items-center gap-2">
+                                    <div className="bg-[#00875a] text-white w-8 h-8 flex items-center justify-center rounded-sm">
+                                        <Plus size={20} className="font-bold border-2 border-black rounded-sm" />
+                                    </div>
+                                    <span className="text-xl font-bold tracking-widest uppercase text-white">{site.logoText}</span>
+                                </Link>
+                                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-white/50 hover:text-white">
+                                    <X size={24} />
+                                </button>
+                            </div>
+
                             <Link 
                                 href="/" 
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="text-2xl font-black uppercase tracking-widest text-[#00875a]"
+                                className="text-3xl font-black uppercase tracking-widest text-[#00875a]"
                             >
                                 Home
                             </Link>
                             <Link 
                                 href="/domains" 
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="text-2xl font-black uppercase tracking-widest text-white/70"
+                                className="text-3xl font-black uppercase tracking-widest text-white/70"
                             >
                                 Domains
                             </Link>
                             <Link 
                                 href="/about" 
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="text-2xl font-black uppercase tracking-widest text-white/70"
+                                className="text-3xl font-black uppercase tracking-widest text-white/70"
                             >
                                 About Us
                             </Link>
                             <Link 
                                 href="/contact" 
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="text-2xl font-black uppercase tracking-widest text-white/70"
+                                className="text-3xl font-black uppercase tracking-widest text-white/70"
                             >
                                 Contact Us
                             </Link>
@@ -263,7 +276,7 @@ export default function Navbar() {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-2 gap-4 pt-4">
+                                <div className="grid grid-cols-2 gap-4 pt-4 pb-12">
                                     <Link 
                                         href="/login" 
                                         onClick={() => setIsMobileMenuOpen(false)}

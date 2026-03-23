@@ -60,8 +60,8 @@ export default function RoadmapSection() {
             <div className="max-w-7xl mx-auto px-6 md:px-16 mb-10 relative z-10">
                 <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <span className="text-[#00875a] text-[11px] font-black uppercase tracking-[0.4em] block mb-3"></span>
-                    <h2 className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none">
-                        Victory <span className="text-[#00875a]">Blue Print</span>
+                    <h2 className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.9] md:leading-none">
+                        Victory <br className="block md:hidden" /> <span className="text-[#00875a]">Blue Print</span>
                     </h2>
                 </motion.div>
             </div>
@@ -213,8 +213,13 @@ export default function RoadmapSection() {
                             <div key={n.step} className="relative">
                                 <motion.div
                                     className="absolute -left-[46px] top-0 w-6 h-6 rounded-full border-4 border-[#050505] transition-all duration-300"
-                                    style={{ background: isActive ? "#fff" : "#00875a", boxShadow: isActive ? "0 0 20px #00875a" : "none" }}
-                                    animate={{ scale: isActive ? 1.3 : 1 }}
+                                    style={{ 
+                                        background: isActive ? "#fff" : "#00875a", 
+                                        boxShadow: isActive ? "0 0 20px rgba(0, 135, 90, 0.6)" : "none" 
+                                    }}
+                                    animate={{ 
+                                        scale: isActive ? 1.2 : 1,
+                                    }}
                                 />
                                 <h4 className="text-[11px] font-extrabold uppercase tracking-wider mb-1 transition-colors duration-300"
                                     style={{ color: isActive ? "#00875a" : "rgba(0,135,90,0.5)" }}>

@@ -168,7 +168,7 @@ export default function RecognisedBy() {
         target: targetRef,
     });
 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-55%"]);
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
     return (
         <section ref={targetRef} className="h-[300vh] bg-[#050505] relative">

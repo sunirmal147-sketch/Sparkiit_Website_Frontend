@@ -80,7 +80,7 @@ export default function WorkingProcess() {
                             transition={{ duration: 0.6, delay: index * 0.1 }}
                             className="group relative"
                         >
-                            <span className="text-8xl font-black absolute -top-10 -left-6 transition-all duration-700 select-none text-transparent group-hover:text-[#00875a]/10" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.15)" }}>
+                            <span className="text-6xl md:text-8xl font-black absolute -top-8 md:-top-10 -left-4 md:-left-6 transition-all duration-700 select-none text-transparent group-hover:text-[#00875a]/10" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.15)" }}>
                                 {step.num}
                             </span>
                             <div className="relative z-10 pt-10">

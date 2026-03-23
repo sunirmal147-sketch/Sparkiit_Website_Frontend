@@ -210,8 +210,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     useEffect(() => {
         const checkMobile = () => {
-            setIsMobile(window.innerWidth < 1024);
-            if (window.innerWidth < 1024) setSidebarOpen(false);
+            const mobile = window.innerWidth < 1024;
+            setIsMobile(mobile);
+            if (mobile) setSidebarOpen(false);
         };
         checkMobile();
         window.addEventListener("resize", checkMobile);
@@ -349,12 +350,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     navGroups[4].items[1].onClick = handleLogout;
 
     return (
-        <div style={{ display: "flex", minHeight: "100vh", background: "#0a0a0a", color: "#e5e5e5", fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
+        <div style={{ display: "flex", minHeight: "100dvh", background: "#0a0a0a", color: "#e5e5e5", fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", overflowX: "hidden" }}>
             {/* Sidebar Overlay for Mobile */}
             {isMobile && sidebarOpen && (
                 <div
                     onClick={() => setSidebarOpen(false)}
-                    style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 45, backdropFilter: "blur(4px)" }}
+                    style={{ 
+                        position: "fixed", 
+                        inset: 0, 
+                        background: "rgba(0,0,0,0.6)", 
+                        zIndex: 45, 
+                        backdropFilter: "blur(4px)",
+                        WebkitBackdropFilter: "blur(4px)" 
+                    }}
                 />
             )}
 
@@ -362,13 +370,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <aside
                 style={{
                     width: sidebarOpen ? 260 : (isMobile ? 0 : 72),
-                    minHeight: "100vh",
+                    height: "100dvh",
                     background: "linear-gradient(180deg, #111111 0%, #0d0d0d 100%)",
                     borderRight: "1px solid rgba(168, 224, 62, 0.08)",
                     display: "flex",
                     flexDirection: "column",
-                    transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
-                    position: isMobile ? "fixed" : "fixed",
+                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                    position: "fixed",
                     top: 0,
                     left: 0,
                     zIndex: 50,
@@ -376,6 +384,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     visibility: isMobile && !sidebarOpen ? "hidden" : "visible",
                     opacity: isMobile && !sidebarOpen ? 0 : 1,
                     transform: isMobile && !sidebarOpen ? "translateX(-100%)" : "translateX(0)",
+                    boxShadow: isMobile && sidebarOpen ? "20px 0 50px rgba(0,0,0,0.5)" : "none"
                 }}
             >
                 {/* Logo */}
@@ -386,6 +395,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         display: "flex",
                         alignItems: "center",
                         gap: 12,
+                        minHeight: 84
                     }}
                 >
                     <div
@@ -414,7 +424,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </div>
 
                 {/* Nav Items */}
-                <nav style={{ padding: "16px 12px", flex: 1, overflowY: "auto", overflowX: "hidden" }}>
+                <nav style={{ padding: "16px 12px", flex: 1, overflowY: "auto", overflowX: "hidden", WebkitOverflowScrolling: "touch" }}>
                     {navGroups.map((group, idx) => {
                         const visibleItems = group.items.filter(item => {
                             if (user?.role === 'SUPER_ADMIN') return true;
@@ -435,7 +445,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                     <NavItemComponent
                                         key={itemIdx}
                                         item={item}
-                                        sidebarOpen={sidebarOpen}
+                                        sidebarOpen={sidebarOpen || (isMobile && sidebarOpen)}
                                         pathname={pathname}
                                         user={user}
                                         onClick={() => isMobile && setSidebarOpen(false)}
@@ -476,8 +486,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 style={{
                     flex: 1,
                     marginLeft: isMobile ? 0 : (sidebarOpen ? 260 : 72),
-                    transition: "margin-left 0.3s cubic-bezier(0.4,0,0.2,1)",
-                    minHeight: "100vh",
+                    transition: "margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                    minHeight: "100dvh",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    overflowX: "hidden"
                 }}
             >
                 {/* Top Bar */}
@@ -491,6 +505,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         padding: isMobile ? "0 16px" : "0 32px",
                         background: "rgba(10,10,10,0.8)",
                         backdropFilter: "blur(20px)",
+                        WebkitBackdropFilter: "blur(20px)",
                         position: "sticky",
                         top: 0,
                         zIndex: 40,
@@ -500,14 +515,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         {isMobile && (
                             <button
                                 onClick={() => setSidebarOpen(true)}
-                                style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", padding: 8 }}
+                                style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", padding: 8, display: "flex", alignItems: "center", justifyContent: "center" }}
                             >
                                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
                                 </svg>
                             </button>
                         )}
-                        <h1 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, color: "#fff", letterSpacing: "-0.01em" }}>{currentPageName}</h1>
+                        <h1 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, color: "#fff", letterSpacing: "-0.01em", margin: 0 }}>{currentPageName}</h1>
                     </div>
 
                     <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -527,14 +542,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 padding: "6px 12px",
                                 borderRadius: 8,
                                 transition: "all 0.2s"
-                            }}
-                            onMouseOver={(e) => {
-                                e.currentTarget.style.color = "#ff4d4d";
-                                e.currentTarget.style.background = "rgba(255, 77, 77, 0.05)";
-                            }}
-                            onMouseOut={(e) => {
-                                e.currentTarget.style.color = "rgba(255,255,255,0.5)";
-                                e.currentTarget.style.background = "none";
                             }}
                         >
                             <LogOut size={18} />
@@ -561,7 +568,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </header>
 
                 {/* Page Content */}
-                <div style={{ padding: isMobile ? "20px 16px" : "28px 32px" }}>{children}</div>
+                <div style={{ 
+                    padding: isMobile ? "20px 16px 40px" : "28px 32px 40px",
+                    flex: 1,
+                    maxWidth: "100vw",
+                    overflowX: "hidden"
+                }}>{children}</div>
             </main>
         </div>
     );

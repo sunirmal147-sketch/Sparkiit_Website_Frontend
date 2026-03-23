@@ -45,6 +45,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         router.push('/login');
     };
 
+    const [user, setUser] = useState<any>(null);
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) setUser(JSON.parse(storedUser));
+    }, []);
+
     return (
         <div className="min-h-screen bg-[#050505] text-white flex">
             {/* Sidebar Desktop */}
@@ -74,6 +80,21 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         );
                     })}
                 </nav>
+
+                {/* Profile Section */}
+                {user && (
+                    <div className="px-6 py-6 border-t border-white/5">
+                        <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/5">
+                            <div className="w-10 h-10 rounded-full bg-[#00875a] flex items-center justify-center font-bold text-white shadow-lg shadow-[#00875a]/20 shrink-0">
+                                {user.name?.charAt(0).toUpperCase()}
+                            </div>
+                            <div className="min-w-0">
+                                <p className="text-sm font-bold text-white truncate">{user.name}</p>
+                                <p className="text-[10px] text-gray-400 truncate uppercase tracking-widest">{user.role || 'Student'}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 <div className="p-4 border-t border-white/5">
                     <button 

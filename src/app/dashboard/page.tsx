@@ -14,6 +14,19 @@ import {
 export default function DashboardOverview() {
     const [stats, setStats] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [userName, setUserName] = useState("Learner");
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            try {
+                const user = JSON.parse(storedUser);
+                setUserName(user.name?.split(' ')[0] || "Learner");
+            } catch (e) {
+                console.error("Error parsing user");
+            }
+        }
+    }, []);
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -23,7 +36,9 @@ export default function DashboardOverview() {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
-                setStats(data);
+                if (data.success) {
+                    setStats(data.data);
+                }
             } catch (error) {
                 console.error("Dashboard fetch error:", error);
             } finally {
@@ -46,7 +61,7 @@ export default function DashboardOverview() {
     return (
         <div className="space-y-12">
             <div>
-                <h1 className="text-4xl font-bold tracking-tight uppercase">Welcome Back, <span className="text-[#00875a]">Learner</span></h1>
+                <h1 className="text-4xl font-bold tracking-tight uppercase">Welcome Back, <span className="text-[#00875a]">{userName}</span></h1>
                 <p className="text-gray-400 mt-2">Here's a quick look at your learning progress.</p>
             </div>
 

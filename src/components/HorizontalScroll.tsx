@@ -71,19 +71,19 @@ export default function HorizontalScrollSection() {
                 </h2>
             </div>
 
-            <div className="relative w-full max-w-5xl h-[500px] md:h-[600px] flex items-center justify-center perspective-[2000px]">
-                {/* Navigation Arrows */}
+            <div className="relative w-full max-w-5xl h-[450px] md:h-[600px] flex items-center justify-center perspective-[2000px]">
+                {/* Navigation Arrows - Hidden on very small screens to avoid clutter, using indicators instead */}
                 <button 
                     onClick={handlePrev}
-                    className="absolute left-4 md:-left-12 z-[100] w-14 h-14 rounded-full bg-[#00875a] text-white border border-[#00875a]/20 flex items-center justify-center hover:bg-white hover:border-white transition-all shadow-[0_0_30px_rgba(0,135,90,0.3)] group"
+                    className="absolute left-2 md:-left-12 z-[100] w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#00875a] text-white border border-[#00875a]/20 flex items-center justify-center hover:bg-white hover:border-white transition-all shadow-[0_0_30px_rgba(0,135,90,0.3)] group"
                 >
-                    <ChevronLeft className="group-hover:-translate-x-1 transition-transform" />
+                    <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
                 </button>
                 <button 
                     onClick={handleNext}
-                    className="absolute right-4 md:-right-12 z-[100] w-14 h-14 rounded-full bg-[#00875a] text-white border border-[#00875a]/20 flex items-center justify-center hover:bg-white hover:border-white transition-all shadow-[0_0_30px_rgba(0,135,90,0.3)] group"
+                    className="absolute right-2 md:-right-12 z-[100] w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#00875a] text-white border border-[#00875a]/20 flex items-center justify-center hover:bg-white hover:border-white transition-all shadow-[0_0_30px_rgba(0,135,90,0.3)] group"
                 >
-                    <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+                    <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <div className="relative w-full h-full flex items-center justify-center preserve-3d transition-all duration-700">
@@ -103,9 +103,9 @@ export default function HorizontalScrollSection() {
                                 key={service.id}
                                 initial={false}
                                 animate={{
-                                    x: displayOffset * (typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 350),
-                                    scale: isCenter ? 1 : 0.75,
-                                    rotateY: displayOffset * -25,
+                                    x: displayOffset * (typeof window !== 'undefined' && window.innerWidth < 768 ? 160 : 350),
+                                    scale: isCenter ? 1 : (typeof window !== 'undefined' && window.innerWidth < 768 ? 0.8 : 0.75),
+                                    rotateY: displayOffset * (typeof window !== 'undefined' && window.innerWidth < 768 ? -15 : -25),
                                     z: isCenter ? 0 : -300,
                                     opacity: Math.abs(displayOffset) > 1 ? 0 : (isCenter ? 1 : 0.4),
                                     filter: isCenter ? "blur(0px)" : "blur(4px)",
@@ -115,7 +115,7 @@ export default function HorizontalScrollSection() {
                                     stiffness: 260,
                                     damping: 30
                                 }}
-                                className="absolute w-[300px] md:w-[450px] aspect-[4/5] md:aspect-[3/4] rounded-[2rem] overflow-hidden group cursor-pointer"
+                                className="absolute w-[260px] xs:w-[300px] md:w-[450px] aspect-[4/5] md:aspect-[3/4] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden group cursor-pointer"
                                 style={{
                                     zIndex: 50 - Math.abs(displayOffset),
                                     boxShadow: isCenter ? "0 40px 100px -20px rgba(0,0,0,0.8), 0 0 50px rgba(0,135,90,0.1)" : "none",
@@ -133,14 +133,14 @@ export default function HorizontalScrollSection() {
                                 </div>
 
                                 {/* Card Content */}
-                                <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
-                                    <div className="transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <span className="w-10 h-px bg-[#00875a]/40" />
-                                            <span className="text-[#00875a] font-mono text-xs tracking-widest">{service.num} — {service.category}</span>
+                                <div className="absolute inset-0 p-6 md:p-12 flex flex-col justify-end">
+                                    <div className="transform translate-y-6 md:translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                                        <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-4">
+                                            <span className="w-6 md:w-10 h-px bg-[#00875a]/40" />
+                                            <span className="text-[#00875a] font-mono text-[10px] md:text-xs tracking-widest">{service.num} — {service.category}</span>
                                         </div>
-                                        <h3 className="text-2xl md:text-3xl font-black text-white uppercase leading-none mb-4 group-hover:text-[#00875a] transition-colors">{service.title}</h3>
-                                        <p className="text-gray-400 text-sm md:text-base leading-relaxed opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100 max-w-xs">
+                                        <h3 className="text-xl md:text-3xl font-black text-white uppercase leading-none mb-2 md:mb-4 group-hover:text-[#00875a] transition-colors">{service.title}</h3>
+                                        <p className="text-gray-400 text-xs md:text-base leading-relaxed opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100 max-w-xs">
                                             {service.description}
                                         </p>
                                     </div>
@@ -155,12 +155,12 @@ export default function HorizontalScrollSection() {
             </div>
 
             {/* Carousel Indicators */}
-            <div className="flex gap-3 mt-12 relative z-10">
+            <div className="flex gap-2 md:gap-3 mt-8 md:mt-12 relative z-10">
                 {services.map((_, i) => (
                     <button
                         key={i}
                         onClick={() => setActiveIndex(i)}
-                        className={`h-1.5 transition-all duration-500 rounded-full ${i === activeIndex ? "w-12 bg-[#00875a]" : "w-3 bg-white/10 hover:bg-white/20"}`}
+                        className={`h-1 md:h-1.5 transition-all duration-500 rounded-full ${i === activeIndex ? "w-8 md:w-12 bg-[#00875a]" : "w-2 md:w-3 bg-white/10 hover:bg-white/20"}`}
                     />
                 ))}
             </div>

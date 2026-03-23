@@ -34,7 +34,7 @@ export default function FeaturedIn() {
                                 whileInView={{ opacity: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="text-xl md:text-3xl font-black text-white hover:text-[#00875a] hover:opacity-100 transition-all duration-300 cursor-default uppercase tracking-tighter"
+                                className="text-lg sm:text-2xl md:text-3xl font-black text-white hover:text-[#00875a] hover:opacity-100 transition-all duration-300 cursor-default uppercase tracking-tighter"
                             >
                                 {pub}
                             </motion.span>

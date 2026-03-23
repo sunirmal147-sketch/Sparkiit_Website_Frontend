@@ -9,7 +9,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: any }) => {
   return (
     <motion.div
       whileHover={{ y: -10, scale: 1.02 }}
-      className="flex-shrink-0 w-[350px] md:w-[450px] p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl relative overflow-hidden group transition-all duration-500 hover:border-[#00875a]/30 hover:bg-white/[0.08]"
+      className="flex-shrink-0 w-[300px] sm:w-[350px] md:w-[450px] p-6 md:p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl relative overflow-hidden group transition-all duration-500 hover:border-[#00875a]/30 hover:bg-white/[0.08]"
     >
       {/* Lime accent glow */}
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#00875a]/10 rounded-full blur-[80px] group-hover:bg-[#00875a]/20 transition-all duration-500" />

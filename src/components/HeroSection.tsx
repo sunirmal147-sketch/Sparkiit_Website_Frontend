@@ -47,10 +47,10 @@ export default function HeroSection() {
         ctaText: "Let's Talk"
     };
 
-    // Parallax and fade effects for the text
-    const xIdea = useTransform(scrollYProgress, [0, 1], [0, 150]);
-    const xInnovate = useTransform(scrollYProgress, [0, 1], [0, 300]);
-    const xTransform = useTransform(scrollYProgress, [0, 1], [0, 450]);
+    // Parallax and fade effects for the text - reduced for mobile
+    const xIdea = useTransform(scrollYProgress, [0, 1], [0, typeof window !== 'undefined' && window.innerWidth < 768 ? 40 : 150]);
+    const xInnovate = useTransform(scrollYProgress, [0, 1], [0, typeof window !== 'undefined' && window.innerWidth < 768 ? 80 : 300]);
+    const xTransform = useTransform(scrollYProgress, [0, 1], [0, typeof window !== 'undefined' && window.innerWidth < 768 ? 120 : 450]);
     const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
     // Star rotation based on scroll
@@ -60,15 +60,15 @@ export default function HeroSection() {
     const words = [hero.word1, hero.word2, hero.word3];
 
     return (
-        <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 pt-20 overflow-hidden">
+        <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 pt-24 md:pt-20 overflow-hidden">
             {/* Background gradients/effects mimicking the reference */}
-            <div className="absolute top-0 right-0 w-[80vw] h-[80vh] bg-[#00875a]/10 blur-[120px] rounded-full pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-[#006644]/10 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[100vw] md:w-[80vw] h-[80vh] bg-[#00875a]/10 blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[70vw] md:w-[50vw] h-[50vh] bg-[#006644]/10 blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
 
             <div className="relative z-10 max-w-5xl">
-                <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold uppercase leading-[0.9] tracking-tighter">
+                <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold uppercase leading-[0.9] tracking-tighter">
                     {words.map((word, index) => (
-                        <div key={index} className="overflow-hidden flex items-center">
+                        <div key={index} className="overflow-hidden flex items-center py-1 md:py-0">
                             <motion.div
                                 style={{
                                     x: xTransforms[index],
@@ -86,7 +86,7 @@ export default function HeroSection() {
                                             y: springY
                                         }}
                                         transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-                                        className="inline-block mr-4 text-[#00875a] cursor-default"
+                                        className="inline-block mr-2 md:mr-4 text-[#00875a] cursor-default text-3xl md:text-6xl lg:text-8xl"
                                     >
                                         ✦
                                     </motion.span>
