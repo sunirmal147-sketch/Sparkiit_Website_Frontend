@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -49,7 +50,7 @@ export default function EnrollPage() {
             }
 
             if (enrollmentType === 'trial') {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/public/bookings`, {
+                const res = await fetch(`${API_BASE_URL}/api/public/bookings`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ export default function EnrollPage() {
                 }
             } else {
                 // Full Course Enrollment -> Create Order
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/public/payments/create-order`, {
+                const res = await fetch(`${API_BASE_URL}/api/public/payments/create-order`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

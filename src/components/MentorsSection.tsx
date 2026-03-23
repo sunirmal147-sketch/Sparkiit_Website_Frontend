@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import React, { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
@@ -106,7 +107,7 @@ export default function MentorsSection() {
 
     useEffect(() => {
         setMounted(true);
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/public/mentors`)
+        fetch(`${API_BASE_URL}/api/public/mentors`)
             .then(res => res.json())
             .then(data => {
                 if (data.success) {

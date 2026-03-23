@@ -1,6 +1,7 @@
+import { API_BASE_URL } from "@/lib/api-config";
 import { useState, useEffect } from 'react';
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/public';
+const API_BASE = API_BASE_URL + '/api/public';
 
 
 export interface Course {

@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ export default function DashboardOverview() {
         const fetchStats = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/public/dashboard`, {
+                const res = await fetch(`${API_BASE_URL}/api/public/dashboard`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();

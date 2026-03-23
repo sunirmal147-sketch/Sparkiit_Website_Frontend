@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
@@ -12,7 +13,7 @@ export default function BlogPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/public';
+        const API_BASE = API_BASE_URL + '/api/public';
         fetch(`${API_BASE}/blogs`)
             .then(res => res.json())
             .then(data => {

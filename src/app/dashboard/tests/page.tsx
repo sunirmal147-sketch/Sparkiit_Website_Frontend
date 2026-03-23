@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -12,7 +13,7 @@ export default function TestsPage() {
         const fetchTests = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/public/dashboard/tests`, {
+                const res = await fetch(`${API_BASE_URL}/api/public/dashboard/tests`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();

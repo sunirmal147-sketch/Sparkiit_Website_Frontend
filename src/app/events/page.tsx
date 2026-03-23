@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
@@ -6,7 +7,7 @@ import Footer from "@/components/Footer";
 import { Calendar, MapPin, ArrowRight, RefreshCw, Clock, History } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000") + "/api/public";
+const API_BASE = API_BASE_URL + "/api/public";
 
 export default function EventsPage() {
     const [events, setEvents] = useState<any[]>([]);

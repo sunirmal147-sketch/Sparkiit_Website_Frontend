@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -18,7 +19,7 @@ export default function LoginPage() {
         setError("");
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/public/auth/login`, {
+            const res = await fetch(`${API_BASE_URL}/api/public/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

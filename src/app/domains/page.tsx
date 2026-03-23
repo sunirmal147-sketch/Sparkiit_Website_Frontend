@@ -1,4 +1,5 @@
 "use client";
+import { API_BASE_URL } from "@/lib/api-config";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -16,7 +17,7 @@ export default function DomainsPage() {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/public/courses`);
+                const res = await fetch(`${API_BASE_URL}/api/public/courses`);
                 const data = await res.json();
                 if (data.success) {
                     setCourses(data.data);
@@ -39,7 +40,7 @@ export default function DomainsPage() {
 
         try {
             // 1. Create Order in Backend
-            const orderRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/public/payments/create-order`, {
+            const orderRes = await fetch(`${API_BASE_URL}/api/public/payments/create-order`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
@@ -60,7 +61,7 @@ export default function DomainsPage() {
             const confirmed = window.confirm(`Proceed to pay ₹${orderData.data.amount / 100} for this course? (Simulation)`);
             
             if (confirmed) {
-                const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/public/payments/verify`, {
+                const verifyRes = await fetch(`${API_BASE_URL}/api/public/payments/verify`, {
                     method: "POST",
                     headers: { 
                         "Content-Type": "application/json",
