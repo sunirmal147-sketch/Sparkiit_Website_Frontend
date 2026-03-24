@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingBasket, User, ChevronDown, LayoutGrid, Plus, LogOut, UserCircle, Menu, X } from "lucide-react";
+import { Search, ShoppingBasket, User, ChevronDown, LayoutGrid, Plus, LogOut, UserCircle, Menu, X, MoreVertical } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { useHomepageData } from "@/hooks/useHomepageData";
 import { useRouter } from "next/navigation";
@@ -45,6 +45,26 @@ export default function Navbar() {
         router.refresh();
     }, [router]);
 
+    const handleHashClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
+        if (window.location.pathname === "/") {
+            e.preventDefault();
+            const element = document.getElementById(hash.replace("#", ""));
+            if (element) {
+                const offset = 80; // Navbar height
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = element.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+            setIsMobileMenuOpen(false);
+        }
+    };
+
     return (
         <motion.nav 
             variants={{
@@ -84,6 +104,12 @@ export default function Navbar() {
                     </Link>
                     <Link href="/contact" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
                         Contact Us
+                    </Link>
+                    <Link 
+                        href="/faqs"
+                        className="text-sm font-medium text-white/70 hover:text-white transition-colors"
+                    >
+                        FAQ
                     </Link>
                     <div className="group relative flex items-center gap-2 cursor-pointer">
                         <span className="text-sm font-medium text-white/70 group-hover:text-white transition-colors">
@@ -182,7 +208,7 @@ export default function Navbar() {
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="p-2 rounded-full hover:bg-white/5 transition-colors text-white/70 hover:text-white"
                         >
-                            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                            {isMobileMenuOpen ? <X size={24} /> : <MoreVertical size={24} />}
                         </button>
                     </div>
                 </div>
@@ -239,12 +265,29 @@ export default function Navbar() {
                             >
                                 Contact Us
                             </Link>
+                            <Link 
+                                href="/faqs" 
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="text-3xl font-black uppercase tracking-widest text-white/70"
+                            >
+                                FAQ
+                            </Link>
+
+                            <Link 
+                                href="/domains" 
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="text-3xl font-black uppercase tracking-widest text-white/70"
+                            >
+                                Enroll Now
+                            </Link>
                             
                             <div className="h-px bg-white/5 my-4" />
                             
-                            <Link href="/projects" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold text-white/40 hover:text-[#00875a] uppercase">Projects</Link>
-                            <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold text-white/40 hover:text-[#00875a] uppercase">Blogs</Link>
-                            <Link href="/verify" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold text-white/40 hover:text-[#00875a] uppercase">Verify Certificate</Link>
+                            <Link href="/domains" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-[#00875a]">Categories</Link>
+                            <Link href="/projects" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Projects</Link>
+                            <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Blogs</Link>
+                            <Link href="/verify" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Verify Certificate</Link>
+                            <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-[#00875a]">Events</Link>
                             
                             <div className="h-px bg-white/5 my-4" />
 
