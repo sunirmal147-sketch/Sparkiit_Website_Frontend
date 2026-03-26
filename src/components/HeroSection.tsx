@@ -68,7 +68,7 @@ export default function HeroSection() {
             <div className="relative z-10 max-w-5xl">
                 <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold uppercase leading-[0.9] tracking-tighter">
                     {words.map((word, index) => (
-                        <div key={index} className="overflow-hidden flex items-center py-1 md:py-0">
+                        <div key={index} className="flex items-center py-1 md:py-0">
                             <motion.div
                                 style={{
                                     x: xTransforms[index],
