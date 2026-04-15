@@ -1,6 +1,6 @@
 "use client";
 import { API_BASE_URL } from "@/lib/api-config";
-
+import Link from "next/link";
 import React, { useState, useEffect, useCallback } from "react";
 
 const API_BASE = API_BASE_URL + "/api/admin";
@@ -16,6 +16,10 @@ interface Course {
     status: "active" | "draft" | "archived";
     imageUrl: string;
     links: string[];
+    level: "beginner" | "intermediate" | "advanced" | "all";
+    tags: string[];
+    isPopular: boolean;
+    showHomepage: boolean;
     createdAt: string;
     updatedAt: string;
 }
@@ -29,9 +33,26 @@ interface CourseForm {
     status: "active" | "draft" | "archived";
     imageUrl: string;
     links: string[];
+    level: "beginner" | "intermediate" | "advanced" | "all";
+    tags: string[];
+    isPopular: boolean;
+    showHomepage: boolean;
 }
 
-const emptyCourse: CourseForm = { title: "", description: "", category: "", price: 0, duration: "", status: "draft", imageUrl: "", links: [] };
+const emptyCourse: CourseForm = { 
+    title: "", 
+    description: "", 
+    category: "", 
+    price: 0, 
+    duration: "", 
+    status: "draft", 
+    imageUrl: "", 
+    links: [],
+    level: "all",
+    tags: [],
+    isPopular: false,
+    showHomepage: true
+};
 
 export default function CoursesPage() {
     const [courses, setCourses] = useState<Course[]>([]);
@@ -45,6 +66,7 @@ export default function CoursesPage() {
     const [saving, setSaving] = useState(false);
     const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
     const [newLink, setNewLink] = useState("");
+    const [newTag, setNewTag] = useState("");
 
     const fetchCourses = useCallback(() => {
         const params = new URLSearchParams();
@@ -74,7 +96,11 @@ export default function CoursesPage() {
             duration: c.duration,
             status: c.status,
             imageUrl: c.imageUrl,
-            links: c.links || []
+            links: c.links || [],
+            level: c.level || "all",
+            tags: c.tags || [],
+            isPopular: c.isPopular || false,
+            showHomepage: c.showHomepage !== undefined ? c.showHomepage : true
         });
         setModalOpen(true);
     };
@@ -120,6 +146,17 @@ export default function CoursesPage() {
         const updatedLinks = [...form.links];
         updatedLinks.splice(index, 1);
         setForm({ ...form, links: updatedLinks });
+    };
+
+    const addTag = () => {
+        if (newTag.trim() && !form.tags.includes(newTag.trim())) {
+            setForm({ ...form, tags: [...form.tags, newTag.trim()] });
+            setNewTag("");
+        }
+    };
+
+    const removeTag = (tag: string) => {
+        setForm({ ...form, tags: form.tags.filter(t => t !== tag) });
     };
 
     const statusBadge = (s: string) => {
@@ -223,7 +260,7 @@ export default function CoursesPage() {
                     <table style={{ width: "100%", borderCollapse: "collapse" }}>
                         <thead>
                             <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                                {["Title", "Category", "Price", "Links", "Status", "Actions"].map((h) => (
+                                {["Title", "Category", "Level", "Curriculum", "Status", "Actions"].map((h) => (
                                     <th key={h} style={{ padding: "14px 20px", fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "left" }}>
                                         {h}
                                     </th>
@@ -238,8 +275,15 @@ export default function CoursesPage() {
                                         <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginTop: 2, maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.description}</div>
                                     </td>
                                     <td style={{ padding: "14px 20px", fontSize: 13, color: "rgba(255,255,255,0.6)" }}>{c.category}</td>
-                                    <td style={{ padding: "14px 20px", fontSize: 13, color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>₹{c.price}</td>
-                                    <td style={{ padding: "14px 20px", fontSize: 13, color: "rgba(255,255,255,0.6)" }}>{c.links?.length || 0} links</td>
+                                    <td style={{ padding: "14px 20px", fontSize: 12, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 700 }}>{c.level || "all"}</td>
+                                    <td style={{ padding: "14px 20px" }}>
+                                        <Link href={`/admin/courses/${c._id}/curriculum`} style={{ fontSize: 12, color: "#00875a", fontWeight: 700, textDecoration: "none", background: "rgba(0,135,90,0.1)", padding: "4px 10px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                                            </svg>
+                                            Manage
+                                        </Link>
+                                    </td>
                                     <td style={{ padding: "14px 20px" }}>{statusBadge(c.status)}</td>
                                     <td style={{ padding: "14px 20px" }}>
                                         <div style={{ display: "flex", gap: 8 }}>
@@ -257,7 +301,7 @@ export default function CoursesPage() {
             {/* Modal */}
             {modalOpen && (
                 <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100 }} onClick={() => setModalOpen(false)}>
-                    <div style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 24, padding: 32, width: 600, maxHeight: "90vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+                    <div style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 24, padding: 32, width: 700, maxHeight: "90vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
                         <h2 style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 24 }}>{editing ? "Edit Course" : "Create New Course"}</h2>
 
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
@@ -289,10 +333,56 @@ export default function CoursesPage() {
                                     <option value="archived">Archived</option>
                                 </select>
                             </div>
+                            <div>
+                                <label style={labelStyle}>Level</label>
+                                <select style={inputStyle} value={form.level} onChange={(e) => setForm({ ...form, level: e.target.value as any })}>
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                    <option value="all">All Levels</option>
+                                </select>
+                            </div>
+                            <div style={{ display: "flex", gap: 10, alignItems: "flex-end" }}>
+                                <div style={{ flex: 1 }}>
+                                    <label style={labelStyle}>Popular Course?</label>
+                                    <button 
+                                        onClick={() => setForm({...form, isPopular: !form.isPopular})}
+                                        style={{ ...inputStyle, background: form.isPopular ? "rgba(0,135,90,0.1)" : "rgba(255,255,255,0.04)", borderColor: form.isPopular ? "#00875a" : "rgba(255,255,255,0.1)", color: form.isPopular ? "#00875a" : "rgba(255,255,255,0.4)", fontWeight: 700 }}
+                                    >
+                                        {form.isPopular ? "YES" : "NO"}
+                                    </button>
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                    <label style={labelStyle}>Show on Home?</label>
+                                    <button 
+                                        onClick={() => setForm({...form, showHomepage: !form.showHomepage})}
+                                        style={{ ...inputStyle, background: form.showHomepage ? "rgba(0,135,90,0.1)" : "rgba(255,255,255,0.04)", borderColor: form.showHomepage ? "#00875a" : "rgba(255,255,255,0.1)", color: form.showHomepage ? "#00875a" : "rgba(255,255,255,0.4)", fontWeight: 700 }}
+                                    >
+                                        {form.showHomepage ? "YES" : "NO"}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Tags Section */}
+                            <div style={{ gridColumn: "1 / -1" }}>
+                                <label style={labelStyle}>Tags</label>
+                                <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
+                                    <input style={inputStyle} value={newTag} onChange={(e) => setNewTag(e.target.value)} placeholder="Add a tag..." onKeyPress={(e) => e.key === 'Enter' && addTag()} />
+                                    <button onClick={addTag} style={{ padding: "0 20px", borderRadius: 10, background: "rgba(0,135,90,0.1)", border: "1px solid #00875a", color: "#00875a", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Add</button>
+                                </div>
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                                    {form.tags.map((tag) => (
+                                        <span key={tag} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 12px", background: "rgba(255,255,255,0.05)", borderRadius: 20, fontSize: 11, fontWeight: 600, color: "#fff" }}>
+                                            {tag}
+                                            <button onClick={() => removeTag(tag)} style={{ color: "#f87171", background: "none", border: "none", cursor: "pointer", fontSize: 14 }}>&times;</button>
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
 
                             {/* Links Section */}
                             <div style={{ gridColumn: "1 / -1" }}>
-                                <label style={labelStyle}>Course Links</label>
+                                <label style={labelStyle}>Resources Links</label>
                                 <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
                                     <input style={inputStyle} value={newLink} onChange={(e) => setNewLink(e.target.value)} placeholder="Add a link..." onKeyPress={(e) => e.key === 'Enter' && addLink()} />
                                     <button onClick={addLink} style={{ padding: "0 20px", borderRadius: 10, background: "rgba(0,135,90,0.1)", border: "1px solid #00875a", color: "#00875a", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Add</button>
@@ -337,4 +427,3 @@ export default function CoursesPage() {
         </div>
     );
 }
-

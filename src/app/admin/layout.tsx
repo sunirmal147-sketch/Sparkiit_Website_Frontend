@@ -73,15 +73,23 @@ const navGroups: NavGroup[] = [
         ]
     },
     {
+        title: "TEAM MANAGEMENT",
+        items: [
+            { label: "MANAGE TEAM", href: "/admin/employees", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_TEAM" },
+            { label: "MY PERFORMANCE", href: "/admin/my-performance", icon: <Award size={20} strokeWidth={1.8} />, permissionKey: "MY_PERFORMANCE" },
+        ]
+    },
+    {
         title: "CMS MANAGEMENT",
         items: [
             { label: "CMS USER", href: "/admin/users", icon: <Settings size={20} strokeWidth={1.8} />, permissionKey: "CMS_USER" },
-            { label: "ATTENDANCE LOGS", href: "/admin/attendance", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "ATTENDANCE_LOGS", role: "SUPER_ADMIN" },
+            { label: "ATTENDANCE LOGS", href: "/admin/attendance", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "ATTENDANCE_LOGS" },
             { label: "SETTINGS", href: "/admin/settings", icon: <Settings size={20} strokeWidth={1.8} />, permissionKey: "SETTINGS" },
             { label: "LOGOUT", href: "#", icon: <LogOut size={20} strokeWidth={1.8} />, onClick: () => {} },
         ]
     }
 ];
+
 
 
 function NavItemComponent({ item, sidebarOpen, pathname, user, onClick }: { item: any, sidebarOpen: boolean, pathname: string, user: any, onClick?: () => void }) {
@@ -244,6 +252,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 const data = await res.json();
                 if (data.success) {
                     setUser(data.data);
+                    // Persist user data so child pages (e.g. my-performance) can access it
+                    localStorage.setItem("adminUser", JSON.stringify(data.data));
                 } else {
                     // Token invalid, clear it
                     localStorage.removeItem("adminToken");
@@ -337,8 +347,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }
     }
 
-    // Update logout item in navGroups (Group 3, Item 3)
-    navGroups[3].items[3].onClick = handleLogout;
+    // Update logout item in navGroups dynamically
+    for (const group of navGroups) {
+        for (const item of group.items) {
+            if (item.label === "LOGOUT") {
+                item.onClick = handleLogout;
+            }
+        }
+    }
 
     return (
         <div style={{ display: "flex", minHeight: "100dvh", background: "#0a0a0a", color: "#e5e5e5", fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", overflowX: "hidden" }}>
