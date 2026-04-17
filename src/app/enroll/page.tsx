@@ -1,7 +1,8 @@
 "use client";
 import { API_BASE_URL } from "@/lib/api-config";
 
-import { useState } from "react";
+import { useState, Suspense, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCourses, Course } from "@/hooks/useCourses";
 import Navbar from "@/components/Navbar";
@@ -11,6 +12,14 @@ import TextReveal from "@/components/TextReveal";
 import { Check, Calendar, Clock, User, ChevronRight, ArrowLeft, GraduationCap } from "lucide-react";
 
 export default function EnrollPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#050505] flex items-center justify-center text-white">Loading...</div>}>
+            <EnrollContent />
+        </Suspense>
+    );
+}
+
+function EnrollContent() {
     const { courses, loading, error } = useCourses();
     const [step, setStep] = useState(1);
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -20,9 +29,20 @@ export default function EnrollPage() {
     const [bookingSuccess, setBookingSuccess] = useState(false);
     const [paymentData, setPaymentData] = useState<any>(null);
 
+    const searchParams = useSearchParams();
+    const forcedType = searchParams.get('type');
+
     const handleCourseSelect = (course: Course) => {
         setSelectedCourse(course);
-        setStep(1.5); // New step for choosing type
+        if (forcedType === 'trial') {
+            setEnrollmentType('trial');
+            setStep(2);
+        } else if (forcedType === 'full') {
+            setEnrollmentType('full');
+            setStep(3);
+        } else {
+            setStep(1.5); // New step for choosing type
+        }
     };
 
     const handleTypeSelect = (type: 'trial' | 'full') => {

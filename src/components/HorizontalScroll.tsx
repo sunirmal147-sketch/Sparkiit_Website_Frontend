@@ -51,7 +51,7 @@ export default function HorizontalScrollSection() {
     };
 
     return (
-        <section className="relative min-h-screen bg-[#050505] flex flex-col items-center justify-center overflow-hidden py-12 px-6 md:px-20">
+        <section id="domains" className="relative min-h-screen bg-[#050505] flex flex-col items-center justify-center overflow-hidden py-12 px-6 md:px-20">
             {/* Background Accents */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#00875a]/5 rounded-full blur-[120px]" />

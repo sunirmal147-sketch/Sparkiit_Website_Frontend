@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Award, Calendar, User, BookOpen, CheckCircle } from "lucide-react";
+import { Award, Calendar, User, BookOpen, CheckCircle, Download } from "lucide-react";
+import { API_BASE_URL } from "@/lib/api-config";
 
 interface CertificateProps {
     certificateId: string;
@@ -9,6 +10,7 @@ interface CertificateProps {
     courseName: string;
     issueDate: string;
     grade?: string;
+    finalPdfUrl?: string;
 }
 
 export default function CertificateCard({
@@ -17,6 +19,7 @@ export default function CertificateCard({
     courseName,
     issueDate,
     grade,
+    finalPdfUrl,
 }: CertificateProps) {
     const formattedDate = new Date(issueDate).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -69,19 +72,34 @@ export default function CertificateCard({
                     </div>
 
                     <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-end md:items-center gap-4">
-                        <div>
+                        <div className="flex-1">
                             <div className="flex items-center gap-2 text-white/40 mb-1">
                                 <Calendar size={14} />
                                 <p className="text-xs font-bold uppercase tracking-[0.2em]">Date of Issue</p>
                             </div>
                             <p className="text-white/80 font-medium">{formattedDate}</p>
                         </div>
-                        {grade && (
-                            <div className="text-right">
-                                <p className="text-white/40 text-xs font-bold uppercase tracking-[0.2em] mb-1">Grade / Performance</p>
-                                <p className="text-3xl font-black text-[#00875a]">{grade}</p>
-                            </div>
-                        )}
+                        
+                        <div className="flex items-center gap-6">
+                            {grade && (
+                                <div className="text-right">
+                                    <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">Grade</p>
+                                    <p className="text-2xl font-black text-[#00875a]">{grade}</p>
+                                </div>
+                            )}
+
+                            {finalPdfUrl && (
+                                <a 
+                                    href={`${API_BASE_URL}${finalPdfUrl}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-[#00875a] text-white px-6 py-3 rounded-xl font-bold uppercase text-xs tracking-widest hover:scale-[1.05] active:scale-[0.95] transition-all flex items-center gap-2"
+                                >
+                                    <Download size={16} />
+                                    Download
+                                </a>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

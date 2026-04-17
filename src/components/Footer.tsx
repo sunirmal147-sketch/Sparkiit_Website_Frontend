@@ -16,11 +16,25 @@ export default function Footer() {
         instagram: "#"
     };
 
+    const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (window.location.pathname === "/") {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+    };
+
     return (
         <footer className="bg-[#050505] border-t border-white/5 pt-12 pb-12 px-6 md:px-20">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-12">
                 <div className="lg:col-span-1">
-                    <Link href="/" className="flex items-center gap-2 mb-8 group shrink-0">
+                    <Link 
+                        href="/" 
+                        onClick={handleLogoClick}
+                        className="flex items-center gap-2 mb-8 group shrink-0"
+                    >
                         <div className="bg-[#00875a] text-white w-8 h-8 flex items-center justify-center rounded-sm group-hover:scale-105 transition-transform">
                             <Plus size={20} className="font-bold border-2 border-black rounded-sm" />
                         </div>
