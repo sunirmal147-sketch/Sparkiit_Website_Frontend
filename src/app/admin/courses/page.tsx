@@ -15,6 +15,7 @@ interface Course {
     duration: string;
     status: "active" | "draft" | "archived";
     imageUrl: string;
+    paymentLink: string;
     links: string[];
     level: "beginner" | "intermediate" | "advanced" | "all";
     tags: string[];
@@ -32,6 +33,7 @@ interface CourseForm {
     duration: string;
     status: "active" | "draft" | "archived";
     imageUrl: string;
+    paymentLink: string;
     links: string[];
     level: "beginner" | "intermediate" | "advanced" | "all";
     tags: string[];
@@ -47,6 +49,7 @@ const emptyCourse: CourseForm = {
     duration: "", 
     status: "draft", 
     imageUrl: "", 
+    paymentLink: "",
     links: [],
     level: "all",
     tags: [],
@@ -96,6 +99,7 @@ export default function CoursesPage() {
             duration: c.duration,
             status: c.status,
             imageUrl: c.imageUrl,
+            paymentLink: c.paymentLink || "",
             links: c.links || [],
             level: c.level || "all",
             tags: c.tags || [],
@@ -192,7 +196,7 @@ export default function CoursesPage() {
             {/* Header / Filters */}
             <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 32 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <h2 style={{ fontSize: 24, fontWeight: 700, color: "#fff", margin: 0 }}>Courses</h2>
+                    <h2 style={{ fontSize: 24, fontWeight: 700, color: "#fff", margin: 0 }}>Domains</h2>
                     <button
                         onClick={openCreate}
                         style={{
@@ -212,7 +216,7 @@ export default function CoursesPage() {
                         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                         </svg>
-                        Add Course
+                        Add Domain
                     </button>
                 </div>
 
@@ -220,7 +224,7 @@ export default function CoursesPage() {
                     <div style={{ position: "relative", flex: "1 1 300px" }}>
                         <input
                             type="text"
-                            placeholder="Search courses..."
+                            placeholder="Search domains..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             style={{ ...inputStyle, paddingLeft: 40 }}
@@ -250,11 +254,11 @@ export default function CoursesPage() {
                     <div style={{ padding: 60, textAlign: "center", color: "rgba(255,255,255,0.3)" }}>
                         <div style={{ width: 32, height: 32, border: "3px solid rgba(0,135,90,0.2)", borderTop: "3px solid #00875a", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 12px" }} />
                         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-                        Loading courses...
+                        Loading domains...
                     </div>
                 ) : !courses.length ? (
                     <div style={{ padding: 60, textAlign: "center", color: "rgba(255,255,255,0.3)" }}>
-                        <p style={{ fontSize: 14, fontWeight: 500 }}>No courses found</p>
+                        <p style={{ fontSize: 14, fontWeight: 500 }}>No domains found</p>
                     </div>
                 ) : (
                     <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -302,7 +306,7 @@ export default function CoursesPage() {
             {modalOpen && (
                 <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100 }} onClick={() => setModalOpen(false)}>
                     <div style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 24, padding: 32, width: 700, maxHeight: "90vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
-                        <h2 style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 24 }}>{editing ? "Edit Course" : "Create New Course"}</h2>
+                        <h2 style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 24 }}>{editing ? "Edit Domain" : "Create New Domain"}</h2>
 
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
                             <div style={{ gridColumn: "1 / -1" }}>
@@ -341,6 +345,14 @@ export default function CoursesPage() {
                                     <option value="advanced">Advanced</option>
                                     <option value="all">All Levels</option>
                                 </select>
+                            </div>
+                            <div style={{ gridColumn: "1 / -1" }}>
+                                <label style={labelStyle}>Thumbnail URL</label>
+                                <input style={inputStyle} value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} placeholder="https://..." />
+                            </div>
+                            <div style={{ gridColumn: "1 / -1" }}>
+                                <label style={labelStyle}>Payment Link (External - Optional)</label>
+                                <input style={inputStyle} value={form.paymentLink} onChange={(e) => setForm({ ...form, paymentLink: e.target.value })} placeholder="https://razorpay.me/..." />
                             </div>
                             <div style={{ display: "flex", gap: 10, alignItems: "flex-end" }}>
                                 <div style={{ flex: 1 }}>
@@ -415,8 +427,8 @@ export default function CoursesPage() {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                         </div>
-                        <h3 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 8 }}>Delete Course?</h3>
-                        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 24 }}>This action cannot be undone. All data for this course will be permanently removed.</p>
+                         <h3 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 8 }}>Delete Domain?</h3>
+                        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 24 }}>This action cannot be undone. All data for this domain will be permanently removed.</p>
                         <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
                             <button onClick={() => setDeleteConfirm(null)} style={{ padding: "12px 24px", color: "rgba(255,255,255,0.4)", background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
                             <button onClick={() => handleDelete(deleteConfirm)} style={{ padding: "12px 24px", borderRadius: 12, background: "#ef4444", color: "#fff", fontWeight: 700, border: "none", cursor: "pointer" }}>Delete</button>

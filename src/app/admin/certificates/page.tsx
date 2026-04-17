@@ -14,17 +14,36 @@ interface Certificate {
     courseName: string;
     issueDate: string;
     grade?: string;
+    templateId?: string;
+    finalPdfUrl?: string;
+}
+
+interface Template {
+    _id: string;
+    name: string;
+    type: string;
+}
+
+interface Candidate {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
 }
 
 export default function CertificateManagement() {
     const [certificates, setCertificates] = useState<Certificate[]>([]);
     const [loading, setLoading] = useState(true);
     const [editingCert, setEditingCert] = useState<Partial<Certificate> | null>(null);
+    const [templates, setTemplates] = useState<Template[]>([]);
+    const [candidates, setCandidates] = useState<Candidate[]>([]);
     const [saving, setSaving] = useState(false);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
         fetchCertificates();
+        fetchTemplates();
+        fetchCandidates();
     }, [search]);
 
     const fetchCertificates = async () => {
@@ -44,26 +63,32 @@ export default function CertificateManagement() {
         }
     };
 
+    const fetchTemplates = async () => {
+        try {
+            const token = localStorage.getItem("adminToken");
+            const res = await fetch(`${API_BASE}/certificate-templates`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (data.success) setTemplates(data.data);
+        } catch (error) { console.error("Error templates:", error); }
+    };
+
+    const fetchCandidates = async () => {
+        try {
+            const token = localStorage.getItem("adminToken");
+            const res = await fetch(`${API_BASE}/candidates`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (data.success) setCandidates(data.data);
+        } catch (error) { console.error("Error candidates:", error); }
+    };
+
     const handleSave = async () => {
         setSaving(true);
         try {
             const token = localStorage.getItem("adminToken");
-            const isNew = !editingCert?._id;
-            const url = isNew ? `${API_BASE}/certificates` : `${API_BASE}/certificates/${editingCert?._id}`;
-            const method = isNew ? "POST" : "DELETE"; // Backend only supports POST and DELETE for now based on previous impl
-
-            // Re-checking my backend implementation...
-            // Post for creation, DELETE for deletion. No update route was added in previous steps.
-            // I'll stick to creation and deletion as per the current backend routes.
-
-            if (editingCert?._id) {
-                // Should use delete if deleting, but modal implies save. 
-                // I'll only implement creation here for now to avoid breaking routes.
-                alert("Editing is not yet supported at route level. Please delete and recreate.");
-                setSaving(false);
-                return;
-            }
-
             const res = await fetch(`${API_BASE}/certificates`, {
                 method: "POST",
                 headers: {
@@ -118,7 +143,15 @@ export default function CertificateManagement() {
                     <p className="text-white/40">Manage and issue certificates to students.</p>
                 </div>
                 <button 
-                    onClick={() => setEditingCert({ certificateId: "", candidateName: "", candidateEmail: "", courseName: "", issueDate: new Date().toISOString().split('T')[0], grade: "" })}
+                    onClick={() => setEditingCert({ 
+                        certificateId: `SPK-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000)}`, 
+                        candidateName: "", 
+                        candidateEmail: "", 
+                        courseName: "", 
+                        issueDate: new Date().toISOString().split('T')[0], 
+                        grade: "",
+                        templateId: "" 
+                    })}
                     className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#00875a] text-white font-bold hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                     <Plus size={20} />
@@ -140,11 +173,10 @@ export default function CertificateManagement() {
                 <table className="w-full text-left">
                     <thead>
                         <tr className="bg-white/5 text-xs font-bold uppercase tracking-[0.2em] text-white/40">
-                            <th className="px-8 py-5">Certificate ID</th>
+                            <th className="px-8 py-5">ID</th>
                             <th className="px-8 py-5">Candidate</th>
                             <th className="px-8 py-5">Course</th>
                             <th className="px-8 py-5">Issue Date</th>
-                            <th className="px-8 py-5">Grade</th>
                             <th className="px-8 py-5 text-right">Actions</th>
                         </tr>
                     </thead>
@@ -156,16 +188,25 @@ export default function CertificateManagement() {
                                     <div className="font-bold text-white">{cert.candidateName}</div>
                                     <div className="text-xs text-white/40 lowercase">{cert.candidateEmail}</div>
                                 </td>
-                                <td className="px-8 py-6 text-white/80">{cert.courseName}</td>
+                                <td className="px-8 py-6 text-white/80">
+                                    {cert.courseName}
+                                    {cert.grade && <span className="ml-2 bg-[#00875a]/10 text-[#00875a] px-2 py-0.5 rounded text-[10px] font-black">{cert.grade}</span>}
+                                </td>
                                 <td className="px-8 py-6 text-white/40 text-sm">
                                     {new Date(cert.issueDate).toLocaleDateString()}
                                 </td>
-                                <td className="px-8 py-6">
-                                    <span className="bg-[#00875a]/10 text-[#00875a] px-3 py-1 rounded-full text-xs font-black">
-                                        {cert.grade || "N/A"}
-                                    </span>
-                                </td>
-                                <td className="px-8 py-6 text-right">
+                                <td className="px-8 py-6 text-right space-x-2">
+                                    {cert.finalPdfUrl && (
+                                        <a 
+                                            href={`${API_BASE_URL}${cert.finalPdfUrl}`} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="p-2 text-[#00875a] hover:bg-[#00875a]/10 rounded-lg inline-flex"
+                                            title="View Certificate"
+                                        >
+                                            <Award size={18} />
+                                        </a>
+                                    )}
                                     <button 
                                         onClick={() => handleDelete(cert._id)}
                                         className="p-2 text-white/20 hover:text-red-500 transition-colors"
@@ -193,18 +234,68 @@ export default function CertificateManagement() {
                             <h3 className="text-xl font-bold text-white">Issue Certificate</h3>
                             <button onClick={() => setEditingCert(null)} className="text-white/40 hover:text-white"><X size={24} /></button>
                         </div>
-                        <div className="p-8 space-y-6">
+                        <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
+                                    <Book size={12} /> Select Template
+                                </label>
+                                <select 
+                                    value={editingCert.templateId}
+                                    onChange={e => setEditingCert({...editingCert, templateId: e.target.value})}
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
+                                >
+                                    <option value="" className="bg-[#111]">No Template (Metadata Only)</option>
+                                    {templates.map(t => (
+                                        <option key={t._id} value={t._id} className="bg-[#111]">{t.name} ({t.type})</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
+                                    <Award size={12} /> Certificate ID
+                                </label>
+                                <input 
+                                    type="text" 
+                                    value={editingCert.certificateId}
+                                    onChange={e => setEditingCert({...editingCert, certificateId: e.target.value})}
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
+                                    placeholder="SPK-2026-X"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-white/40 uppercase tracking-widest">
+                                    Quick Select Candidate
+                                </label>
+                                <select 
+                                    onChange={e => {
+                                        const cand = candidates.find(c => c._id === e.target.value);
+                                        if (cand) {
+                                            setEditingCert({
+                                                ...editingCert,
+                                                candidateName: `${cand.firstName} ${cand.lastName}`,
+                                                candidateEmail: cand.email
+                                            });
+                                        }
+                                    }}
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white/60 focus:outline-none focus:border-[#00875a]/40"
+                                >
+                                    <option value="">Select a Candidate...</option>
+                                    {candidates.map(c => (
+                                        <option key={c._id} value={c._id}>{c.firstName} {c.lastName} ({c.email})</option>
+                                    ))}
+                                </select>
+                            </div>
+
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
-                                        <Award size={12} /> ID
-                                    </label>
+                                    <label className="text-xs font-bold text-white/40 uppercase tracking-widest">Candidate Name</label>
                                     <input 
                                         type="text" 
-                                        value={editingCert.certificateId}
-                                        onChange={e => setEditingCert({...editingCert, certificateId: e.target.value})}
+                                        value={editingCert.candidateName}
+                                        onChange={e => setEditingCert({...editingCert, candidateName: e.target.value})}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
-                                        placeholder="SPK-2026-X"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -218,17 +309,7 @@ export default function CertificateManagement() {
                                     />
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
-                                    Candidate Name
-                                </label>
-                                <input 
-                                    type="text" 
-                                    value={editingCert.candidateName}
-                                    onChange={e => setEditingCert({...editingCert, candidateName: e.target.value})}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
-                                />
-                            </div>
+
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
                                     <Mail size={12} /> Candidate Email
@@ -240,9 +321,10 @@ export default function CertificateManagement() {
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                 />
                             </div>
+
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
-                                    <Book size={12} /> Course Name
+                                    <Book size={12} /> Course/Domain Name
                                 </label>
                                 <input 
                                     type="text" 

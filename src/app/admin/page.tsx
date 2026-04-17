@@ -10,7 +10,7 @@ import {
     MapPin, Blocks, Copyright, PanelBottom,
     LayoutGrid, FilePlus, Hash, HelpCircle,
     HandCoins, Settings, Calendar, Home, Layout,
-    Share2, Search, Shield, Camera
+    Share2, Search, Shield, Camera, Globe
 } from "lucide-react";
 
 function ActionSection({ title, actions, cardStyle }: any) {
@@ -138,6 +138,7 @@ export default function AdminDashboard() {
         { title: "PAGE BUILDER", desc: "Static Pages", icon: FilePlus, link: "/admin/page-builder", color: "#84cc16" },
         { title: "SECTIONS", desc: "Home Page Layout", icon: Blocks, link: "/admin/sections", color: "#ec4899" },
         { title: "BRANDS", desc: "Partner Logos", icon: Copyright, link: "/admin/brands", color: "#a855f7" },
+        { title: "MANAGE DOMAINS", desc: "Upload & Payment Links", icon: Globe, link: "/admin/courses", color: "#00875a" },
         { title: "MANAGE SERVICES", desc: "Platform Config", icon: Monitor, link: "/admin/services", color: "#60a5fa" },
         { title: "MANAGE BLOGS", desc: "Articles & News", icon: FileText, link: "/admin/blogs", color: "#5eead4" },
         { title: "MANAGE MENTORS", desc: "Slider Profiles", icon: Users, link: "/admin/mentors", color: "#10b981" },
