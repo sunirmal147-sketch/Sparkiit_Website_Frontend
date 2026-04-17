@@ -58,7 +58,7 @@ function MentorsContent({ mentors }: { mentors: Mentor[] }) {
     return (
         <section 
             ref={containerRef}
-            className="relative h-[360px] md:h-[320px] w-full bg-[#00875a] overflow-hidden flex flex-col items-center justify-center"
+            className="relative h-[360px] md:h-[320px] w-full bg-[#050505] overflow-hidden flex flex-col items-center justify-center"
         >
             {/* Horizontal Sliding Mentors */}
             <div className="absolute inset-0 flex items-center overflow-hidden opacity-40">
@@ -87,8 +87,8 @@ function MentorsContent({ mentors }: { mentors: Mentor[] }) {
 
             {/* Transparent Text Overlay */}
             <div className="relative z-10 pointer-events-none text-center text-black">
-                <h2 className="text-[10vw] md:text-[8vw] font-black leading-[0.8] uppercase tracking-tighter mix-blend-overlay opacity-60">
-                    LET&apos;S <br /> BUILD.
+                <h2 className="text-[10vw] md:text-[6vw] font-black leading-[0.8] uppercase tracking-tighter mix-blend-overlay opacity-50 whitespace-nowrap">
+                    LET&apos;S BUILD.
                 </h2>
                 <p className="font-bold text-sm md:text-base mt-2 uppercase tracking-widest opacity-80">
                     Ready to transform education?
@@ -119,7 +119,7 @@ export default function MentorsSection() {
 
     if (!mounted) {
         return (
-            <section className="h-[320px] flex flex-col items-center justify-center bg-[#00875a] text-white text-center">
+            <section className="h-[320px] flex flex-col items-center justify-center bg-[#050505] text-white text-center">
                 <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold uppercase tracking-tighter">Let&apos;s Build.</h2>
                 <p className="mt-2 text-sm font-medium uppercase tracking-widest opacity-80">Ready to transform education?</p>
             </section>

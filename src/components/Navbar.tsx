@@ -6,8 +6,10 @@ import { useState, useEffect, useCallback } from "react";
 import { useHomepageData } from "@/hooks/useHomepageData";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
+    const { cartItems } = useCart();
     const [searchQuery, setSearchQuery] = useState("");
     const [user, setUser] = useState<any>(null);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -65,6 +67,17 @@ export default function Navbar() {
         }
     };
 
+    const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (window.location.pathname === "/") {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+            setIsMobileMenuOpen(false);
+        }
+    };
+
     return (
         <motion.nav 
             variants={{
@@ -77,42 +90,50 @@ export default function Navbar() {
         >
             {/* Left Side: Logo and Links */}
             <div className="flex items-center gap-4 md:gap-10">
-                <Link href="/" className="flex items-center gap-2 shrink-0 group">
-                    <div className="bg-[#00875a] text-white w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-sm group-hover:scale-105 transition-transform">
-                        <Plus size={18} className="font-bold border-2 border-black rounded-sm" />
+                <Link 
+                    href="/" 
+                    onClick={handleLogoClick}
+                    className="flex items-center gap-2 shrink-0 group"
+                >
+                    <div className="flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <Plus size={18} className="text-[#00875a] font-bold" />
                     </div>
                     <span className="text-lg md:text-xl font-bold tracking-widest uppercase text-white truncate max-w-[120px] xs:max-w-none group-hover:text-[#00875a] transition-colors">
                         {site.logoText}
                     </span>
                 </Link>
 
-                <div className="hidden xl:flex items-center gap-8">
-                    <Link href="/" className="text-sm font-medium text-[#00875a] transition-colors">
+                <div className="hidden xl:flex items-center gap-5">
+                    <Link href="/" className="text-sm font-medium text-white/70 hover:text-white transition-colors whitespace-nowrap">
                         Home
                     </Link>
-                    <Link href="/domains" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+                    <Link href="/domains" className="text-sm font-medium text-white/70 hover:text-white transition-colors whitespace-nowrap">
                         Domains
                     </Link>
                     <div className="group relative flex items-center gap-1 cursor-pointer">
-                        <span className="text-sm font-medium text-white/70 group-hover:text-white transition-colors">
+                        <span className="text-sm font-medium text-white/70 group-hover:text-white transition-colors whitespace-nowrap">
                             Enroll Now
                         </span>
                         <ChevronDown size={14} className="text-white/30 group-hover:text-white transition-colors" />
+
+                        {/* Enroll Now Dropdown - Single Line */}
+                        <div className="absolute top-full left-0 mt-2 flex items-center gap-4 bg-[#050505] border border-white/10 rounded-full px-6 py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-xl shadow-2xl whitespace-nowrap">
+                            <Link href="/enroll?type=trial" className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Slot Booking</Link>
+                            <div className="w-px h-3 bg-white/10" />
+                            <Link href="/enroll?type=full" className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Full Registration</Link>
+                        </div>
                     </div>
-                    <Link href="/about" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+                    <Link href="/about" className="text-sm font-medium text-white/70 hover:text-white transition-colors whitespace-nowrap">
                         About Us
                     </Link>
-                    <Link href="/contact" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+                    <Link href="/contact" className="text-sm font-medium text-white/70 hover:text-white transition-colors whitespace-nowrap">
                         Contact Us
                     </Link>
-                    <Link 
-                        href="/faqs"
-                        className="text-sm font-medium text-white/70 hover:text-white transition-colors"
-                    >
-                        FAQ
+                    <Link href="/verify" className="text-sm font-medium text-white/70 hover:text-white transition-colors whitespace-nowrap">
+                        Verification
                     </Link>
                     <div className="group relative flex items-center gap-2 cursor-pointer">
-                        <span className="text-sm font-medium text-white/70 group-hover:text-white transition-colors">
+                        <span className="text-sm font-medium text-white/70 group-hover:text-white transition-colors whitespace-nowrap">
                             More
                         </span>
                         <ChevronDown size={14} className="text-white/30 group-hover:text-white transition-colors" />
@@ -121,7 +142,7 @@ export default function Navbar() {
                         <div className="absolute top-full left-0 mt-2 w-48 bg-[#050505] border border-white/10 rounded-xl py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-xl shadow-2xl">
                             <Link href="/projects" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">Projects</Link>
                             <Link href="/blog" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">Blogs</Link>
-                            <Link href="/verify" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">Verify Certificate</Link>
+                            <Link href="/faqs" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">FAQ</Link>
                             <div className="h-px bg-white/5 my-2" />
                             <Link href="/events" className="block px-6 py-2 text-sm text-[#00875a] hover:text-[#00c978] transition-colors uppercase tracking-widest font-black">Events</Link>
                         </div>
@@ -156,9 +177,11 @@ export default function Navbar() {
                 <div className="flex items-center gap-1 md:gap-2">
                     <div className="relative p-2 rounded-full hover:bg-white/5 cursor-pointer transition-colors group">
                         <ShoppingBasket size={20} className="text-white/60 group-hover:text-white md:w-[22px] md:h-[22px]" />
-                        <span className="absolute top-1 right-1 bg-[#00875a] text-white text-[9px] font-black w-3.5 h-3.5 flex items-center justify-center rounded-full">
-                            0
-                        </span>
+                        {cartItems.length > 0 && (
+                            <span className="absolute top-1 right-1 bg-[#00875a] text-white text-[9px] font-black w-3.5 h-3.5 flex items-center justify-center rounded-full animate-in zoom-in duration-300">
+                                {cartItems.length}
+                            </span>
+                        )}
                     </div>
                     
                     {/* User Menu */}
@@ -226,7 +249,11 @@ export default function Navbar() {
                     >
                         <div className="flex flex-col gap-6">
                             <div className="flex items-center justify-between mb-8">
-                                <Link href="/" className="flex items-center gap-2">
+                                <Link 
+                                    href="/" 
+                                    onClick={handleLogoClick}
+                                    className="flex items-center gap-2"
+                                >
                                     <div className="bg-[#00875a] text-white w-8 h-8 flex items-center justify-center rounded-sm">
                                         <Plus size={20} className="font-bold border-2 border-black rounded-sm" />
                                     </div>
@@ -266,27 +293,25 @@ export default function Navbar() {
                                 Contact Us
                             </Link>
                             <Link 
-                                href="/faqs" 
+                                href="/verify" 
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className="text-3xl font-black uppercase tracking-widest text-white/70"
                             >
-                                FAQ
+                                Verification
                             </Link>
 
-                            <Link 
-                                href="/domains" 
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="text-3xl font-black uppercase tracking-widest text-white/70"
-                            >
-                                Enroll Now
-                            </Link>
+                            <div className="flex flex-col gap-4">
+                                <span className="text-xs font-bold text-[#00875a] uppercase tracking-widest">Enroll Now</span>
+                                <Link href="/enroll?type=trial" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70 pl-4">Slot Booking</Link>
+                                <Link href="/enroll?type=full" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70 pl-4">Full Registration</Link>
+                            </div>
                             
                             <div className="h-px bg-white/5 my-4" />
                             
                             <Link href="/domains" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-[#00875a]">Categories</Link>
                             <Link href="/projects" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Projects</Link>
                             <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Blogs</Link>
-                            <Link href="/verify" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Verify Certificate</Link>
+                            <Link href="/faqs" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">FAQ</Link>
                             <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-[#00875a]">Events</Link>
                             
                             <div className="h-px bg-white/5 my-4" />
