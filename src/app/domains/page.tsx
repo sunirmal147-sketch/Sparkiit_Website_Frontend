@@ -55,7 +55,7 @@ export default function DomainSelectionPage() {
                             Select Your <br /> <span className="text-white/20">Domain.</span>
                         </h1>
                         <p className="text-gray-500 max-w-2xl mx-auto text-lg md:text-xl font-medium leading-relaxed">
-                            Explore our specialized fields of expertise. Each domain represents a pillar of digital excellence at Sparkiit.
+                            Explore our specialized fields of expertise. Each domain represents a pillar of excellence at SPARKIIT.
                         </p>
                     </motion.div>
 

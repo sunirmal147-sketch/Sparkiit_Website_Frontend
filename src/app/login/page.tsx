@@ -56,7 +56,7 @@ export default function LoginPage() {
             >
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-black text-white tracking-tighter uppercase mb-2">Welcome Back</h1>
-                    <p className="text-white/40 text-sm">Sign in to your SparkIIT account</p>
+                    <p className="text-white/40 text-sm">Sign in to your SPARKIIT account</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
