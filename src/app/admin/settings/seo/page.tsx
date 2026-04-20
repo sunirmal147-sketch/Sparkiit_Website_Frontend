@@ -78,7 +78,7 @@ export default function SeoSettings() {
 
             <form onSubmit={handleSave} className="bg-white/[0.03] border border-white/5 rounded-3xl p-10 shadow-2xl">
                 <div className="grid grid-cols-1 gap-8">
-                    <InputField label="Meta Title" value={formData.metaTitle} onChange={(val: string) => setFormData({...formData, metaTitle: val})} placeholder="SparkIIT - Leading Education Platform" />
+                    <InputField label="Meta Title" value={formData.metaTitle} onChange={(val: string) => setFormData({...formData, metaTitle: val})} placeholder="SPARKIIT - Leading Digital Agency" />
                     <div className="flex flex-col gap-2">
                         <label className="text-xs font-black uppercase tracking-widest text-white/40">Meta Description</label>
                         <textarea

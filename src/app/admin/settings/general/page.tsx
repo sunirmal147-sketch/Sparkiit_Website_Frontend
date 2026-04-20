@@ -190,7 +190,7 @@ export default function GeneralSettings() {
                                 label="Platform Name" 
                                 value={formData.siteName} 
                                 onChange={(val: string) => setFormData({...formData, siteName: val})} 
-                                placeholder="SparkIIT Academic Platform" 
+                                placeholder="SPARKIIT Academic Platform" 
                                 icon={<Globe size={16} />}
                             />
                         </div>

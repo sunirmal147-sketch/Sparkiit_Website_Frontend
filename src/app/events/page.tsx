@@ -47,10 +47,10 @@ export default function EventsPage() {
                         className="max-w-3xl"
                     >
                         <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter mb-6">
-                            Sparkiit <span className="text-[#00875a]">Events</span>
+                            SPARKIIT <span className="text-[#00875a]">Events</span>
                         </h1>
                         <p className="text-white/40 text-lg md:text-xl uppercase tracking-widest font-medium">
-                            Join us at the forefront of educational innovation and technology.
+                            Be part of a new era of Learning driven by Innovation, Technology, and Real World Career Growth.
                         </p>
                     </motion.div>
                 </div>

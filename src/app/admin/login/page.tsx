@@ -237,7 +237,7 @@ export default function AdminLogin() {
                     }}>
                         S
                     </div>
-                    <h1 style={{ color: "#fff", fontSize: 24, fontWeight: 700, margin: 0, letterSpacing: "-0.02em" }}>SparkIIT CRM</h1>
+                    <h1 style={{ color: "#fff", fontSize: 24, fontWeight: 700, margin: 0, letterSpacing: "-0.02em" }}>SPARKIIT CRM</h1>
                     <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, marginTop: 8 }}>Please sign in to continue</p>
                 </div>
 
