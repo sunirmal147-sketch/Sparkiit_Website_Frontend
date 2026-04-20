@@ -4,8 +4,16 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { useHomepageData } from "@/hooks/useHomepageData";
 
 export default function ContactPage() {
+    const { data } = useHomepageData();
+    const settings = data?.settings || {
+        contact_email: "hello@sparkiit.com",
+        contact_phone: "+1 (234) 567-890",
+        contact_address: "123 Design St, Creative City"
+    };
+
     return (
         <main className="min-h-screen bg-[#050505] text-white">
             <Navbar />
@@ -36,7 +44,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <p className="text-white/40 text-xs font-bold tracking-widest uppercase mb-1">Email Us</p>
-                                    <p className="text-xl font-bold">hello@sparkiit.com</p>
+                                    <p className="text-xl font-bold">{settings.contact_email}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-6 group">
@@ -45,7 +53,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <p className="text-white/40 text-xs font-bold tracking-widest uppercase mb-1">Call Us</p>
-                                    <p className="text-xl font-bold">+1 (234) 567-890</p>
+                                    <p className="text-xl font-bold">{settings.contact_phone}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-6 group">
@@ -54,7 +62,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <p className="text-white/40 text-xs font-bold tracking-widest uppercase mb-1">Visit Us</p>
-                                    <p className="text-xl font-bold">123 Design St, Creative City</p>
+                                    <p className="text-xl font-bold">{settings.contact_address}</p>
                                 </div>
                             </div>
                         </div>

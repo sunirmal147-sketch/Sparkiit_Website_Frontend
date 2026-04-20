@@ -13,7 +13,8 @@ import {
     Workflow,
     PanelBottom,
     LogOut,
-    Calendar
+    Calendar,
+    Mail
 } from "lucide-react";
 
 // Nav Data Structure
@@ -63,6 +64,7 @@ const navGroups: NavGroup[] = [
         items: [
             { label: "MENU BUILDER", href: "/admin/menu-builder", icon: <LayoutGrid size={20} strokeWidth={1.8} />, permissionKey: "MENU_BUILDER" },
             { label: "PAGE BUILDER", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} />, permissionKey: "PAGE_BUILDER" },
+            { label: "CONTACT US", href: "/admin/contact", icon: <Mail size={20} strokeWidth={1.8} />, permissionKey: "CONTACT_US" },
             { label: "SECTIONS", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} />, permissionKey: "SECTIONS" },
             { label: "BRANDS", href: "/admin/brands", icon: <Copyright size={20} strokeWidth={1.8} />, permissionKey: "BRANDS" },
             { label: "MANAGE SERVICES", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_SERVICES" },

@@ -71,6 +71,12 @@ export interface HomepageData {
             rating?: string;
         };
     };
+    settings?: {
+        contact_email?: string;
+        contact_phone?: string;
+        contact_address?: string;
+        [key: string]: any;
+    };
     pageStructure: {
         name: string;
         enabled: boolean;
