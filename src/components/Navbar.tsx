@@ -11,7 +11,7 @@ import { useCart } from "@/context/CartContext";
 export default function Navbar() {
     const { cartItems } = useCart();
     const [searchQuery, setSearchQuery] = useState("");
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<{ name?: string; email?: string; role?: string } | null>(null);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);

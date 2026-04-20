@@ -79,7 +79,7 @@ export interface HomepageData {
         contact_email?: string;
         contact_phone?: string;
         contact_address?: string;
-        [key: string]: any;
+        [key: string]: string | number | boolean | null | undefined | object;
     };
     pageStructure: {
         name: string;
