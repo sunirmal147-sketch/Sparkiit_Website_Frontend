@@ -14,6 +14,7 @@ export default function Navbar() {
     const [user, setUser] = useState<any>(null);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
     const { data } = useHomepageData();
     const router = useRouter();
     const site = data?.content?.site || { logoText: "Sparkiit" };
@@ -154,10 +155,56 @@ export default function Navbar() {
             <div className="flex items-center gap-2 md:gap-6">
                 {/* Search Bar Container */}
                 <div className="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full h-11 pl-4 pr-1 focus-within:border-[#00875a]/40 transition-all duration-300">
-                    <div className="flex items-center gap-2 cursor-pointer group pr-3 border-r border-white/5">
+                    <div 
+                        className="relative flex items-center gap-2 cursor-pointer group pr-3 border-r border-white/5"
+                        onMouseEnter={() => setIsCategoriesDropdownOpen(true)}
+                        onMouseLeave={() => setIsCategoriesDropdownOpen(false)}
+                    >
                         <LayoutGrid size={16} className="text-[#00875a]" />
                         <span className="text-xs font-semibold text-white/60 whitespace-nowrap">Categories</span>
                         <ChevronDown size={12} className="text-white/20" />
+
+                        {/* Categories Dropdown */}
+                        <AnimatePresence>
+                            {isCategoriesDropdownOpen && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                    className="absolute top-full left-[-1rem] mt-2 w-64 bg-[#050505] border border-white/10 rounded-2xl py-4 backdrop-blur-xl shadow-2xl z-50 overflow-hidden"
+                                >
+                                    <div className="px-6 pb-2 mb-2 border-b border-white/5">
+                                        <p className="text-[10px] font-black text-[#00875a] uppercase tracking-[0.2em]">Explore Domains</p>
+                                    </div>
+                                    <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
+                                        {(data?.services && data.services.length > 0 ? data.services : [
+                                            { title: "Application Development" },
+                                            { title: "UI/UX Strategy & Design" },
+                                            { title: "Blockchain Solutions" },
+                                            { title: "Digital Marketing" }
+                                        ]).map((service, idx) => (
+                                            <Link 
+                                                key={idx}
+                                                href={`/courses?category=${encodeURIComponent(service.title)}`}
+                                                className="block px-6 py-3 text-xs font-bold text-white/50 hover:text-white hover:bg-white/5 transition-all uppercase tracking-widest"
+                                                onClick={() => setIsCategoriesDropdownOpen(false)}
+                                            >
+                                                {service.title}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                    <div className="mt-2 px-6 pt-2 border-t border-white/5">
+                                        <Link 
+                                            href="/domains" 
+                                            className="text-[10px] font-black text-[#00875a] hover:text-[#00c978] transition-colors uppercase tracking-[0.2em]"
+                                            onClick={() => setIsCategoriesDropdownOpen(false)}
+                                        >
+                                            View All Domains →
+                                        </Link>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
 
                     <input
