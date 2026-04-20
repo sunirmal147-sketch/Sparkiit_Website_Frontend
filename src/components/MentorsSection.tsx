@@ -84,7 +84,7 @@ function MentorsContent({ mentors, title, subtitle }: { mentors: Mentor[], title
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
                                 <h3 className="text-white font-bold text-xl">{mentor.name}</h3>
-                                <p className="text-white/60 text-sm mt-1">{mentor.description}</p>
+                                <p className="text-white/60 text-sm mt-1 whitespace-normal break-words">{mentor.description}</p>
                             </div>
                         </div>
                     ))}
@@ -96,9 +96,6 @@ function MentorsContent({ mentors, title, subtitle }: { mentors: Mentor[], title
                 <h2 className="text-[10vw] md:text-[6vw] font-black leading-[0.8] uppercase tracking-tighter mix-blend-overlay opacity-50 whitespace-nowrap">
                     {title || "LET'S BUILD."}
                 </h2>
-                <p className="font-bold text-sm md:text-base mt-2 uppercase tracking-widest opacity-80">
-                    {subtitle || "Ready to transform education?"}
-                </p>
             </div>
 
             {/* Custom Background Noise/Texture */}
@@ -129,7 +126,6 @@ export default function MentorsSection(props: MentorsSectionContent) {
         return (
             <section className="h-[320px] flex flex-col items-center justify-center bg-[#050505] text-white text-center">
                 <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold uppercase tracking-tighter">{props.title || "Let's Build."}</h2>
-                <p className="mt-2 text-sm font-medium uppercase tracking-widest opacity-80">{props.subtitle || "Ready to transform education?"}</p>
             </section>
         );
     }

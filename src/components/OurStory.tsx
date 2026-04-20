@@ -25,9 +25,9 @@ export default function OurStory(props: OurStoryContent) {
     const opacityFade = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
     const story = {
-        title: props.title || data?.content?.story?.title || "The journey of Sparkiit",
-        subtitle: props.subtitle || data?.content?.story?.subtitle || "Since 2021, we have been at the forefront of digital innovation, helping brands navigate the complex landscape of Web3, Blockchain, and immersive technology.",
-        description: props.description || data?.content?.story?.description || "Our mission is to empower visionaries with the tools and strategies needed to transform industries. We believe that technology should be a catalyst for change, not a barrier. By blending creative design with deep technical expertise, we create experiences that are not only beautiful but also functional and secure.",
+        title: props.title || data?.content?.story?.title || "The journey of SPARKIIT",
+        subtitle: props.subtitle || data?.content?.story?.subtitle || "Since our inception, we have been empowering learners with industry-focused education across diverse domains, helping them build real-world skills, explore career paths, and stay ahead in an ever-evolving digital world.",
+        description: props.description || data?.content?.story?.description || "Our mission is to empower learners with the knowledge, skills, and guidance they need to shape their future. We believe education should open doors, not create barriers. By combining practical learning with industry expertise, we deliver experiences that are engaging, career-focused, and built for real-world success.",
         image: props.image || ""
     };
 
@@ -72,7 +72,7 @@ export default function OurStory(props: OurStoryContent) {
                         {story.description}
                     </motion.p>
                     <div className="pt-10">
-                        <PremiumButton text="Read Full Story" variant="secondary" href="/about" />
+                        <PremiumButton text="Read Full Story" variant="secondary" href="/about?fullstory=true" />
                     </div>
                 </div>
             </motion.div>

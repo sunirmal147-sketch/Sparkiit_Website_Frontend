@@ -6,18 +6,18 @@ import { useHomepageData } from "@/hooks/useHomepageData";
 const fallbackSteps = [
     {
         num: "01",
-        title: "STRATEGY",
-        desc: "We define the vision, goals, and core requirements to ensure a solid foundation for your project."
+        title: "IDEA",
+        desc: "Spark your ideas with clarity and purpose, building a strong foundation for your learning journey."
     },
     {
         num: "02",
-        title: "DESIGN",
-        desc: "Our creative team builds intuitive and visually stunning interfaces that prioritize user experience."
+        title: "INNOVATION",
+        desc: "Transform your ideas into impactful innovation through hands-on training and practical exposure."
     },
     {
         num: "03",
-        title: "DEVELOP",
-        desc: "Scaleable, secure, and high-performance solutions built with modern technology stacks."
+        title: "TRANSFORMATION",
+        desc: "Transform yourself with real-world experience, industry-relevant skills, and career-focused execution."
     }
 ];
 
@@ -32,7 +32,7 @@ export default function WorkingProcess(props: WorkingProcessContent) {
 
     const process = {
         title: props.title || data?.content?.process?.title || "SPARKIIT CATCHPHRASE",
-        description: props.description || data?.content?.process?.description || "A systematic approach to turning complex ideas into seamless digital experiences.",
+        description: props.description || data?.content?.process?.description || "Focusing on Real Results and Practical Outcomes Rather Than Just Theoretical Learning.",
     };
 
     const steps = props.steps || [

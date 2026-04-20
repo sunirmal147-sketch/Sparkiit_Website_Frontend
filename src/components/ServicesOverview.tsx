@@ -33,8 +33,8 @@ export default function ServicesOverview(props: ServicesOverviewContent) {
 
     const xParallax = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
-    const title = props.title || "Tailored solutions for modern brands.";
-    const description = props.description || "We provide end-to-end digital services that help companies scale, innovate, and lead in their respective markets.";
+    const title = props.title || "TURN UNCERTAINTY INTO DIRECTION";
+    const description = props.description || "Unlock a vast library of premium domains spanning diverse fields, all led by world renowned experts. Whether you're looking to elevate your career or master new skills, our platform gives you the knowledge and flexibility you need to thrive";
     const services = props.services || (data?.services && data.services.length > 0
         ? data.services.map(s => s.title)
         : fallbackServices);
@@ -51,7 +51,7 @@ export default function ServicesOverview(props: ServicesOverviewContent) {
                     >
                         Our Expertise
                     </motion.p>
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tighter mb-8 lg:mb-10 leading-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-white uppercase tracking-tighter mb-8 lg:mb-10 leading-tight">
                         <TextReveal text={title} />
                     </h2>
                     <motion.p 

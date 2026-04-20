@@ -35,22 +35,28 @@ export default function TextReveal({ text, className = "", delay = 0 }: TextReve
         },
     };
 
+    const words = text.split(" ");
+
     return (
         <motion.span
-            className={`inline-block whitespace-pre-wrap ${className}`}
+            className={`inline-block ${className}`}
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.5 }}
         >
-            {characters.map((char, index) => (
-                <motion.span
-                    key={index}
-                    variants={childVariants}
-                    className="inline-block"
-                >
-                    {char === " " ? "\u00A0" : char}
-                </motion.span>
+            {words.map((word, wordIndex) => (
+                <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.2em]">
+                    {word.split("").map((char, charIndex) => (
+                        <motion.span
+                            key={charIndex}
+                            variants={childVariants}
+                            className="inline-block"
+                        >
+                            {char}
+                        </motion.span>
+                    ))}
+                </span>
             ))}
         </motion.span>
     );

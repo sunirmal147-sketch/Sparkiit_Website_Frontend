@@ -71,34 +71,34 @@ const Testimonials = (props: TestimonialsContent) => {
       _id: '1',
       name: 'Alex Rivera',
       role: 'CEO at Visionary Labs',
-      content: 'Sparkiit transformed our digital presence. Their attention to detail and innovative approach is unmatched in the industry.',
+      content: 'SPARKIIT transformed our digital presence. Their attention to detail and innovative approach is unmatched in the industry.',
       avatar: ''
     },
     {
       _id: '2',
       name: 'Sarah Chen',
       role: 'Founder of Nexus AI',
-      content: 'The team at Sparkiit are true partners. They didn\'t just build a website; they built an experience that our customers love.',
+      content: 'The team at SPARKIIT are true partners. They didn\'t just build a website; they built an experience that our customers love.',
       avatar: ''
     },
     {
       _id: '3',
       name: 'Marcus Thorne',
       role: 'Marketing Director',
-      content: 'Working with Sparkiit was the best decision for our rebranding. Their creative vision is truly world-class.',
+      content: 'Working with SPARKIIT was the best decision for our rebranding. Their creative vision is truly world-class.',
       avatar: ''
     },
     {
       _id: '4',
       name: 'Elena Gomez',
       role: 'CTO at CloudBase',
-      content: 'Highly technical and incredibly creative. Sparkiit is the rare agency that excels at both form and function.',
+      content: 'Highly technical and incredibly creative. SPARKIIT is the rare agency that excels at both form and function.',
       avatar: ''
     }
   ];
 
   const title = props.title || "Voices of Success";
-  const subtitle = props.subtitle || "Join 50+ industry leaders who have already transformed their digital future with Sparkiit.";
+  const subtitle = props.subtitle || data?.content?.testimonials?.subtitle || "Mentors Dedicated to Supporting Your Growth";
   const testimonials = props.testimonials?.length ? props.testimonials : (data?.testimonials?.length ? data.testimonials : defaultTestimonials);
   
   // Duplicate for infinite scroll
@@ -159,9 +159,9 @@ const Testimonials = (props: TestimonialsContent) => {
       <div className="max-w-7xl mx-auto px-6 text-center mt-20 relative z-10">
         <motion.p
           style={{ opacity }}
-          className="text-gray-500 text-lg font-medium max-w-2xl mx-auto"
+          className="text-white text-3xl md:text-5xl font-black max-w-4xl mx-auto uppercase tracking-tighter leading-tight"
         >
-          {subtitle}
+          <span className="text-[#00875a]">Mentors Dedicated to</span> <br className="hidden md:block" /> Supporting Your Growth
         </motion.p>
       </div>
     </section>
