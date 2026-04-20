@@ -63,7 +63,7 @@ export default function VerifyPage() {
                             Validate your <br /> <span className="text-white/20">Achievement.</span>
                         </h1>
                         <p className="text-xl text-gray-500 mb-12 max-w-xl leading-relaxed">
-                            Enter the email address you used during enrollment to verify and download your digital certificates.
+                            Verify certificates issued by SPARKIIT EDTECH LLP by entering the registered email address.
                         </p>
 
                         <form onSubmit={handleVerify} className="relative max-w-xl group">

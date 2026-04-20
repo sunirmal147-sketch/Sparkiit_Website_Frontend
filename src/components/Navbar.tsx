@@ -17,7 +17,7 @@ export default function Navbar() {
     const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
     const { data } = useHomepageData();
     const router = useRouter();
-    const site = data?.content?.site || { logoText: "Sparkiit" };
+    const site = data?.content?.site || { logoText: "SPARKIIT" };
 
     const { scrollY } = useScroll();
     const [hidden, setHidden] = useState(false);
@@ -141,7 +141,7 @@ export default function Navbar() {
 
                         {/* More Dropdown */}
                         <div className="absolute top-full left-0 mt-2 w-48 bg-[#050505] border border-white/10 rounded-xl py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-xl shadow-2xl">
-                            <Link href="/projects" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">Projects</Link>
+                            <Link href="/job-portal" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">Job Portal</Link>
                             <Link href="/blog" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">Blogs</Link>
                             <Link href="/faqs" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">FAQ</Link>
                             <div className="h-px bg-white/5 my-2" />
@@ -356,7 +356,7 @@ export default function Navbar() {
                             <div className="h-px bg-white/5 my-4" />
                             
                             <Link href="/domains" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-[#00875a]">Categories</Link>
-                            <Link href="/projects" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Projects</Link>
+                            <Link href="/job-portal" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Job Portal</Link>
                             <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Blogs</Link>
                             <Link href="/faqs" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">FAQ</Link>
                             <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-[#00875a]">Events</Link>

@@ -56,7 +56,7 @@ export default function SignupPage() {
             >
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-black text-white tracking-tighter uppercase mb-2">Create Account</h1>
-                    <p className="text-white/40 text-sm">Join SparkIIT and start your learning journey</p>
+                    <p className="text-white/40 text-sm">Join SPARKIIT and start your learning journey</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">

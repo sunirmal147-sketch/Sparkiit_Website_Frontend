@@ -39,7 +39,7 @@ export interface CompanyInsightsContent {
 
 export default function CompanyInsights(props: CompanyInsightsContent) {
     const title = props.title || "LATEST INSIGHTS & ARTICLES.";
-    const description = props.description || "Stay up to date with the latest trends in Blockchain, DeFi, and digital design through our curated blog posts.";
+    const description = props.description || "Explore fresh insights, industry trends, and expert perspectives through our regularly updated articles and blogs.";
     const statsItems = props.stats || stats;
     const ctaText = props.ctaText || "Browse Full Blog";
     const ctaLink = props.ctaLink || "/blog";

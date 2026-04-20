@@ -18,8 +18,8 @@ export default function Footer(props: FooterContent) {
     const { data } = useHomepageData();
     
     const site = {
-        logoText: props.logoText || data?.content?.site?.logoText || "Sparkiit",
-        footerDesc: props.footerDesc || data?.content?.site?.footerDesc || "Transforming the digital landscape through innovation, design, and deep technical expertise.",
+        logoText: props.logoText || data?.content?.site?.logoText || "SPARKIIT",
+        footerDesc: props.footerDesc || data?.content?.site?.footerDesc || "A structured pathway designed for driven students to explore opportunities, develop in-demand skills, and turn career goals into real achievements.",
         copyright: props.copyright || data?.content?.site?.copyright || "© 2026 SPARKIIT AGENCY. ALL RIGHTS RESERVED.",
         github: props.github || data?.content?.site?.github || "#",
         twitter: props.twitter || data?.content?.site?.twitter || "#",
@@ -100,9 +100,10 @@ export default function Footer(props: FooterContent) {
 
             <div className="max-w-7xl mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/30 uppercase tracking-[0.2em]">
                 <p>{site.copyright}</p>
-                <div className="flex gap-8">
-                    <Link href="#" className="hover:text-white transition-colors">PRIVACY POLICY</Link>
-                    <Link href="#" className="hover:text-white transition-colors">TERMS OF SERVICE</Link>
+                <div className="flex flex-wrap gap-x-8 gap-y-4">
+                    <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                    <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+                    <Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link>
                 </div>
             </div>
         </footer>

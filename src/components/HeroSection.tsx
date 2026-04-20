@@ -55,7 +55,7 @@ export default function HeroSection(props: HeroContent) {
         word1: props.word1 || data?.content?.hero?.word1 || "IDEA",
         word2: props.word2 || data?.content?.hero?.word2 || "INNOVATE",
         word3: props.word3 || data?.content?.hero?.word3 || "TRANSFORM",
-        tagline: props.tagline || data?.content?.hero?.tagline || "Design and development for Blockchain, DeFi, Web3, and Crypto Start-ups.",
+        tagline: props.tagline || data?.content?.hero?.tagline || "Not Basic Training. A High Impact Career Engine",
         ctaText: props.ctaText || data?.content?.hero?.ctaText || "Let's Talk",
         ctaLink: props.ctaLink || "/contact",
         videoThumbnail: props.videoThumbnail || "",
