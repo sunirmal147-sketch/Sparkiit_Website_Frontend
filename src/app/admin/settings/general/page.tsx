@@ -171,7 +171,7 @@ export default function GeneralSettings() {
                         <p className="text-[10px] text-white/40 mb-6 font-medium italic">"Enable this to lock the frontend and display a maintenance notice."</p>
                         <select 
                             value={formData.maintenanceMode}
-                            onChange={(e) => setFormData({...formData, maintenanceMode: e.target.value})}
+                            onChange={(e: any) => setFormData({...formData, maintenanceMode: e.target.value})}
                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white font-black uppercase tracking-widest outline-none focus:border-amber-500 transition-all"
                         >
                             <option value="off">Operational (Live)</option>
@@ -236,7 +236,7 @@ function InputField({ label, value, onChange, placeholder, icon }: any) {
             <input
                 type="text"
                 value={value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e: any) => onChange(e.target.value)}
                 placeholder={placeholder}
                 className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-sm text-white outline-none focus:border-[#00875a]/50 focus:bg-white/[0.08] transition-all placeholder:text-white/10"
             />
@@ -254,7 +254,7 @@ function AssetField({ label, value, onChange, icon }: any) {
                 <input 
                     type="text" 
                     value={value} 
-                    onChange={e => onChange(e.target.value)} 
+                    onChange={(e: any) => onChange(e.target.value)} 
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-[11px] text-white/60 outline-none focus:border-[#00875a]/30 transition-all font-medium"
                     placeholder="https://..."
                 />

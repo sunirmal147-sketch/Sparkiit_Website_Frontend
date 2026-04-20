@@ -694,32 +694,32 @@ export default function ManageTeamPage() {
                             <form onSubmit={handleSetTarget} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                                 <div style={{ gridColumn: "1 / -1" }}>
                                     <Label>Target Title</Label>
-                                    <Input required value={targetForm.title} onChange={e => setTargetForm({ ...targetForm, title: e.target.value })} placeholder="e.g. Q4 Growth Sprint" />
+                                    <Input required value={targetForm.title} onChange={(e: any) => setTargetForm({ ...targetForm, title: e.target.value })} placeholder="e.g. Q4 Growth Sprint" />
                                 </div>
                                 <div style={{ gridColumn: "1 / 1" }}>
                                     <Label>Start Date</Label>
-                                    <Input type="date" required value={targetForm.startDate} onChange={e => setTargetForm({ ...targetForm, startDate: e.target.value })} />
+                                    <Input type="date" required value={targetForm.startDate} onChange={(e: any) => setTargetForm({ ...targetForm, startDate: e.target.value })} />
                                 </div>
                                 <div style={{ gridColumn: "2 / 2" }}>
                                     <Label>End Date</Label>
-                                    <Input type="date" required value={targetForm.endDate} onChange={e => setTargetForm({ ...targetForm, endDate: e.target.value })} />
+                                    <Input type="date" required value={targetForm.endDate} onChange={(e: any) => setTargetForm({ ...targetForm, endDate: e.target.value })} />
                                 </div>
                                 <div>
                                     <Label>Revenue Target (₹)</Label>
-                                    <Input type="number" value={targetForm.targetRevenue} onChange={e => setTargetForm({ ...targetForm, targetRevenue: parseFloat(e.target.value) || 0 })} />
+                                    <Input type="number" value={targetForm.targetRevenue} onChange={(e: any) => setTargetForm({ ...targetForm, targetRevenue: parseFloat(e.target.value) || 0 })} />
                                 </div>
                                 <div>
                                     <Label>Sales Count Target</Label>
-                                    <Input type="number" value={targetForm.targetCount} onChange={e => setTargetForm({ ...targetForm, targetCount: parseInt(e.target.value) || 0 })} />
+                                    <Input type="number" value={targetForm.targetCount} onChange={(e: any) => setTargetForm({ ...targetForm, targetCount: parseInt(e.target.value) || 0 })} />
                                 </div>
                                 <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.05)", margin: "10px 0" }} />
                                 <div>
                                     <Label accent>Manual Revenue Adj.</Label>
-                                    <Input type="number" value={targetForm.manualAdjustmentAmount} onChange={e => setTargetForm({ ...targetForm, manualAdjustmentAmount: parseFloat(e.target.value) || 0 })} style={{ borderColor: "rgba(245,158,11,0.2)" }} />
+                                    <Input type="number" value={targetForm.manualAdjustmentAmount} onChange={(e: any) => setTargetForm({ ...targetForm, manualAdjustmentAmount: parseFloat(e.target.value) || 0 })} style={{ borderColor: "rgba(245,158,11,0.2)" }} />
                                 </div>
                                 <div>
                                     <Label accent>Manual Sales Adj.</Label>
-                                    <Input type="number" value={targetForm.manualAdjustmentCount} onChange={e => setTargetForm({ ...targetForm, manualAdjustmentCount: parseInt(e.target.value) || 0 })} style={{ borderColor: "rgba(245,158,11,0.2)" }} />
+                                    <Input type="number" value={targetForm.manualAdjustmentCount} onChange={(e: any) => setTargetForm({ ...targetForm, manualAdjustmentCount: parseInt(e.target.value) || 0 })} style={{ borderColor: "rgba(245,158,11,0.2)" }} />
                                 </div>
                                 <button
                                     type="submit"

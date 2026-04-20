@@ -275,7 +275,7 @@ export default function CurriculumPage() {
                                         type="text" 
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#00875a] outline-none transition-all"
                                         value={form.title}
-                                        onChange={e => setForm({...form, title: e.target.value})}
+                                        onChange={(e: any) => setForm({...form, title: e.target.value})}
                                         placeholder={`Enter ${modalType} title...`}
                                     />
                                 </div>
@@ -301,7 +301,7 @@ export default function CurriculumPage() {
                                                 type="checkbox" 
                                                 id="isFree"
                                                 checked={form.isFree}
-                                                onChange={e => setForm({...form, isFree: e.target.checked})}
+                                                onChange={(e: any) => setForm({...form, isFree: e.target.checked})}
                                                 className="w-5 h-5 accent-[#00875a]"
                                             />
                                             <label htmlFor="isFree" className="text-xs font-black uppercase tracking-widest text-white/60 cursor-pointer">Preview Lesson (Free)</label>

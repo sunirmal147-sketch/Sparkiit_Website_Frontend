@@ -164,7 +164,7 @@ export default function CertificateManagement() {
                     type="text"
                     placeholder="Search by name, email, or certificate ID..."
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e: any) => setSearch(e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-[#00875a]/40 transition-all"
                 />
             </div>
@@ -241,7 +241,7 @@ export default function CertificateManagement() {
                                 </label>
                                 <select 
                                     value={editingCert.templateId}
-                                    onChange={e => setEditingCert({...editingCert, templateId: e.target.value})}
+                                    onChange={(e: any) => setEditingCert({...editingCert, templateId: e.target.value})}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                 >
                                     <option value="" className="bg-[#111]">No Template (Metadata Only)</option>
@@ -258,7 +258,7 @@ export default function CertificateManagement() {
                                 <input 
                                     type="text" 
                                     value={editingCert.certificateId}
-                                    onChange={e => setEditingCert({...editingCert, certificateId: e.target.value})}
+                                    onChange={(e: any) => setEditingCert({...editingCert, certificateId: e.target.value})}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                     placeholder="SPK-2026-X"
                                 />
@@ -269,7 +269,7 @@ export default function CertificateManagement() {
                                     Quick Select Candidate
                                 </label>
                                 <select 
-                                    onChange={e => {
+                                    onChange={(e: any) => {
                                         const cand = candidates.find(c => c._id === e.target.value);
                                         if (cand) {
                                             setEditingCert({
@@ -294,7 +294,7 @@ export default function CertificateManagement() {
                                     <input 
                                         type="text" 
                                         value={editingCert.candidateName}
-                                        onChange={e => setEditingCert({...editingCert, candidateName: e.target.value})}
+                                        onChange={(e: any) => setEditingCert({...editingCert, candidateName: e.target.value})}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                     />
                                 </div>
@@ -303,7 +303,7 @@ export default function CertificateManagement() {
                                     <input 
                                         type="text" 
                                         value={editingCert.grade}
-                                        onChange={e => setEditingCert({...editingCert, grade: e.target.value})}
+                                        onChange={(e: any) => setEditingCert({...editingCert, grade: e.target.value})}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                         placeholder="A+"
                                     />
@@ -317,7 +317,7 @@ export default function CertificateManagement() {
                                 <input 
                                     type="email" 
                                     value={editingCert.candidateEmail}
-                                    onChange={e => setEditingCert({...editingCert, candidateEmail: e.target.value})}
+                                    onChange={(e: any) => setEditingCert({...editingCert, candidateEmail: e.target.value})}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                 />
                             </div>
@@ -329,7 +329,7 @@ export default function CertificateManagement() {
                                 <input 
                                     type="text" 
                                     value={editingCert.courseName}
-                                    onChange={e => setEditingCert({...editingCert, courseName: e.target.value})}
+                                    onChange={(e: any) => setEditingCert({...editingCert, courseName: e.target.value})}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                 />
                             </div>

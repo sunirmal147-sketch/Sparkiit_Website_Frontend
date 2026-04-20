@@ -265,25 +265,25 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
                 <div className="space-y-6">
                     <div>
                         <label className={labelStyle}>Headline</label>
-                        <input className={inputStyle} value={content.title || ""} onChange={e => handleChange("title", e.target.value)} />
+                        <input className={inputStyle} value={content.title || ""} onChange={(e: any) => handleChange("title", e.target.value)} />
                     </div>
                     <div>
                         <label className={labelStyle}>Sub-Headline</label>
-                        <textarea className={`${inputStyle} min-h-[100px]`} value={content.subtitle || ""} onChange={e => handleChange("subtitle", e.target.value)} />
+                        <textarea className={`${inputStyle} min-h-[100px]`} value={content.subtitle || ""} onChange={(e: any) => handleChange("subtitle", e.target.value)} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className={labelStyle}>Button Text</label>
-                            <input className={inputStyle} value={content.ctaText || ""} onChange={e => handleChange("ctaText", e.target.value)} />
+                            <input className={inputStyle} value={content.ctaText || ""} onChange={(e: any) => handleChange("ctaText", e.target.value)} />
                         </div>
                         <div>
                             <label className={labelStyle}>Button Link</label>
-                            <input className={inputStyle} value={content.ctaLink || ""} onChange={e => handleChange("ctaLink", e.target.value)} />
+                            <input className={inputStyle} value={content.ctaLink || ""} onChange={(e: any) => handleChange("ctaLink", e.target.value)} />
                         </div>
                     </div>
                     <div>
                         <label className={labelStyle}>Background Image URL</label>
-                        <input className={inputStyle} value={content.bgImage || ""} onChange={e => handleChange("bgImage", e.target.value)} />
+                        <input className={inputStyle} value={content.bgImage || ""} onChange={(e: any) => handleChange("bgImage", e.target.value)} />
                     </div>
                 </div>
             )}
@@ -306,12 +306,12 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
                                     <X size={12} />
                                 </button>
                                 <div className="space-y-3">
-                                    <input className={inputStyle} placeholder="Title" value={item.title || ""} onChange={e => {
+                                    <input className={inputStyle} placeholder="Title" value={item.title || ""} onChange={(e: any) => {
                                         const newItems = [...content.items];
                                         newItems[idx] = { ...item, title: e.target.value };
                                         handleChange("items", newItems);
                                     }} />
-                                    <textarea className={`${inputStyle} text-xs`} placeholder="Description" value={item.desc || ""} onChange={e => {
+                                    <textarea className={`${inputStyle} text-xs`} placeholder="Description" value={item.desc || ""} onChange={(e: any) => {
                                         const newItems = [...content.items];
                                         newItems[idx] = { ...item, desc: e.target.value };
                                         handleChange("items", newItems);
