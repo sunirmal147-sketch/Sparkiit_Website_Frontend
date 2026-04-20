@@ -134,9 +134,8 @@ export default function AdminDashboard() {
 
     
     const websiteActions = [
-        { title: "MENU BUILDER", desc: "Navigation Links", icon: LayoutGrid, link: "/admin/menu-builder", color: "#06b6d4" },
         { title: "PAGE BUILDER", desc: "Static Pages", icon: FilePlus, link: "/admin/page-builder", color: "#84cc16" },
-        { title: "SECTIONS", desc: "Home Page Layout", icon: Blocks, link: "/admin/sections", color: "#ec4899" },
+        { title: "RATING SECTION", desc: "Home Page Layout", icon: Blocks, link: "/admin/sections", color: "#ec4899" },
         { title: "BRANDS", desc: "Partner Logos", icon: Copyright, link: "/admin/brands", color: "#a855f7" },
         { title: "MANAGE DOMAINS", desc: "Upload & Payment Links", icon: Globe, link: "/admin/courses", color: "#00875a" },
         { title: "MANAGE SERVICES", desc: "Platform Config", icon: Monitor, link: "/admin/services", color: "#60a5fa" },
