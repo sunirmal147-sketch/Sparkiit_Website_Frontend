@@ -191,7 +191,7 @@ export default function UsersPage() {
                         type="text"
                         placeholder="Search users..."
                         value={search}
-                        onChange={e => setSearch(e.target.value)}
+                        onChange={(e: any) => setSearch(e.target.value)}
                         style={{ ...inputStyle, width: 200, marginBottom: 0, fontSize: 13 }}
                     />
                     {currentUser && (
@@ -283,7 +283,7 @@ export default function UsersPage() {
                         )}
 
                         <label style={{ display: "block", fontSize: 11, color: "rgba(255,255,255,0.4)", fontWeight: 600, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.08em" }}>Role</label>
-                        <select style={inputStyle} value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
+                        <select style={inputStyle} value={form.role} onChange={(e: any) => setForm({ ...form, role: e.target.value })}>
                             {ROLES.filter(r => currentUser?.role === "SUPER_ADMIN" || (ROLES.indexOf(currentUser?.role || "USER") <= ROLES.indexOf(r) && r !== "SUPER_ADMIN")).map(role => (
                                 <option key={role} value={role} style={{ background: "#141414", color: "#fff" }}>{role.replace(/_/g, ' ')}</option>
                             ))}
@@ -295,7 +295,7 @@ export default function UsersPage() {
                         <select 
                             style={inputStyle} 
                             value={form.reportingTo} 
-                            onChange={(e) => setForm({ ...form, reportingTo: e.target.value })}
+                            onChange={(e: any) => setForm({ ...form, reportingTo: e.target.value })}
                         >
                             <option value="" style={{ background: "#141414", color: "rgba(255,255,255,0.4)" }}>— No Team Lead —</option>
                             {users.filter(u => u._id !== editingUserId && ['SUPER_ADMIN', 'ADMIN', 'TEAM_LEADER', 'MANAGER'].includes(u.role)).map(u => (
@@ -333,7 +333,7 @@ export default function UsersPage() {
                                             <input 
                                                 type="checkbox" 
                                                 checked={isChecked}
-                                                onChange={(e) => {
+                                                onChange={(e: any) => {
                                                     if (e.target.checked) {
                                                         setForm({ ...form, allowedSections: [...form.allowedSections, section.key] });
                                                     } else {

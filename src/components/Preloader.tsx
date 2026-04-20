@@ -125,20 +125,26 @@ function Particles({ onComplete }: { onComplete: () => void }) {
 
         // 2. Scatter
         tl.to(currentPos, {
-            endArray: scatteredPositions,
             duration: 1.2,
             ease: "expo.out",
-            onUpdate: () => {
+            onUpdate: function(this: any) {
+                const progress = this.progress();
+                for (let i = 0; i < currentPos.length; i++) {
+                    currentPos[i] = THREE.MathUtils.lerp(spherePositions[i], scatteredPositions[i], progress);
+                }
                 pointsRef.current.geometry.attributes.position.needsUpdate = true;
             }
         }, "+=0.2");
 
         // 3. Reform into Text
         tl.to(currentPos, {
-            endArray: textPositions,
             duration: 1.8,
             ease: "back.out(1.2)",
-            onUpdate: () => {
+            onUpdate: function(this: any) {
+                const progress = this.progress();
+                for (let i = 0; i < currentPos.length; i++) {
+                    currentPos[i] = THREE.MathUtils.lerp(scatteredPositions[i], textPositions[i], progress);
+                }
                 pointsRef.current.geometry.attributes.position.needsUpdate = true;
             }
         }, "-=0.3");

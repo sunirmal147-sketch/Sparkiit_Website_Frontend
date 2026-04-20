@@ -181,7 +181,7 @@ export default function BlogsPage() {
                             placeholder="Search articles..." 
                             className="bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm text-white focus:border-[#00875a] outline-none transition-all w-64"
                             value={search}
-                            onChange={e => setSearch(e.target.value)}
+                            onChange={(e: any) => setSearch(e.target.value)}
                         />
                     </div>
                     <button
@@ -258,23 +258,23 @@ export default function BlogsPage() {
                                 <div className="space-y-6">
                                     <div>
                                         <label style={labelStyle}>Article Title</label>
-                                        <input style={inputStyle} value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="e.g. Master Next.js 14" />
+                                        <input style={inputStyle} value={form.title} onChange={(e: any) => setForm({...form, title: e.target.value})} placeholder="e.g. Master Next.js 14" />
                                     </div>
                                     <div>
                                         <label style={labelStyle}>Custom Slug</label>
                                         <div className="relative">
                                             <Globe className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
-                                            <input style={{...inputStyle, paddingLeft: 38}} value={form.slug} onChange={e => setForm({...form, slug: e.target.value.toLowerCase().split(' ').join('-')})} placeholder="master-nextjs-14" />
+                                            <input style={{...inputStyle, paddingLeft: 38}} value={form.slug} onChange={(e: any) => setForm({...form, slug: e.target.value.toLowerCase().split(' ').join('-')})} placeholder="master-nextjs-14" />
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label style={labelStyle}>Category</label>
-                                            <input style={inputStyle} value={form.category} onChange={e => setForm({...form, category: e.target.value})} />
+                                            <input style={inputStyle} value={form.category} onChange={(e: any) => setForm({...form, category: e.target.value})} />
                                         </div>
                                         <div>
                                             <label style={labelStyle}>Status</label>
-                                            <select style={inputStyle} value={form.status} onChange={e => setForm({...form, status: e.target.value as any})}>
+                                            <select style={inputStyle} value={form.status} onChange={(e: any) => setForm({...form, status: e.target.value as any})}>
                                                 <option value="draft">Draft (Private)</option>
                                                 <option value="publish">Publish (Live)</option>
                                             </select>
@@ -282,7 +282,7 @@ export default function BlogsPage() {
                                     </div>
                                     <div>
                                         <label style={labelStyle}>Article Content (Markdown/HTML Support)</label>
-                                        <textarea style={{...inputStyle, minHeight: 200}} value={form.content} onChange={e => setForm({...form, content: e.target.value})} placeholder="Write your masterpiece..." />
+                                        <textarea style={{...inputStyle, minHeight: 200}} value={form.content} onChange={(e: any) => setForm({...form, content: e.target.value})} placeholder="Write your masterpiece..." />
                                     </div>
                                 </div>
 
@@ -290,14 +290,14 @@ export default function BlogsPage() {
                                 <div className="space-y-6">
                                     <div>
                                         <label style={labelStyle}>Featured Image URL</label>
-                                        <input style={inputStyle} value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})} placeholder="https://..." />
+                                        <input style={inputStyle} value={form.imageUrl} onChange={(e: any) => setForm({...form, imageUrl: e.target.value})} placeholder="https://..." />
                                         {form.imageUrl && <img src={form.imageUrl} className="mt-2 w-full h-32 object-cover rounded-xl border border-white/10" alt="" />}
                                     </div>
 
                                     <div>
                                         <label style={labelStyle}>Tags</label>
                                         <div className="flex gap-2 mb-3">
-                                            <input style={inputStyle} value={newTag} onChange={e => setNewTag(e.target.value)} onKeyPress={e => e.key === 'Enter' && addTag()} placeholder="Add Tag..." />
+                                            <input style={inputStyle} value={newTag} onChange={(e: any) => setNewTag(e.target.value)} onKeyPress={(e: any) => e.key === 'Enter' && addTag()} placeholder="Add Tag..." />
                                             <button onClick={addTag} className="bg-white/5 px-4 rounded-xl text-white/60 hover:text-white transition-all"><Plus size={20} /></button>
                                         </div>
                                         <div className="flex flex-wrap gap-2">
@@ -318,11 +318,11 @@ export default function BlogsPage() {
                                         <div className="space-y-4">
                                             <div>
                                                 <label style={labelStyle}>Meta Title</label>
-                                                <input style={inputStyle} value={form.metaTitle} onChange={e => setForm({...form, metaTitle: e.target.value})} />
+                                                <input style={inputStyle} value={form.metaTitle} onChange={(e: any) => setForm({...form, metaTitle: e.target.value})} />
                                             </div>
                                             <div>
                                                 <label style={labelStyle}>Meta Description</label>
-                                                <textarea style={{...inputStyle, minHeight: 80}} value={form.metaDescription} onChange={e => setForm({...form, metaDescription: e.target.value})} />
+                                                <textarea style={{...inputStyle, minHeight: 80}} value={form.metaDescription} onChange={(e: any) => setForm({...form, metaDescription: e.target.value})} />
                                             </div>
                                         </div>
                                     </div>

@@ -166,7 +166,7 @@ export default function ProjectManagement() {
                                     <input 
                                         type="text" 
                                         value={editingProject.num}
-                                        onChange={e => setEditingProject({...editingProject, num: e.target.value})}
+                                        onChange={(e: any) => setEditingProject({...editingProject, num: e.target.value})}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                         placeholder="01"
                                     />
@@ -176,7 +176,7 @@ export default function ProjectManagement() {
                                     <input 
                                         type="number" 
                                         value={editingProject.order}
-                                        onChange={e => setEditingProject({...editingProject, order: parseInt(e.target.value)})}
+                                        onChange={(e: any) => setEditingProject({...editingProject, order: parseInt(e.target.value)})}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                     />
                                 </div>
@@ -186,7 +186,7 @@ export default function ProjectManagement() {
                                 <input 
                                     type="text" 
                                     value={editingProject.title}
-                                    onChange={e => setEditingProject({...editingProject, title: e.target.value})}
+                                    onChange={(e: any) => setEditingProject({...editingProject, title: e.target.value})}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                     placeholder="Project Title"
                                 />
@@ -196,7 +196,7 @@ export default function ProjectManagement() {
                                 <input 
                                     type="text" 
                                     value={editingProject.category}
-                                    onChange={e => setEditingProject({...editingProject, category: e.target.value})}
+                                    onChange={(e: any) => setEditingProject({...editingProject, category: e.target.value})}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                     placeholder="WEB3 / BLOCKCHAIN"
                                 />
@@ -206,7 +206,7 @@ export default function ProjectManagement() {
                                 <input 
                                     type="text" 
                                     value={editingProject.image}
-                                    onChange={e => setEditingProject({...editingProject, image: e.target.value})}
+                                    onChange={(e: any) => setEditingProject({...editingProject, image: e.target.value})}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#00875a]/40"
                                     placeholder="https://images.unsplash.com/..."
                                 />
