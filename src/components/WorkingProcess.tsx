@@ -21,24 +21,36 @@ const fallbackSteps = [
     }
 ];
 
-export default function WorkingProcess() {
+export interface WorkingProcessContent {
+    title?: string;
+    description?: string;
+    steps?: { num: string; title: string; desc: string }[];
+}
+
+export default function WorkingProcess(props: WorkingProcessContent) {
     const { data } = useHomepageData();
 
-    const process = data?.content?.process || {
-        title: "SPARKIIT CATCHPHRASE",
-        description: "A systematic approach to turning complex ideas into seamless digital experiences.",
-        step1Title: "IDEA",
-        step1Desc: "We define the vision, goals, and core requirements to ensure a solid foundation for your project.",
-        step2Title: "INNOVATION",
-        step2Desc: "Our creative team builds intuitive and visually stunning interfaces that prioritize user experience.",
-        step3Title: "TRANSFORMATION",
-        step3Desc: "Scaleable, secure, and high-performance solutions built with modern technology stacks.",
+    const process = {
+        title: props.title || data?.content?.process?.title || "SPARKIIT CATCHPHRASE",
+        description: props.description || data?.content?.process?.description || "A systematic approach to turning complex ideas into seamless digital experiences.",
     };
 
-    const steps = [
-        { num: "01", title: process.step1Title || fallbackSteps[0].title, desc: process.step1Desc || fallbackSteps[0].desc },
-        { num: "02", title: process.step2Title || fallbackSteps[1].title, desc: process.step2Desc || fallbackSteps[1].desc },
-        { num: "03", title: process.step3Title || fallbackSteps[2].title, desc: process.step3Desc || fallbackSteps[2].desc },
+    const steps = props.steps || [
+        { 
+            num: "01", 
+            title: data?.content?.process?.step1Title || fallbackSteps[0].title, 
+            desc: data?.content?.process?.step1Desc || fallbackSteps[0].desc 
+        },
+        { 
+            num: "02", 
+            title: data?.content?.process?.step2Title || fallbackSteps[1].title, 
+            desc: data?.content?.process?.step2Desc || fallbackSteps[1].desc 
+        },
+        { 
+            num: "03", 
+            title: data?.content?.process?.step3Title || fallbackSteps[2].title, 
+            desc: data?.content?.process?.step3Desc || fallbackSteps[2].desc 
+        },
     ];
 
     return (

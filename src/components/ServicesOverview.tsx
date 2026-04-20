@@ -17,7 +17,13 @@ const fallbackServices = [
     "Content Strategy"
 ];
 
-export default function ServicesOverview() {
+export interface ServicesOverviewContent {
+    title?: string;
+    description?: string;
+    services?: string[];
+}
+
+export default function ServicesOverview(props: ServicesOverviewContent) {
     const { data } = useHomepageData();
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -27,9 +33,11 @@ export default function ServicesOverview() {
 
     const xParallax = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
-    const services = data?.services && data.services.length > 0
+    const title = props.title || "Tailored solutions for modern brands.";
+    const description = props.description || "We provide end-to-end digital services that help companies scale, innovate, and lead in their respective markets.";
+    const services = props.services || (data?.services && data.services.length > 0
         ? data.services.map(s => s.title)
-        : fallbackServices;
+        : fallbackServices);
 
     return (
         <section id="expertise" ref={containerRef} className="py-16 px-6 md:px-20 bg-[#050505] border-y border-white/5 overflow-hidden">
@@ -44,7 +52,7 @@ export default function ServicesOverview() {
                         Our Expertise
                     </motion.p>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tighter mb-8 lg:mb-10 leading-tight">
-                        <TextReveal text="Tailored solutions for modern brands." />
+                        <TextReveal text={title} />
                     </h2>
                     <motion.p 
                         initial={{ opacity: 0, y: 20 }}
@@ -53,7 +61,7 @@ export default function ServicesOverview() {
                         transition={{ delay: 0.2 }}
                         className="text-gray-500 leading-relaxed mb-10 lg:mb-12 text-base md:text-lg font-medium"
                     >
-                        We provide end-to-end digital services that help companies scale, innovate, and lead in their respective markets.
+                        {description}
                     </motion.p>
                     <div className="mb-12 lg:mb-0">
                         <PremiumButton text="View All Services" variant="secondary" href="/domains" />

@@ -13,7 +13,18 @@ const collaborators = [
     { name: "Meta", logo: "M" },
 ];
 
-export default function Collaborations() {
+export interface CollaborationsContent {
+    title?: string;
+    subtitle?: string;
+    items?: { name: string; logo: string }[];
+}
+
+export default function Collaborations(props: CollaborationsContent) {
+    const title = props.title || "Collaborations";
+    const subtitle = props.subtitle || "Building the Future Together";
+    const initialItems = props.items || [];
+    const items = initialItems.length > 0 ? initialItems : collaborators;
+
     return (
         <section className="py-12 bg-[#050505] border-y border-white/5 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 md:px-20 mb-12 text-center">
@@ -23,7 +34,7 @@ export default function Collaborations() {
                     viewport={{ once: true }}
                     className="text-[#00875a] font-bold uppercase tracking-[0.3em] text-[10px] border border-[#00875a]/20 px-4 py-2 rounded-full backdrop-blur-sm"
                 >
-                    Collaborations
+                    {title}
                 </motion.span>
                 <motion.h2 
                     initial={{ opacity: 0, y: 20 }}
@@ -32,7 +43,11 @@ export default function Collaborations() {
                     transition={{ delay: 0.1 }}
                     className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mt-6"
                 >
-                    Building the <span className="text-[#00875a]">Future Together</span>
+                    {subtitle.split(' ').map((word, i) => (
+                        <span key={i} className={i >= subtitle.split(' ').length - 2 ? "text-[#00875a]" : ""}>
+                            {word}{" "}
+                        </span>
+                    ))}
                 </motion.h2>
             </div>
 
@@ -46,7 +61,7 @@ export default function Collaborations() {
                     }}
                     className="flex shrink-0 gap-12 md:gap-24 items-center pr-12 md:pr-24"
                 >
-                    {[...collaborators, ...collaborators].map((item, index) => (
+                    {[...items, ...items].map((item, index) => (
                         <div key={index} className="flex items-center gap-4 group cursor-default">
                             <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl md:text-3xl font-black text-[#00875a] group-hover:bg-[#00875a] group-hover:text-white transition-all duration-300">
                                 {item.logo}

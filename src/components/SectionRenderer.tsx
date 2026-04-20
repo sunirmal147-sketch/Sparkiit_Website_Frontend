@@ -18,6 +18,7 @@ import FeaturedIn from "./FeaturedIn";
 import MentorsSection from "./MentorsSection";
 import AmbassadorEngagement from "./Testimonials";
 import RichTextSection from "./RichTextSection";
+import FaqSection from "./FaqSection";
 
 interface Section {
     name: string;
@@ -63,6 +64,7 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
         FeaturedIn: (content) => <FeaturedIn {...content} />,
         Testimonials: (content) => <AmbassadorEngagement {...content} />,
         MentorsSection: (content) => <MentorsSection {...content} />,
+        FaqSection: (content) => <FaqSection {...content} />,
         CustomRichText: (content) => <RichTextSection html={content.html} />,
     };
 

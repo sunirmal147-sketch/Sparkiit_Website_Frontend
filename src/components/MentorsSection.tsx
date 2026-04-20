@@ -43,7 +43,13 @@ const fallbackMentors: Mentor[] = [
     }
 ];
 
-function MentorsContent({ mentors }: { mentors: Mentor[] }) {
+export interface MentorsSectionContent {
+    title?: string;
+    subtitle?: string;
+    mentors?: Mentor[];
+}
+
+function MentorsContent({ mentors, title, subtitle }: { mentors: Mentor[], title?: string, subtitle?: string }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -86,12 +92,12 @@ function MentorsContent({ mentors }: { mentors: Mentor[] }) {
             </div>
 
             {/* Transparent Text Overlay */}
-            <div className="relative z-10 pointer-events-none text-center text-black">
+            <div className="relative z-10 pointer-events-none text-center text-white">
                 <h2 className="text-[10vw] md:text-[6vw] font-black leading-[0.8] uppercase tracking-tighter mix-blend-overlay opacity-50 whitespace-nowrap">
-                    LET&apos;S BUILD.
+                    {title || "LET'S BUILD."}
                 </h2>
                 <p className="font-bold text-sm md:text-base mt-2 uppercase tracking-widest opacity-80">
-                    Ready to transform education?
+                    {subtitle || "Ready to transform education?"}
                 </p>
             </div>
 
@@ -101,32 +107,34 @@ function MentorsContent({ mentors }: { mentors: Mentor[] }) {
     );
 }
 
-export default function MentorsSection() {
-    const [mentors, setMentors] = useState<Mentor[]>([]);
+export default function MentorsSection(props: MentorsSectionContent) {
+    const [apiMentors, setApiMentors] = useState<Mentor[]>([]);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
         setMounted(true);
-        fetch(`${API_BASE_URL}/api/public/mentors`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    setMentors(data.data);
-                }
-            })
-            .catch(err => console.error("Error fetching mentors:", err));
-    }, []);
+        if (!props.mentors) {
+            fetch(`${API_BASE_URL}/api/public/mentors`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        setApiMentors(data.data);
+                    }
+                })
+                .catch(err => console.error("Error fetching mentors:", err));
+        }
+    }, [props.mentors]);
 
     if (!mounted) {
         return (
             <section className="h-[320px] flex flex-col items-center justify-center bg-[#050505] text-white text-center">
-                <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold uppercase tracking-tighter">Let&apos;s Build.</h2>
-                <p className="mt-2 text-sm font-medium uppercase tracking-widest opacity-80">Ready to transform education?</p>
+                <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold uppercase tracking-tighter">{props.title || "Let's Build."}</h2>
+                <p className="mt-2 text-sm font-medium uppercase tracking-widest opacity-80">{props.subtitle || "Ready to transform education?"}</p>
             </section>
         );
     }
 
-    const displayMentors = mentors.length > 0 ? mentors : fallbackMentors;
+    const displayMentors = props.mentors || (apiMentors.length > 0 ? apiMentors : fallbackMentors);
 
-    return <MentorsContent mentors={displayMentors} />;
+    return <MentorsContent mentors={displayMentors} title={props.title} subtitle={props.subtitle} />;
 }

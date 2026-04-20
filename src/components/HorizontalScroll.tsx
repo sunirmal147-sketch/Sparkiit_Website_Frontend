@@ -39,15 +39,26 @@ const services = [
     }
 ];
 
-export default function HorizontalScrollSection() {
+export interface HorizontalScrollContent {
+    title?: string;
+    subtitle?: string;
+    items?: { id: number; num: string; title: string; category: string; description: string; image: string }[];
+}
+
+export default function HorizontalScrollSection(props: HorizontalScrollContent) {
     const [activeIndex, setActiveIndex] = useState(0);
 
+    const title = props.title || "Domains We Serve";
+    const subtitle = props.subtitle || "";
+    const initialItems = props.items || [];
+    const items = initialItems.length > 0 ? initialItems : services;
+
     const handleNext = () => {
-        setActiveIndex((prev) => (prev + 1) % services.length);
+        setActiveIndex((prev) => (prev + 1) % items.length);
     };
 
     const handlePrev = () => {
-        setActiveIndex((prev) => (prev - 1 + services.length) % services.length);
+        setActiveIndex((prev) => (prev - 1 + items.length) % items.length);
     };
 
     return (
@@ -64,15 +75,19 @@ export default function HorizontalScrollSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     className="text-[#00875a] font-bold uppercase tracking-[0.4em] text-[10px] border border-[#00875a]/20 px-6 py-2 rounded-full backdrop-blur-md mb-8 inline-block"
                 >
-                    {/* Premium Solutions */}
+                    {subtitle}
                 </motion.span>
                 <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
-                    Domains <span className="text-[#00875a]">We Serve</span>
+                    {title.split(' ').map((word, i) => (
+                        <span key={i} className={i >= title.split(' ').length - 2 ? "text-[#00875a]" : ""}>
+                            {word}{" "}
+                        </span>
+                    ))}
                 </h2>
             </div>
 
             <div className="relative w-full max-w-5xl h-[450px] md:h-[600px] flex items-center justify-center perspective-[2000px]">
-                {/* Navigation Arrows - Hidden on very small screens to avoid clutter, using indicators instead */}
+                {/* Navigation Arrows */}
                 <button 
                     onClick={handlePrev}
                     className="absolute left-2 md:-left-12 z-[100] w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#00875a] text-white border border-[#00875a]/20 flex items-center justify-center hover:bg-white hover:border-white transition-all shadow-[0_0_30px_rgba(0,135,90,0.3)] group"
@@ -87,20 +102,20 @@ export default function HorizontalScrollSection() {
                 </button>
 
                 <div className="relative w-full h-full flex items-center justify-center preserve-3d transition-all duration-700">
-                    {services.map((service, index) => {
+                    {items.map((service, index) => {
                         const offset = index - activeIndex;
                         const absOffset = Math.abs(offset);
                         
-                        // Handle circular offset for continuous loop appearance (simple version)
+                        // Handle circular offset for continuous loop appearance
                         let displayOffset = offset;
-                        if (offset > 2) displayOffset = offset - services.length;
-                        if (offset < -2) displayOffset = offset + services.length;
+                        if (offset > 2) displayOffset = offset - items.length;
+                        if (offset < -2) displayOffset = offset + items.length;
                         
                         const isCenter = index === activeIndex;
                         
                         return (
                             <motion.div
-                                key={service.id}
+                                key={service.id || index}
                                 initial={false}
                                 animate={{
                                     x: displayOffset * (typeof window !== 'undefined' && window.innerWidth < 768 ? 160 : 350),
@@ -156,7 +171,7 @@ export default function HorizontalScrollSection() {
 
             {/* Carousel Indicators */}
             <div className="flex gap-2 md:gap-3 mt-8 md:mt-12 relative z-10">
-                {services.map((_, i) => (
+                {items.map((_, i) => (
                     <button
                         key={i}
                         onClick={() => setActiveIndex(i)}

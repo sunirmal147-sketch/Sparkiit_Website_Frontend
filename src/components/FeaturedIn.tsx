@@ -7,7 +7,15 @@ const publications = [
     "The Times of India", "Hindustan Times", "Economic Times", "YourStory", "Indian Express", "Outlook India", "Inc42"
 ];
 
-export default function FeaturedIn() {
+export interface FeaturedInContent {
+    title?: string;
+    items?: string[];
+}
+
+export default function FeaturedIn(props: FeaturedInContent) {
+    const title = props.title || "Featured In";
+    const items = props.items || publications;
+
     return (
         <section className="py-10 bg-[#050505]">
             <div className="max-w-7xl mx-auto px-6 md:px-20 text-center">
@@ -22,12 +30,16 @@ export default function FeaturedIn() {
                             As Seen On
                         </span>
                         <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">
-                            Featured <span className="text-[#00875a]">In</span>
+                            {title.split(' ').map((word, i) => (
+                                <span key={i} className={word.toLowerCase() === 'in' ? "text-[#00875a]" : ""}>
+                                    {word}{" "}
+                                </span>
+                            ))}
                         </h2>
                     </div>
 
                     <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 md:gap-x-20 opacity-40">
-                        {publications.map((pub, index) => (
+                        {items.map((pub, index) => (
                             <motion.span
                                 key={index}
                                 initial={{ opacity: 0 }}

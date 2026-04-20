@@ -7,7 +7,18 @@ import { useHomepageData } from "@/hooks/useHomepageData";
 import TextReveal from "@/components/TextReveal";
 import PremiumButton from "@/components/PremiumButton";
 
-export default function HeroSection() {
+export interface HeroContent {
+    word1?: string;
+    word2?: string;
+    word3?: string;
+    tagline?: string;
+    ctaText?: string;
+    ctaLink?: string;
+    videoThumbnail?: string;
+    videoUrl?: string;
+}
+
+export default function HeroSection(props: HeroContent) {
     const { data } = useHomepageData();
     const sectionRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
@@ -38,13 +49,17 @@ export default function HeroSection() {
         window.addEventListener("mousemove", handleMouseMove);
         return () => window.removeEventListener("mousemove", handleMouseMove);
     }, [mouseX, mouseY]);
-
-    const hero = data?.content?.hero || {
-        word1: "IDEA",
-        word2: "INNOVATE",
-        word3: "TRANSFORM",
-        tagline: "Design and development for Blockchain, DeFi, Web3, and Crypto Start-ups.",
-        ctaText: "Let's Talk"
+    
+    // Merge props with homepage data
+    const hero = {
+        word1: props.word1 || data?.content?.hero?.word1 || "IDEA",
+        word2: props.word2 || data?.content?.hero?.word2 || "INNOVATE",
+        word3: props.word3 || data?.content?.hero?.word3 || "TRANSFORM",
+        tagline: props.tagline || data?.content?.hero?.tagline || "Design and development for Blockchain, DeFi, Web3, and Crypto Start-ups.",
+        ctaText: props.ctaText || data?.content?.hero?.ctaText || "Let's Talk",
+        ctaLink: props.ctaLink || "/contact",
+        videoThumbnail: props.videoThumbnail || "",
+        videoUrl: props.videoUrl || ""
     };
 
     // Parallax and fade effects for the text - reduced for mobile

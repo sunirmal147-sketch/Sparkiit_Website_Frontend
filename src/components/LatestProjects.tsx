@@ -159,9 +159,15 @@ function RecognitionCard({ item, index }: { item: any; index: number }) {
     );
 }
 
-export default function RecognisedBy() {
+export interface RecognisedByContent {
+    title?: string;
+    items?: { title?: string; category?: string; image: string }[];
+}
+
+export default function RecognisedBy(props: RecognisedByContent) {
     const { data } = useHomepageData();
-    const items = data?.recognitions && data.recognitions.length > 0 ? data.recognitions : fallbackRecognitions;
+    const title = props.title || "Recognised By";
+    const items = props.items || (data?.recognitions && data.recognitions.length > 0 ? data.recognitions : fallbackRecognitions);
 
     const targetRef = useRef(null);
     const { scrollYProgress } = useScroll({

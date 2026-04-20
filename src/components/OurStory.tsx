@@ -6,7 +6,14 @@ import { useHomepageData } from "@/hooks/useHomepageData";
 import TextReveal from "./TextReveal";
 import PremiumButton from "./PremiumButton";
 
-export default function OurStory() {
+export interface OurStoryContent {
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    image?: string;
+}
+
+export default function OurStory(props: OurStoryContent) {
     const { data } = useHomepageData();
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -17,10 +24,11 @@ export default function OurStory() {
     const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
     const opacityFade = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
-    const story = data?.content?.story || {
-        title: "The journey of Sparkiit",
-        subtitle: "Since 2021, we have been at the forefront of digital innovation, helping brands navigate the complex landscape of Web3, Blockchain, and immersive technology.",
-        description: "Our mission is to empower visionaries with the tools and strategies needed to transform industries. We believe that technology should be a catalyst for change, not a barrier. By blending creative design with deep technical expertise, we create experiences that are not only beautiful but also functional and secure."
+    const story = {
+        title: props.title || data?.content?.story?.title || "The journey of Sparkiit",
+        subtitle: props.subtitle || data?.content?.story?.subtitle || "Since 2021, we have been at the forefront of digital innovation, helping brands navigate the complex landscape of Web3, Blockchain, and immersive technology.",
+        description: props.description || data?.content?.story?.description || "Our mission is to empower visionaries with the tools and strategies needed to transform industries. We believe that technology should be a catalyst for change, not a barrier. By blending creative design with deep technical expertise, we create experiences that are not only beautiful but also functional and secure.",
+        image: props.image || ""
     };
 
     return (

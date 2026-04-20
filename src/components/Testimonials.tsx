@@ -48,8 +48,14 @@ const TestimonialCard = ({ testimonial }: { testimonial: any }) => {
   );
 };
 
-const Testimonials = () => {
-  const { data, loading } = useHomepageData();
+export interface TestimonialsContent {
+  title?: string;
+  subtitle?: string;
+  testimonials?: { _id: string; name: string; role: string; content: string; avatar?: string }[];
+}
+
+const Testimonials = (props: TestimonialsContent) => {
+  const { data } = useHomepageData();
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -91,14 +97,15 @@ const Testimonials = () => {
     }
   ];
 
-  const testimonials = data?.testimonials?.length ? data.testimonials : defaultTestimonials;
+  const title = props.title || "Voices of Success";
+  const subtitle = props.subtitle || "Join 50+ industry leaders who have already transformed their digital future with Sparkiit.";
+  const testimonials = props.testimonials?.length ? props.testimonials : (data?.testimonials?.length ? data.testimonials : defaultTestimonials);
   
   // Duplicate for infinite scroll
   const doubledTestimonials = [...testimonials, ...testimonials, ...testimonials];
 
   return (
     <section ref={containerRef} className="bg-[#050505] py-16 overflow-hidden relative">
-      {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
         <div className="absolute top-1/4 -left-20 w-[600px] h-[600px] bg-[#00875a]/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 -right-20 w-[600px] h-[600px] bg-[#00875a]/10 rounded-full blur-[120px]" />
@@ -120,11 +127,16 @@ const Testimonials = () => {
           transition={{ duration: 0.8 }}
           className="text-4xl md:text-7xl font-bold text-white uppercase tracking-tighter"
         >
-          Voices of <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00875a] to-[#00a86b]">Success</span>
+          {title.split(' ').map((word, i) => (
+            <React.Fragment key={i}>
+              <span className={word.toLowerCase() === 'success' ? "text-transparent bg-clip-text bg-gradient-to-r from-[#00875a] to-[#00a86b]" : ""}>
+                {word}{" "}
+              </span>
+            </React.Fragment>
+          ))}
         </motion.h2>
       </div>
 
-      {/* Marquee Section */}
       <div className="relative w-full overflow-hidden py-10">
         <motion.div
           animate={{
@@ -136,7 +148,7 @@ const Testimonials = () => {
             ease: "linear",
           }}
           className="flex gap-8 w-max"
-          style={{ x: xParallax }} // Add subtle parallax effect on scroll
+          style={{ x: xParallax }} 
         >
           {doubledTestimonials.map((testimonial, idx) => (
             <TestimonialCard key={`${testimonial._id}-${idx}`} testimonial={testimonial} />
@@ -149,7 +161,7 @@ const Testimonials = () => {
           style={{ opacity }}
           className="text-gray-500 text-lg font-medium max-w-2xl mx-auto"
         >
-          Join 50+ industry leaders who have already transformed their digital future with Sparkiit.
+          {subtitle}
         </motion.p>
       </div>
     </section>

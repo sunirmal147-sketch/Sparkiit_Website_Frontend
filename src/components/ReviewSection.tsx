@@ -5,17 +5,25 @@ import { Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { useHomepageData } from "@/hooks/useHomepageData";
 
-export default function ReviewSection() {
-    const { data, loading } = useHomepageData();
+export interface ReviewSectionContent {
+    title?: string;
+    subtitle?: string;
+    rating?: string | number;
+}
+
+export default function ReviewSection(props: ReviewSectionContent) {
+    const { data } = useHomepageData();
     
-    // Get rating from data or default to 5
-    const ratingStr = data?.content?.review?.rating || "5";
-    const rating = parseFloat(ratingStr);
+    // Get rating from props, then data, or default to 5
+    const ratingStr = props.rating || data?.content?.review?.rating || "5";
+    const rating = parseFloat(ratingStr.toString());
 
     // Ensure rating is between 0 and 5
     const finalRating = Math.max(0, Math.min(5, rating));
     const fullStars = Math.floor(finalRating);
-    const hasHalfStar = finalRating % 1 !== 0;
+    
+    const title = props.title || "Trusted by 10,000+ Students";
+    const subtitle = props.subtitle || `Excellent ${finalRating.toFixed(1)}/5.0 Rating based on verified reviews`;
 
     return (
         <section className="py-10 bg-[#050505] flex flex-col items-center justify-center border-y border-white/5">
@@ -37,10 +45,14 @@ export default function ReviewSection() {
                     ))}
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-widest text-white">
-                    Trusted by <span className="text-[#00875a]">10,000+</span> Students
+                    {title.split(' ').map((word, i) => (
+                        <span key={i} className={word.includes('10,000+') ? "text-[#00875a]" : ""}>
+                            {word}{" "}
+                        </span>
+                    ))}
                 </h3>
                 <p className="text-white/40 mt-2 text-sm md:text-base uppercase tracking-widest font-medium">
-                    Excellent {finalRating.toFixed(1)}/5.0 Rating based on verified reviews
+                    {subtitle}
                 </p>
             </motion.div>
         </section>

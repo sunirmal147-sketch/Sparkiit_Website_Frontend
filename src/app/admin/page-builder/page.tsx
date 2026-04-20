@@ -366,7 +366,9 @@ export default function PageBuilder() {
                                         "HeroSection", "Marquee", "OurStory", "ServicesOverview", 
                                         "WorkingProcess", "CompanyInsights", "LatestProjects", 
                                         "Testimonials", "MentorsSection", "RoadmapSection", 
-                                        "FaqSection", "CustomRichText", "Footer"
+                                        "FaqSection", "CustomRichText", "Footer",
+                                        "Colleges", "FeaturedIn", "ReviewSection", 
+                                        "Collaborations", "HorizontalScroll", "ParallaxImage"
                                     ].map(type => (
                                         <button 
                                             key={type}
@@ -563,25 +565,35 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
             )}
 
             {/* Standard Text Content Schema */}
-            {["OurStory", "CompanyInsights", "WorkingProcess"].includes(section.name) && (
+            {["OurStory", "CompanyInsights", "WorkingProcess", "ServicesOverview", "RoadmapSection", "Testimonials", "Colleges", "FeaturedIn", "ReviewSection", "Collaborations", "FaqSection", "HorizontalScrollSection", "MentorsSection", "Marquee"].includes(section.name) && (
                 <div className="space-y-6">
                     <div>
                         <label className={labelStyle}>Title</label>
                         <input className={inputStyle} value={content.title || ""} onChange={(e: any) => handleChange("title", e.target.value)} />
                     </div>
-                    <div>
-                        <label className={labelStyle}>Subtitle</label>
-                        <textarea className={`${inputStyle} min-h-[80px]`} value={content.subtitle || ""} onChange={(e: any) => handleChange("subtitle", e.target.value)} />
-                    </div>
-                    <div>
-                        <label className={labelStyle}>Description</label>
-                        <textarea className={`${inputStyle} min-h-[120px]`} value={content.description || ""} onChange={(e: any) => handleChange("description", e.target.value)} />
-                    </div>
+                    {["HeroSection", "Hero", "MentorsSection", "ReviewSection", "FaqSection", "HorizontalScrollSection", "Collaborations"].includes(section.name) && (
+                        <div>
+                            <label className={labelStyle}>Subtitle / Slogan</label>
+                            <textarea className={`${inputStyle} min-h-[80px]`} value={content.subtitle || ""} onChange={(e: any) => handleChange("subtitle", e.target.value)} />
+                        </div>
+                    )}
+                    {["OurStory", "CompanyInsights", "ServicesOverview", "Colleges", "RoadmapSection", "HorizontalScrollSection"].includes(section.name) && (
+                        <div>
+                            <label className={labelStyle}>Description</label>
+                            <textarea className={`${inputStyle} min-h-[120px]`} value={content.description || ""} onChange={(e: any) => handleChange("description", e.target.value)} />
+                        </div>
+                    )}
+                    {["ReviewSection"].includes(section.name) && (
+                        <div>
+                            <label className={labelStyle}>Rating (0-5)</label>
+                            <input type="number" step="0.1" max="5" min="0" className={inputStyle} value={content.rating || "5"} onChange={(e: any) => handleChange("rating", e.target.value)} />
+                        </div>
+                    )}
                 </div>
             )}
 
-            {/* List Components (FeaturedIn, Marquee, etc) */}
-            {["Marquee", "FeaturedIn", "Colleges"].includes(section.name) && (
+            {/* List Items Schema (String Array) */}
+            {["Marquee", "FeaturedIn"].includes(section.name) && (
                 <div className="space-y-6">
                     <label className={labelStyle}>Text Items</label>
                     <div className="space-y-3">
@@ -604,6 +616,222 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
                             className="w-full py-3 border border-dashed border-white/10 rounded-xl text-xs font-black uppercase text-white/40 hover:text-[#00875a] transition-all"
                         >
                             + Add Item
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Complex List: Working Process Steps */}
+            {section.name === "WorkingProcess" && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>Steps</label>
+                    <div className="space-y-4">
+                        {(content.items || []).map((step: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button onClick={() => {
+                                    const newItems = [...content.items];
+                                    newItems.splice(idx, 1);
+                                    handleChange("items", newItems);
+                                }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
+                                <div>
+                                    <label className={labelStyle}>Number</label>
+                                    <input className={inputStyle} value={step.num || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...step, num: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                </div>
+                                <div>
+                                    <label className={labelStyle}>Title</label>
+                                    <input className={inputStyle} value={step.title || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...step, title: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className={labelStyle}>Description</label>
+                                    <textarea className={inputStyle} value={step.description || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...step, description: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                </div>
+                            </div>
+                        ))}
+                        <button onClick={() => handleChange("items", [...(content.items || []), { num: "", title: "", description: "" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add Step</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Complex List: Mentors */}
+            {section.name === "MentorsSection" && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>Mentors</label>
+                    <div className="space-y-4">
+                        {(content.mentors || []).map((mentor: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group space-y-4">
+                                <button onClick={() => {
+                                    const newItems = [...content.mentors];
+                                    newItems.splice(idx, 1);
+                                    handleChange("mentors", newItems);
+                                }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <input className={inputStyle} placeholder="Name" value={mentor.name || ""} onChange={(e) => {
+                                        const newItems = [...content.mentors];
+                                        newItems[idx] = { ...mentor, name: e.target.value };
+                                        handleChange("mentors", newItems);
+                                    }} />
+                                    <input className={inputStyle} placeholder="Image URL" value={mentor.photo || ""} onChange={(e) => {
+                                        const newItems = [...content.mentors];
+                                        newItems[idx] = { ...mentor, photo: e.target.value };
+                                        handleChange("mentors", newItems);
+                                    }} />
+                                </div>
+                                <textarea className={inputStyle} placeholder="Expertise / Role" value={mentor.description || ""} onChange={(e) => {
+                                    const newItems = [...content.mentors];
+                                    newItems[idx] = { ...mentor, description: e.target.value };
+                                    handleChange("mentors", newItems);
+                                }} />
+                            </div>
+                        ))}
+                        <button onClick={() => handleChange("mentors", [...(content.mentors || []), { name: "", photo: "", description: "" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add Mentor</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Complex List: Roadmap Nodes */}
+            {section.name === "RoadmapSection" && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>Roadmap Nodes</label>
+                    <div className="space-y-4">
+                        {(content.nodes || []).map((node: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group space-y-4 border-l-4 border-[#00875a]/30">
+                                <button onClick={() => {
+                                    const newItems = [...content.nodes];
+                                    newItems.splice(idx, 1);
+                                    handleChange("nodes", newItems);
+                                }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
+                                <div className="grid grid-cols-3 gap-4">
+                                    <select className={inputStyle} value={node.type || "top"} onChange={(e) => {
+                                        const newItems = [...content.nodes];
+                                        newItems[idx] = { ...node, type: e.target.value };
+                                        handleChange("nodes", newItems);
+                                    }}>
+                                        <option value="top">Top</option>
+                                        <option value="bottom">Bottom</option>
+                                    </select>
+                                    <input className={inputStyle} placeholder="Date (e.g. SEP 2025)" value={node.date || ""} onChange={(e) => {
+                                        const newItems = [...content.nodes];
+                                        newItems[idx] = { ...node, date: e.target.value };
+                                        handleChange("nodes", newItems);
+                                    }} />
+                                    <input className={inputStyle} placeholder="Title" value={node.title || ""} onChange={(e) => {
+                                        const newItems = [...content.nodes];
+                                        newItems[idx] = { ...node, title: e.target.value };
+                                        handleChange("nodes", newItems);
+                                    }} />
+                                </div>
+                                <textarea className={inputStyle} placeholder="Description" value={node.description || ""} onChange={(e) => {
+                                    const newItems = [...content.nodes];
+                                    newItems[idx] = { ...node, description: e.target.value };
+                                    handleChange("nodes", newItems);
+                                }} />
+                            </div>
+                        ))}
+                        <button onClick={() => handleChange("nodes", [...(content.nodes || []), { type: "top", date: "", title: "", description: "" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add Roadmap Node</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Complex List: FAQs */}
+            {section.name === "FaqSection" && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>FAQ Items</label>
+                    <div className="space-y-4">
+                        {(content.faqs || []).map((faq: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group space-y-4">
+                                <button onClick={() => {
+                                    const newItems = [...content.faqs];
+                                    newItems.splice(idx, 1);
+                                    handleChange("faqs", newItems);
+                                }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
+                                <input className={inputStyle} placeholder="Question" value={faq.question || ""} onChange={(e) => {
+                                    const newItems = [...content.faqs];
+                                    newItems[idx] = { ...faq, question: e.target.value };
+                                    handleChange("faqs", newItems);
+                                }} />
+                                <textarea className={inputStyle} placeholder="Answer" value={faq.answer || ""} onChange={(e) => {
+                                    const newItems = [...content.faqs];
+                                    newItems[idx] = { ...faq, answer: e.target.value };
+                                    handleChange("faqs", newItems);
+                                }} />
+                            </div>
+                        ))}
+                        <button onClick={() => handleChange("faqs", [...(content.faqs || []), { question: "", answer: "" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add FAQ</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Complex List: Collaborations / Testimonials Generic */}
+            {["Collaborations", "Testimonials", "HorizontalScrollSection", "ServicesOverview", "Colleges"].includes(section.name) && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>Section Items</label>
+                    <div className="space-y-4">
+                        {(content.items || content.stats || []).map((item: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group space-y-4">
+                                <button onClick={() => {
+                                    const listKey = content.items ? "items" : "stats";
+                                    const newItems = [...(content[listKey] || [])];
+                                    newItems.splice(idx, 1);
+                                    handleChange(listKey, newItems);
+                                }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
+                                
+                                <div className="grid grid-cols-2 gap-4">
+                                    <input className={inputStyle} placeholder={content.stats ? "Label" : "Title / Name"} value={item.title || item.name || item.label || ""} onChange={(e) => {
+                                        const listKey = content.items ? "items" : "stats";
+                                        const valKey = item.title ? "title" : (item.name ? "name" : "label");
+                                        const newItems = [...(content[listKey] || [])];
+                                        newItems[idx] = { ...item, [valKey]: e.target.value };
+                                        handleChange(listKey, newItems);
+                                    }} />
+                                    <input className={inputStyle} placeholder={content.stats ? "Value" : (section.name === "Collaborations" ? "Logo Initial" : "Subtitle / Icon / Number")} value={item.subtitle || item.value || item.logo || item.num || item.category || ""} onChange={(e) => {
+                                        const listKey = content.items ? "items" : "stats";
+                                        const valKey = item.value ? "value" : (item.logo ? "logo" : (item.num ? "num" : (item.category ? "category" : "subtitle")));
+                                        const newItems = [...(content[listKey] || [])];
+                                        newItems[idx] = { ...item, [valKey]: e.target.value };
+                                        handleChange(listKey, newItems);
+                                    }} />
+                                </div>
+                                {["Testimonials", "HorizontalScrollSection", "ServicesOverview"].includes(section.name) && (
+                                    <textarea className={`${inputStyle} text-xs`} placeholder="Description / Content" value={item.content || item.description || ""} onChange={(e) => {
+                                        const listKey = "items";
+                                        const valKey = item.content ? "content" : "description";
+                                        const newItems = [...(content[listKey] || [])];
+                                        newItems[idx] = { ...item, [valKey]: e.target.value };
+                                        handleChange(listKey, newItems);
+                                    }} />
+                                )}
+                                {["Testimonials", "HorizontalScrollSection"].includes(section.name) && (
+                                    <input className={inputStyle} placeholder="Image URL" value={item.image || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...item, image: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                )}
+                            </div>
+                        ))}
+                        <button 
+                            onClick={() => {
+                                const listKey = section.name === "Colleges" ? "stats" : "items";
+                                const newItem = section.name === "Colleges" ? { label: "", value: "" } : 
+                                               (section.name === "Collaborations" ? { name: "", logo: "" } : 
+                                               (section.name === "HorizontalScrollSection" ? { title: "", num: "", category: "", description: "", image: "" } : { title: "", description: "" }));
+                                handleChange(listKey, [...(content[listKey] || []), newItem]);
+                            }} 
+                            className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]"
+                        >
+                            + Add Section Item
                         </button>
                     </div>
                 </div>
@@ -650,8 +878,81 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
                 </div>
             )}
 
+            {/* Complex List: Latest Projects / RecognisedBy */}
+            {section.name === "LatestProjects" && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>Project Items</label>
+                    <div className="space-y-4">
+                        {(content.items || []).map((project: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group space-y-4">
+                                <button onClick={() => {
+                                    const newItems = [...content.items];
+                                    newItems.splice(idx, 1);
+                                    handleChange("items", newItems);
+                                }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <input className={inputStyle} placeholder="Project Title" value={project.title || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...project, title: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                    <input className={inputStyle} placeholder="Category" value={project.category || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...project, category: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <input className={inputStyle} placeholder="Date (e.g. 2024)" value={project.date || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...project, date: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                    <input className={inputStyle} placeholder="Link URL" value={project.link || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...project, link: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <input className={inputStyle} placeholder="Logo URL / Text" value={project.logo || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...project, logo: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                    <input className={inputStyle} placeholder="Preview Image URL" value={project.image || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...project, image: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                </div>
+                            </div>
+                        ))}
+                        <button onClick={() => handleChange("items", [...(content.items || []), { title: "", category: "", date: "", link: "", logo: "", image: "" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add Project</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Parallax Image Schema */}
+            {section.name === "ParallaxImage" && (
+                <div className="space-y-6">
+                    <div>
+                        <label className={labelStyle}>Image URL</label>
+                        <input className={inputStyle} value={content.src || ""} onChange={(e: any) => handleChange("src", e.target.value)} />
+                    </div>
+                    <div>
+                        <label className={labelStyle}>Alt Text</label>
+                        <input className={inputStyle} value={content.alt || ""} onChange={(e: any) => handleChange("alt", e.target.value)} />
+                    </div>
+                    <div>
+                        <label className={labelStyle}>Overlay Title</label>
+                        <input className={inputStyle} value={content.title || ""} onChange={(e: any) => handleChange("title", e.target.value)} />
+                    </div>
+                </div>
+            )}
+
             {/* Generic Schema for others */}
-            {!["HeroSection", "Hero", "Features", "OurStory", "CompanyInsights", "WorkingProcess", "Marquee", "FeaturedIn", "Colleges", "CustomRichText"].includes(section.name) && (
+            {!["HeroSection", "Hero", "Features", "OurStory", "CompanyInsights", "WorkingProcess", "Marquee", "FeaturedIn", "Colleges", "CustomRichText", "ServicesOverview", "RoadmapSection", "Testimonials", "ReviewSection", "Collaborations", "FaqSection", "HorizontalScrollSection", "MentorsSection", "LatestProjects", "ParallaxImage"].includes(section.name) && (
                 <div className="space-y-6">
                     <div className="p-8 bg-white/5 border border-white/10 rounded-3xl text-center">
                         <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Visual Editor for {section.name} is coming soon.</p>

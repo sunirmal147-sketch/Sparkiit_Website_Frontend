@@ -4,16 +4,27 @@ import Link from "next/link";
 import { Plus, Github, Twitter, Linkedin, Instagram } from "lucide-react";
 import { useHomepageData } from "@/hooks/useHomepageData";
 
-export default function Footer() {
+export interface FooterContent {
+    logoText?: string;
+    footerDesc?: string;
+    copyright?: string;
+    github?: string;
+    twitter?: string;
+    linkedin?: string;
+    instagram?: string;
+}
+
+export default function Footer(props: FooterContent) {
     const { data } = useHomepageData();
-    const site = data?.content?.site || {
-        logoText: "Sparkiit",
-        footerDesc: "Transforming the digital landscape through innovation, design, and deep technical expertise.",
-        copyright: "© 2026 SPARKIIT AGENCY. ALL RIGHTS RESERVED.",
-        github: "#",
-        twitter: "#",
-        linkedin: "#",
-        instagram: "#"
+    
+    const site = {
+        logoText: props.logoText || data?.content?.site?.logoText || "Sparkiit",
+        footerDesc: props.footerDesc || data?.content?.site?.footerDesc || "Transforming the digital landscape through innovation, design, and deep technical expertise.",
+        copyright: props.copyright || data?.content?.site?.copyright || "© 2026 SPARKIIT AGENCY. ALL RIGHTS RESERVED.",
+        github: props.github || data?.content?.site?.github || "#",
+        twitter: props.twitter || data?.content?.site?.twitter || "#",
+        linkedin: props.linkedin || data?.content?.site?.linkedin || "#",
+        instagram: props.instagram || data?.content?.site?.instagram || "#"
     };
 
     const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {

@@ -10,10 +10,19 @@ const collegeStats = [
     { label: "Global Reach", value: "15+" },
 ];
 
-export default function Colleges() {
+export interface CollegesContent {
+    title?: string;
+    description?: string;
+    stats?: { label: string; value: string }[];
+}
+
+export default function Colleges(props: CollegesContent) {
+    const title = props.title || "Trusted & Chosen by 500+ Colleges Across the Nation";
+    const description = props.description || "We bridge the gap between academia and industry, empowering institutions with cutting-edge resources and practical expertise.";
+    const stats = props.stats || collegeStats;
+
     return (
         <section className="py-12 bg-[#050505] relative overflow-hidden">
-            {/* Background Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#00875a]/5 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-6 md:px-20 relative z-10">
@@ -28,16 +37,22 @@ export default function Colleges() {
                             Our Impact
                         </span>
                         <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mt-8 leading-[0.9]">
-                            Trusted & Chosen by <br />
-                            <span className="text-[#00875a]">500+ Colleges</span> Across the Nation
+                            {title.split(' ').map((word, i) => (
+                                <React.Fragment key={i}>
+                                    <span className={word.includes('500+') || word.toLowerCase() === 'colleges' ? "text-[#00875a]" : ""}>
+                                        {word}{" "}
+                                    </span>
+                                    {i === 3 ? <br /> : null}
+                                </React.Fragment>
+                            ))}
                         </h2>
                         <p className="text-white/50 mt-8 text-lg md:text-xl max-w-xl font-medium leading-relaxed">
-                            We bridge the gap between academia and industry, empowering institutions with cutting-edge resources and practical expertise.
+                            {description}
                         </p>
                     </motion.div>
 
                     <div className="grid grid-cols-2 gap-4 md:gap-8">
-                        {collegeStats.map((stat, index) => (
+                        {stats.map((stat, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}

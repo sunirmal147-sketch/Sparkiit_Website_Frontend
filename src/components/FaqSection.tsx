@@ -10,19 +10,33 @@ interface FAQ {
     answer: string;
 }
 
-export default function FaqSection() {
-    const [faqs, setFaqs] = useState<FAQ[]>([]);
+export interface FaqSectionContent {
+    title?: string;
+    subtitle?: string;
+    faqs?: FAQ[];
+}
+
+export default function FaqSection(props: FaqSectionContent) {
+    const [apiFaqs, setApiFaqs] = useState<FAQ[]>([]);
     const [openId, setOpenId] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const title = props.title || "Frequently Asked Questions";
+    const subtitle = props.subtitle || "Common Questions";
+
     useEffect(() => {
         const fetchFaqs = async () => {
+            if (props.faqs && props.faqs.length > 0) {
+                setLoading(false);
+                setOpenId(props.faqs[0]._id);
+                return;
+            }
             try {
                 const res = await fetch(`${API_PUBLIC_URL}/faqs`);
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 const data = await res.json();
                 if (data.success) {
-                    setFaqs(data.data || []);
+                    setApiFaqs(data.data || []);
                     if (data.data?.length > 0) setOpenId(data.data[0]._id);
                 }
             } catch (err) {
@@ -32,14 +46,16 @@ export default function FaqSection() {
             }
         };
         fetchFaqs();
-    }, []);
+    }, [props.faqs]);
 
     const toggleFaq = (id: string) => {
         setOpenId(openId === id ? null : id);
     };
 
+    const finalFaqs = props.faqs && props.faqs.length > 0 ? props.faqs : apiFaqs;
+
     if (loading) return null;
-    if (faqs.length === 0) return null;
+    if (finalFaqs.length === 0) return null;
 
     return (
         <section id="faq" className="py-24 md:py-32 bg-[#050505] relative overflow-hidden">
@@ -56,7 +72,7 @@ export default function FaqSection() {
                             viewport={{ once: true }}
                             className="text-[#00875a] font-black tracking-[0.3em] uppercase text-xs md:text-sm mb-4 block"
                         >
-                            Common Questions
+                            {subtitle}
                         </motion.span>
                         <motion.h2 
                             initial={{ opacity: 0, y: 20 }}
@@ -65,14 +81,18 @@ export default function FaqSection() {
                             transition={{ delay: 0.1 }}
                             className="text-4xl md:text-6xl font-black text-white leading-tight uppercase"
                         >
-                            Frequently Asked <span className="text-[#00875a]">Questions</span>
+                            {title.split(' ').map((word, i) => (
+                                <span key={i} className={word.toLowerCase() === 'questions' ? "text-[#00875a]" : ""}>
+                                    {word}{" "}
+                                </span>
+                            ))}
                         </motion.h2>
                     </div>
 
                     <div className="space-y-4">
-                        {faqs.map((faq, index) => (
+                        {finalFaqs.map((faq, index) => (
                             <motion.div 
-                                key={faq._id}
+                                key={faq._id || index}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}

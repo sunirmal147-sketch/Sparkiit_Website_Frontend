@@ -30,18 +30,35 @@ function buildPath(pts: { x: number; y: number }[]): string {
 
 const pathD = buildPath(nodes);
 
-export default function RoadmapSection() {
+export interface RoadmapSectionContent {
+    title?: string;
+    items?: { step: number; title: string; labelSide: "top" | "bottom" }[];
+}
+
+export default function RoadmapSection(props: RoadmapSectionContent) {
     const [activeStep, setActiveStep] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
+
+    const title = props.title || "Victory Blue Print";
+    const initialItems = props.items || [];
+    const roadmapNodes = initialItems.length > 0 
+        ? initialItems.map((item, i) => ({
+            ...item,
+            x: nodes[i]?.x || (i * 120) + 60,
+            y: nodes[i]?.y || 200
+        }))
+        : nodes;
+
+    const pathD = buildPath(roadmapNodes);
 
     // Auto-cycle through steps
     useEffect(() => {
         if (!isVisible) return;
         const interval = setInterval(() => {
-            setActiveStep((prev) => (prev + 1) % nodes.length);
+            setActiveStep((prev) => (prev + 1) % roadmapNodes.length);
         }, 1800);
         return () => clearInterval(interval);
-    }, [isVisible]);
+    }, [isVisible, roadmapNodes.length]);
 
     // Intersection observer to start animation when section is in view
     useEffect(() => {
@@ -61,7 +78,12 @@ export default function RoadmapSection() {
                 <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <span className="text-[#00875a] text-[11px] font-black uppercase tracking-[0.4em] block mb-3"></span>
                     <h2 className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.9] md:leading-none">
-                        Victory <br className="block md:hidden" /> <span className="text-[#00875a]">Blue Print</span>
+                        {title.split(' ').map((word, i) => (
+                            <React.Fragment key={i}>
+                                {i === 1 ? <br className="block md:hidden" /> : null}
+                                <span className={i === 1 ? "text-[#00875a]" : ""}>{word} </span>
+                            </React.Fragment>
+                        ))}
                     </h2>
                 </motion.div>
             </div>
@@ -102,11 +124,11 @@ export default function RoadmapSection() {
                     />
 
                     {/* Step Dots */}
-                    {nodes.map((n, i) => {
+                    {roadmapNodes.map((n, i) => {
                         const isActive = i === activeStep;
                         const isPast = i <= activeStep;
                         return (
-                            <g key={n.step}>
+                            <g key={`${n.step}-${i}`}>
                                 {/* Pulse ring (active only) */}
                                 {isActive && (
                                     <>
@@ -154,7 +176,7 @@ export default function RoadmapSection() {
                 </svg>
 
                 {/* Text labels */}
-                {nodes.map((n, i) => {
+                {roadmapNodes.map((n, i) => {
                     const leftPct = (n.x / 1200) * 100;
                     const topPct = (n.y / 520) * 100;
                     const above = n.labelSide === "top";
@@ -162,7 +184,7 @@ export default function RoadmapSection() {
 
                     return (
                         <div
-                            key={n.step}
+                            key={`${n.step}-${i}`}
                             className="absolute w-[155px] text-center pointer-events-none transition-all duration-500"
                             style={{
                                 left: `${leftPct}%`,
@@ -189,9 +211,9 @@ export default function RoadmapSection() {
 
                 {/* Active step indicator bar */}
                 <div className="absolute bottom-0 left-0 w-full flex justify-center gap-1.5 pb-2">
-                    {nodes.map((n, i) => (
+                    {roadmapNodes.map((n, i) => (
                         <button
-                            key={n.step}
+                            key={`${n.step}-${i}`}
                             onClick={() => setActiveStep(i)}
                             className="w-8 h-1 rounded-full transition-all duration-300 cursor-pointer"
                             style={{
@@ -207,10 +229,10 @@ export default function RoadmapSection() {
             <div className="lg:hidden px-6 relative mt-8">
                 <div className="absolute left-[30px] top-0 bottom-0 w-[3px] rounded-full bg-gradient-to-b from-[#00875a]/10 via-[#00875a]/60 to-[#00875a]/10" />
                 <div className="space-y-10 pl-14">
-                    {nodes.map((n, i) => {
+                    {roadmapNodes.map((n, i) => {
                         const isActive = i === activeStep;
                         return (
-                            <div key={n.step} className="relative">
+                            <div key={`${n.step}-${i}`} className="relative">
                                 <motion.div
                                     className="absolute -left-[46px] top-0 w-6 h-6 rounded-full border-4 border-[#050505] transition-all duration-300"
                                     style={{ 

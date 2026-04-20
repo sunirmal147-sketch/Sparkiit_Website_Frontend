@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import PremiumButton from "./PremiumButton";
 
 const stats = [
@@ -29,12 +29,26 @@ function Counter({ value }: { value: number }) {
     return <motion.span ref={ref}>{rounded}</motion.span>;
 }
 
-export default function CompanyInsights() {
+export interface CompanyInsightsContent {
+    title?: string;
+    description?: string;
+    ctaText?: string;
+    ctaLink?: string;
+    stats?: { label: string; val: number }[];
+}
+
+export default function CompanyInsights(props: CompanyInsightsContent) {
+    const title = props.title || "LATEST INSIGHTS & ARTICLES.";
+    const description = props.description || "Stay up to date with the latest trends in Blockchain, DeFi, and digital design through our curated blog posts.";
+    const statsItems = props.stats || stats;
+    const ctaText = props.ctaText || "Browse Full Blog";
+    const ctaLink = props.ctaLink || "/blog";
+
     return (
         <section className="py-12 px-6 md:px-20 bg-[#050505]">
             <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                    {stats.map((stat, index) => (
+                    {statsItems.map((stat, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -54,13 +68,18 @@ export default function CompanyInsights() {
                 <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-t border-white/5 pt-10">
                     <div className="max-w-xl">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white uppercase tracking-tighter mb-6">
-                            LATEST INSIGHTS & <br /> ARTICLES.
+                            {title.split(' & ').map((part, i) => (
+                                <React.Fragment key={i}>
+                                    {part}{i === 0 && ' & '}
+                                    {i === 0 && <br />}
+                                </React.Fragment>
+                            ))}
                         </h2>
                         <p className="text-gray-400 leading-relaxed font-medium">
-                            Stay up to date with the latest trends in Blockchain, DeFi, and digital design through our curated blog posts.
+                            {description}
                         </p>
                     </div>
-                    <PremiumButton text="Browse Full Blog" variant="primary" href="/blog" />
+                    <PremiumButton text={ctaText} variant="primary" href={ctaLink} />
                 </div>
             </div>
         </section>
