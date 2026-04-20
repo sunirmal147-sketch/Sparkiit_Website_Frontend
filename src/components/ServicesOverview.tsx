@@ -56,7 +56,7 @@ export default function ServicesOverview() {
                         We provide end-to-end digital services that help companies scale, innovate, and lead in their respective markets.
                     </motion.p>
                     <div className="mb-12 lg:mb-0">
-                        <PremiumButton text="View All Services" variant="secondary" />
+                        <PremiumButton text="View All Services" variant="secondary" href="/domains" />
                     </div>
                 </motion.div>
 
