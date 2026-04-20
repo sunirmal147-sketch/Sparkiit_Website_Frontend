@@ -425,7 +425,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     </div>
                     {sidebarOpen && (
                         <div style={{ overflow: "hidden" }}>
-                            <div style={{ fontWeight: 700, fontSize: 16, color: "#fff", letterSpacing: "-0.02em" }}>SparkIIT</div>
+                            <div style={{ fontWeight: 700, fontSize: 16, color: "#fff", letterSpacing: "-0.02em" }}>SPARKIIT</div>
                             <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontWeight: 500 }}>Admin CRM</div>
                         </div>
                     )}

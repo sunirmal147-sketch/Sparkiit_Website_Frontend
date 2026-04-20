@@ -79,7 +79,7 @@ export default function FooterSettings() {
 
             <form onSubmit={handleSave} className="bg-white/[0.03] border border-white/5 rounded-3xl p-10 shadow-2xl">
                 <div className="grid grid-cols-1 gap-8">
-                    <InputField label="Copyright Text" value={formData.footerCopyright} onChange={(val: string) => setFormData({...formData, footerCopyright: val})} placeholder="© 2026 SparkIIT. All Rights Reserved." />
+                    <InputField label="Copyright Text" value={formData.footerCopyright} onChange={(val: string) => setFormData({...formData, footerCopyright: val})} placeholder="© 2026 SPARKIIT. All Rights Reserved." />
                     <InputField label="Footer Tagline" value={formData.footerTagline} onChange={(val: string) => setFormData({...formData, footerTagline: val})} placeholder="Building the next generation of innovators." />
                     <InputField label="Footer Logo URL" value={formData.footerLogoUrl} onChange={(val: string) => setFormData({...formData, footerLogoUrl: val})} placeholder="/assets/footer-logo.png" />
                 </div>

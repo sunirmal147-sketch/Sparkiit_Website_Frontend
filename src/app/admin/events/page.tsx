@@ -138,7 +138,7 @@ export default function AdminEventsPage() {
                     <h1 className="text-4xl font-black text-white uppercase tracking-tighter mb-2">
                         Manage <span className="text-[#00875a]">Events</span>
                     </h1>
-                    <p className="text-white/40 text-sm uppercase tracking-widest font-medium">Create and manage Sparkiit community events</p>
+                    <p className="text-white/40 text-sm uppercase tracking-widest font-medium">Create and manage SPARKIIT community events</p>
                 </div>
                 <button 
                     onClick={() => handleOpenModal()}

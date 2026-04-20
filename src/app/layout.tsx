@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SparkIIT - Premium Digital Solutions",
-  description: "Innovative design and development for Blockchain, DeFi, and Web3.",
+  title: "SPARKIIT - Premium Digital Solutions",
+  description: "Not Basic Training. A High Impact Career Engine.",
 };
 
 export default function RootLayout({
