@@ -158,11 +158,14 @@ export default function UsersPage() {
         fetchUsers();
     };
 
-    const filteredUsers = users.filter(u =>
-        u.username.toLowerCase().includes(search.toLowerCase()) ||
-        u.email.toLowerCase().includes(search.toLowerCase()) ||
-        u.role.toLowerCase().includes(search.toLowerCase())
-    );
+    const filteredUsers = users.filter(u => {
+        // Hide SUPER_ADMIN from non-SUPER_ADMIN users
+        if (u.role === 'SUPER_ADMIN' && currentUser?.role !== 'SUPER_ADMIN') return false;
+        
+        return u.username.toLowerCase().includes(search.toLowerCase()) ||
+               u.email.toLowerCase().includes(search.toLowerCase()) ||
+               u.role.toLowerCase().includes(search.toLowerCase());
+    });
 
     const inputStyle: React.CSSProperties = {
         width: "100%",
@@ -284,7 +287,16 @@ export default function UsersPage() {
 
                         <label style={{ display: "block", fontSize: 11, color: "rgba(255,255,255,0.4)", fontWeight: 600, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.08em" }}>Role</label>
                         <select style={inputStyle} value={form.role} onChange={(e: any) => setForm({ ...form, role: e.target.value })}>
-                            {ROLES.filter(r => currentUser?.role === "SUPER_ADMIN" || (ROLES.indexOf(currentUser?.role || "USER") <= ROLES.indexOf(r) && r !== "SUPER_ADMIN")).map(role => (
+                            {ROLES.filter(r => {
+                                // Only super admin can assign super admin
+                                if (r === 'SUPER_ADMIN' && currentUser?.role !== 'SUPER_ADMIN') return false;
+                                
+                                // Super admin can see/assign all
+                                if (currentUser?.role === 'SUPER_ADMIN') return true;
+                                
+                                // Others can only see roles lower than or equal to theirs (excluding super admin)
+                                return ROLES.indexOf(currentUser?.role || 'USER') <= ROLES.indexOf(r);
+                            }).map(role => (
                                 <option key={role} value={role} style={{ background: "#141414", color: "#fff" }}>{role.replace(/_/g, ' ')}</option>
                             ))}
                         </select>
