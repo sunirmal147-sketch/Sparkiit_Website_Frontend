@@ -104,7 +104,7 @@ export default function HeroSection() {
                         {hero.tagline}
                     </p>
                     <div className="mt-8">
-                        <PremiumButton text={hero.ctaText || "Let's Talk"} variant="primary" />
+                        <PremiumButton text={hero.ctaText || "Let's Talk"} variant="primary" href="/contact" />
                     </div>
                 </div>
 

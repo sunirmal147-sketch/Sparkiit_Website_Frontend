@@ -64,7 +64,7 @@ export default function OurStory() {
                         {story.description}
                     </motion.p>
                     <div className="pt-10">
-                        <PremiumButton text="Read Full Story" variant="secondary" />
+                        <PremiumButton text="Read Full Story" variant="secondary" href="/about" />
                     </div>
                 </div>
             </motion.div>

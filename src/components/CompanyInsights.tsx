@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
+import PremiumButton from "./PremiumButton";
 
 const stats = [
     { label: "YEARS EXP", val: 5 },
@@ -59,9 +60,7 @@ export default function CompanyInsights() {
                             Stay up to date with the latest trends in Blockchain, DeFi, and digital design through our curated blog posts.
                         </p>
                     </div>
-                    <button className="bg-[#00875a] text-white px-10 py-5 rounded-full font-bold uppercase text-sm hover:scale-105 active:scale-95 transition-all">
-                        Browse Full Blog
-                    </button>
+                    <PremiumButton text="Browse Full Blog" variant="primary" href="/blog" />
                 </div>
             </div>
         </section>

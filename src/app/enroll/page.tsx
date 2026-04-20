@@ -327,7 +327,7 @@ function EnrollContent() {
                                     We've sent a confirmation email with all the details.
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center gap-4 px-6">
-                                    <PremiumButton text="Go to Dashboard" onClick={() => window.location.href = "/dashboard"} />
+                                    <PremiumButton text="Go to Dashboard" href="/dashboard" />
                                     <PremiumButton text="Browse More Courses" variant="secondary" onClick={() => setStep(1)} />
                                 </div>
                             </motion.div>
