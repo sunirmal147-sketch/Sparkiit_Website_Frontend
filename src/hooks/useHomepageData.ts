@@ -70,6 +70,10 @@ export interface HomepageData {
         review?: {
             rating?: string;
         };
+        testimonials?: {
+            title?: string;
+            subtitle?: string;
+        };
     };
     settings?: {
         contact_email?: string;
