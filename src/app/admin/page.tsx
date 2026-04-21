@@ -136,9 +136,10 @@ export default function AdminDashboard() {
     const websiteActions = [
         { title: "PAGE BUILDER", desc: "Static Pages", icon: FilePlus, link: "/admin/page-builder", color: "#84cc16" },
         { title: "RATING SECTION", desc: "Home Page Layout", icon: Blocks, link: "/admin/sections", color: "#ec4899" },
-        { title: "BRANDS", desc: "Partner Logos", icon: Copyright, link: "/admin/brands", color: "#a855f7" },
-        { title: "MANAGE DOMAINS", desc: "Upload & Payment Links", icon: Globe, link: "/admin/courses", color: "#00875a" },
-        { title: "MANAGE SERVICES", desc: "Platform Config", icon: Monitor, link: "/admin/services", color: "#60a5fa" },
+        { title: "ENROLLMENT LINKS", desc: "Global Sign Up Flows", icon: Calendar, link: "/admin/settings/enroll", color: "#f43f5e" },
+        { title: "COLLABORATOR LOGO", desc: "Partner Logos", icon: Copyright, link: "/admin/brands", color: "#a855f7" },
+        { title: "MANAGE COURSES", desc: "Upload & Payment Links", icon: Globe, link: "/admin/courses", color: "#00875a" },
+        { title: "MANAGE DOMAINS", desc: "Platform Config", icon: Monitor, link: "/admin/services", color: "#60a5fa" },
         { title: "MANAGE BLOGS", desc: "Articles & News", icon: FileText, link: "/admin/blogs", color: "#5eead4" },
         { title: "MANAGE MENTORS", desc: "Slider Profiles", icon: Users, link: "/admin/mentors", color: "#10b981" },
         { title: "MANAGE EVENTS", desc: "Ongoing/Upcoming/Past", icon: Calendar, link: "/admin/events", color: "#00875a" },

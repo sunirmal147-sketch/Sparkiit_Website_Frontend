@@ -46,8 +46,8 @@ export default function Footer(props: FooterContent) {
                         onClick={handleLogoClick}
                         className="flex items-center gap-2 mb-8 group shrink-0"
                     >
-                        <div className="bg-[#00875a] text-white w-8 h-8 flex items-center justify-center rounded-sm group-hover:scale-105 transition-transform">
-                            <Plus size={20} className="font-bold border-2 border-black rounded-sm" />
+                        <div className="w-9 h-9 bg-[#00875a] rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+                            <Plus size={22} className="text-white font-black" />
                         </div>
                         <span className="text-xl font-bold tracking-widest uppercase text-white group-hover:text-[#00875a] transition-colors">{site.logoText}</span>
                     </Link>

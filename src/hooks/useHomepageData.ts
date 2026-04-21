@@ -12,14 +12,28 @@ export interface Project {
 }
 
 export interface Service {
+    _id?: string;
     title: string;
+    description?: string;
+    link?: string;
+    icon?: string;
+    thumbnailUrl?: string;
 }
 
 export interface Recognition {
-    num: string;
-    title?: string;
-    category?: string;
-    image: string;
+    _id: string;
+    name: string;
+    logoUrl: string;
+    link?: string;
+    order: number;
+}
+
+export interface Brand {
+    _id: string;
+    name: string;
+    logoUrl?: string;
+    link?: string;
+    order?: number;
 }
 
 export interface Testimonial {
@@ -35,6 +49,7 @@ export interface HomepageData {
     services: Service[];
     testimonials?: Testimonial[];
     recognitions?: Recognition[];
+    brands?: Brand[];
     content: {
         hero?: {
             word1?: string;
@@ -79,6 +94,8 @@ export interface HomepageData {
         contact_email?: string;
         contact_phone?: string;
         contact_address?: string;
+        slot_booking_url?: string;
+        full_registration_url?: string;
         [key: string]: string | number | boolean | null | undefined | object;
     };
     pageStructure: {

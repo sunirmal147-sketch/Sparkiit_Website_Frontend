@@ -13,6 +13,7 @@ import {
     Workflow,
     PanelBottom,
     LogOut,
+    Plus,
     Calendar,
     Mail
 } from "lucide-react";
@@ -65,8 +66,10 @@ const navGroups: NavGroup[] = [
             { label: "PAGE BUILDER", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} />, permissionKey: "PAGE_BUILDER" },
             { label: "CONTACT US", href: "/admin/contact", icon: <Mail size={20} strokeWidth={1.8} />, permissionKey: "CONTACT_US" },
             { label: "RATING SECTION", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} />, permissionKey: "SECTIONS" },
-            { label: "BRANDS", href: "/admin/brands", icon: <Copyright size={20} strokeWidth={1.8} />, permissionKey: "BRANDS" },
-            { label: "MANAGE SERVICES", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_SERVICES" },
+            { label: "ENROLLMENT LINKS", href: "/admin/settings/enroll", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "ENROLLMENT_LINKS" },
+            { label: "COLLABORATOR LOGO", href: "/admin/brands", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "COLLABORATORS" },
+            { label: "FEATURED IN", href: "/admin/recognitions", icon: <FileText size={20} strokeWidth={1.8} />, permissionKey: "RECOGNITIONS" },
+            { label: "MANAGE DOMAINS", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_SERVICES" },
             { label: "MANAGE BLOGS", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_BLOGS" },
             { label: "MANAGE MENTORS", href: "/admin/mentors", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_MENTORS" },
             { label: "MANAGE EVENTS", href: "/admin/events", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_EVENTS" },
@@ -411,7 +414,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             width: 38,
                             height: 38,
                             borderRadius: 10,
-                            background: "linear-gradient(135deg, #00875a 0%, #006644 100%)",
+                            background: "#00875a",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -421,7 +424,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             flexShrink: 0,
                         }}
                     >
-                        S
+                        <Plus size={20} strokeWidth={3} />
                     </div>
                     {sidebarOpen && (
                         <div style={{ overflow: "hidden" }}>

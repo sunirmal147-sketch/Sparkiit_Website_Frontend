@@ -3,18 +3,27 @@
 import React from "react";
 import { motion } from "framer-motion";
 
+import { useHomepageData } from "@/hooks/useHomepageData";
+
 const publications = [
-    "The Times of India", "Hindustan Times", "Economic Times", "YourStory", "Indian Express", "Outlook India", "Inc42"
+    { name: "The Times of India", logoUrl: "" },
+    { name: "Hindustan Times", logoUrl: "" },
+    { name: "Economic Times", logoUrl: "" },
+    { name: "YourStory", logoUrl: "" },
+    { name: "Indian Express", logoUrl: "" },
+    { name: "Outlook India", logoUrl: "" },
+    { name: "Inc42", logoUrl: "" }
 ];
 
 export interface FeaturedInContent {
     title?: string;
-    items?: string[];
+    items?: { name: string; logoUrl: string }[];
 }
 
 export default function FeaturedIn(props: FeaturedInContent) {
+    const { data } = useHomepageData();
     const title = props.title || "Featured In";
-    const items = props.items || publications;
+    const items = props.items || (data?.recognitions || publications);
 
     return (
         <section className="py-10 bg-[#050505]">
@@ -38,18 +47,28 @@ export default function FeaturedIn(props: FeaturedInContent) {
                         </h2>
                     </div>
 
-                    <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 md:gap-x-20 opacity-40">
+                    <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 md:gap-x-20">
                         {items.map((pub, index) => (
-                            <motion.span
+                            <motion.div
                                 key={index}
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="text-lg sm:text-2xl md:text-3xl font-black text-white hover:text-[#00875a] hover:opacity-100 transition-all duration-300 cursor-default uppercase tracking-tighter"
+                                className="flex items-center justify-center"
                             >
-                                {pub}
-                            </motion.span>
+                                {pub.logoUrl ? (
+                                    <img 
+                                        src={pub.logoUrl} 
+                                        alt={pub.name} 
+                                        className="h-6 sm:h-8 md:h-10 object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
+                                    />
+                                ) : (
+                                    <span className="text-lg sm:text-2xl md:text-3xl font-black text-white hover:text-[#00875a] hover:opacity-100 transition-all duration-300 cursor-default uppercase tracking-tighter">
+                                        {pub.name}
+                                    </span>
+                                )}
+                            </motion.div>
                         ))}
                     </div>
                 </motion.div>

@@ -3,26 +3,29 @@
 import React from "react";
 import { motion } from "framer-motion";
 
+import { useHomepageData } from "@/hooks/useHomepageData";
+
 const collaborators = [
-    { name: "Google", logo: "G" },
-    { name: "Microsoft", logo: "M" },
-    { name: "Amazon", logo: "A" },
-    { name: "Tesla", logo: "T" },
-    { name: "Apple", logo: "A" },
-    { name: "Nvidia", logo: "N" },
-    { name: "Meta", logo: "M" },
+    { name: "Google", logo: "G", logoUrl: "" },
+    { name: "Microsoft", logo: "M", logoUrl: "" },
+    { name: "Amazon", logo: "A", logoUrl: "" },
+    { name: "Tesla", logo: "T", logoUrl: "" },
+    { name: "Apple", logo: "A", logoUrl: "" },
+    { name: "Nvidia", logo: "N", logoUrl: "" },
+    { name: "Meta", logo: "M", logoUrl: "" },
 ];
 
 export interface CollaborationsContent {
     title?: string;
     subtitle?: string;
-    items?: { name: string; logo: string }[];
+    items?: { name: string; logo: string; logoUrl?: string }[];
 }
 
 export default function Collaborations(props: CollaborationsContent) {
-    const title = props.title || "Collaborations";
+    const { data } = useHomepageData();
+    const title = props.title || "Collaborators";
     const subtitle = props.subtitle || "Building the Future Together";
-    const initialItems = props.items || [];
+    const initialItems = props.items || (data?.brands?.map(b => ({ name: b.name, logo: b.name[0], logoUrl: b.logoUrl })) || []);
     const items = initialItems.length > 0 ? initialItems : collaborators;
 
     return (
@@ -63,9 +66,17 @@ export default function Collaborations(props: CollaborationsContent) {
                 >
                     {[...items, ...items].map((item, index) => (
                         <div key={index} className="flex items-center gap-4 group cursor-default">
-                            <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl md:text-3xl font-black text-[#00875a] group-hover:bg-[#00875a] group-hover:text-white transition-all duration-300">
-                                {item.logo}
-                            </div>
+                            {item.logoUrl ? (
+                                <img 
+                                    src={item.logoUrl} 
+                                    alt={item.name} 
+                                    className="w-10 h-10 md:w-12 md:h-12 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+                                />
+                            ) : (
+                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl md:text-3xl font-black text-[#00875a] group-hover:bg-[#00875a] group-hover:text-white transition-all duration-300">
+                                    {item.logo}
+                                </div>
+                            )}
                             <span className="text-2xl md:text-4xl font-bold text-white/50 group-hover:text-white transition-colors duration-300 uppercase tracking-tighter">
                                 {item.name}
                             </span>

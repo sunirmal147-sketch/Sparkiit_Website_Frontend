@@ -29,7 +29,7 @@ export default function ServicesPage() {
     const [currentService, setCurrentService] = useState({ 
         title: "", 
         description: "", 
-        link: "", 
+        thumbnailUrl: "",
         order: 0 
     });
 
@@ -114,7 +114,7 @@ export default function ServicesPage() {
         setCurrentService({ 
             title: service.title, 
             description: service.description || "", 
-            link: service.link || "", 
+            thumbnailUrl: service.thumbnailUrl || "",
             order: service.order || 0 
         });
         setIsFormOpen(true);
@@ -143,7 +143,7 @@ export default function ServicesPage() {
                 flexWrap: "wrap"
             }}>
                 <div>
-                    <h1 style={{ fontSize: 28, fontWeight: 800, color: "#fff", marginBottom: 8 }}>MANAGE <span style={{ color: "#00875a" }}>SERVICES</span></h1>
+                    <h1 style={{ fontSize: 28, fontWeight: 800, color: "#fff", marginBottom: 8 }}>MANAGE <span style={{ color: "#00875a" }}>DOMAINS</span></h1>
                     <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>Configure the expertise cards shown on your home page.</p>
                 </div>
                 
@@ -161,7 +161,7 @@ export default function ServicesPage() {
                         <Search size={18} color="rgba(255,255,255,0.3)" />
                         <input 
                             type="text" 
-                            placeholder="Search services..." 
+                            placeholder="Search domains..." 
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             style={{ 
@@ -178,7 +178,7 @@ export default function ServicesPage() {
                     <button 
                         onClick={() => {
                             setEditingId(null);
-                            setCurrentService({ title: "", description: "", link: "", order: services.length });
+                            setCurrentService({ title: "", description: "", thumbnailUrl: "", order: services.length });
                             setIsFormOpen(true);
                         }}
                         style={{
@@ -197,7 +197,7 @@ export default function ServicesPage() {
                         }}
                     >
                         <Plus size={18} />
-                        Add Service
+                        Add Domain
                     </button>
                 </div>
             </div>
@@ -218,7 +218,7 @@ export default function ServicesPage() {
                         border: "1px dashed rgba(255,255,255,0.1)"
                     }}>
                         <Monitor size={48} color="rgba(255,255,255,0.1)" style={{ margin: "0 auto 16px" }} />
-                        <p style={{ color: "rgba(255,255,255,0.3)" }}>No services found. Add your first service card!</p>
+                        <p style={{ color: "rgba(255,255,255,0.3)" }}>No domains found. Add your first domain card!</p>
                     </div>
                 ) : (
                     filteredServices.map(service => (
@@ -320,13 +320,13 @@ export default function ServicesPage() {
                         </button>
 
                         <h2 style={{ fontSize: 24, fontWeight: 800, color: "#fff", marginBottom: 32 }}>
-                            {editingId ? "Edit" : "Add"} <span style={{ color: "#00875a" }}>Service Card</span>
+                            {editingId ? "Edit" : "Add"} <span style={{ color: "#00875a" }}>Domain Card</span>
                         </h2>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 100px", gap: 16 }}>
+                            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                                 <InputField label="Title" value={currentService.title} onChange={(val: string) => setCurrentService({...currentService, title: val})} placeholder="Application Development" />
-                                <InputField label="Order" value={currentService.order.toString()} onChange={(val: string) => setCurrentService({...currentService, order: parseInt(val) || 0})} placeholder="0" />
+                                <InputField label="Thumbnail URL" value={currentService.thumbnailUrl} onChange={(val: string) => setCurrentService({...currentService, thumbnailUrl: val})} placeholder="https://example.com/image.jpg" />
                             </div>
                             
                             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -345,7 +345,6 @@ export default function ServicesPage() {
                                 />
                             </div>
 
-                            <InputField label="Link URL" value={currentService.link} onChange={(val: string) => setCurrentService({...currentService, link: val})} placeholder="/services/app-dev" />
                         </div>
 
                         <div style={{ marginTop: 40, display: "flex", alignItems: "center", justifyContent: "space-between" }}>

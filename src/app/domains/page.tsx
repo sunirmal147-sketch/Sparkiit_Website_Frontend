@@ -1,44 +1,30 @@
 "use client";
 import { motion } from "framer-motion";
-import { ArrowRight, Globe, Code, Layout, Database, Shield, Megaphone, FileText } from "lucide-react";
+import * as Icons from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useHomepageData } from "@/hooks/useHomepageData";
 
-const domains = [
-    {
-        title: "Application Development",
-        icon: <Code className="text-[#00875a]" size={32} />,
-        description: "Custom software solutions and mobile application development for enterprise scales."
-    },
-    {
-        title: "UI/UX Strategy & Design",
-        icon: <Layout className="text-[#00875a]" size={32} />,
-        description: "User-centric design systems and interactive prototypes that drive engagement."
-    },
-    {
-        title: "Blockchain Solutions",
-        icon: <Globe className="text-[#00875a]" size={32} />,
-        description: "Decentralized applications and custom ledger solutions for modern finance."
-    },
-    {
-        title: "Smart Contract Audit",
-        icon: <Shield className="text-[#00875a]" size={32} />,
-        description: "Rigorous security audits for Ethereum and other blockchain protocols."
-    },
-    {
-        title: "Digital Marketing",
-        icon: <Megaphone className="text-[#00875a]" size={32} />,
-        description: "Strategic growth hacking and data-driven marketing campaigns."
-    },
-    {
-        title: "Content Strategy",
-        icon: <FileText className="text-[#00875a]" size={32} />,
-        description: "Compelling narrative development and SEO-optimized content distribution."
-    }
-];
+const DynamicIcon = ({ name, className, size }: { name: string, className?: string, size?: number }) => {
+    // Map of known icons to fallback to if the name doesn't match a Lucide icon
+    const IconComponent = (Icons as any)[name] || Icons.Globe;
+    return <IconComponent className={className} size={size} />;
+};
 
 export default function DomainSelectionPage() {
+    const { data, loading } = useHomepageData();
+    const domains = data?.services || [];
+
+    if (loading) {
+        return (
+            <main className="min-h-screen bg-[#050505] text-white flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#00875a]"></div>
+            </main>
+        );
+    }
+
     return (
         <main className="min-h-screen bg-[#050505] text-white">
             <Navbar />
@@ -77,8 +63,18 @@ export default function DomainSelectionPage() {
                                         <ArrowRight className="text-[#00875a]" size={24} />
                                     </div>
                                     
-                                    <div className="mb-8 p-4 bg-white/5 inline-block rounded-2xl group-hover:bg-[#00875a]/10 transition-colors">
-                                        {domain.icon}
+                                    <div className="mb-8 w-full aspect-video rounded-2xl overflow-hidden bg-white/5 group-hover:bg-[#00875a]/5 transition-colors">
+                                        {domain.thumbnailUrl ? (
+                                            <img 
+                                                src={domain.thumbnailUrl} 
+                                                alt={domain.title} 
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center">
+                                                <Icons.Image size={40} className="text-white/10" />
+                                            </div>
+                                        )}
                                     </div>
                                     
                                     <h3 className="text-2xl font-bold mb-4 group-hover:text-[#00875a] transition-colors">{domain.title}</h3>

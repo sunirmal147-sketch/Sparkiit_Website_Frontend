@@ -35,9 +35,7 @@ export default function ServicesOverview(props: ServicesOverviewContent) {
 
     const title = props.title || "TURN UNCERTAINTY INTO DIRECTION";
     const description = props.description || "Unlock a vast library of premium domains spanning diverse fields, all led by world renowned experts. Whether you're looking to elevate your career or master new skills, our platform gives you the knowledge and flexibility you need to thrive";
-    const services = props.services || (data?.services && data.services.length > 0
-        ? data.services.map(s => s.title)
-        : fallbackServices);
+    const services = props.services || (data?.services || []);
 
     return (
         <section id="expertise" ref={containerRef} className="py-16 px-6 md:px-20 bg-[#050505] border-y border-white/5 overflow-hidden">
@@ -72,7 +70,7 @@ export default function ServicesOverview(props: ServicesOverviewContent) {
                     {services.map((service, index) => (
                         <Link 
                             key={index}
-                            href={`/courses?category=${encodeURIComponent(service)}`}
+                            href={`/courses?category=${encodeURIComponent(typeof service === 'string' ? service : service.title)}`}
                             className="block"
                         >
                             <motion.div
@@ -83,7 +81,7 @@ export default function ServicesOverview(props: ServicesOverviewContent) {
                                 className="group bg-[#050505] p-6 sm:p-8 md:p-12 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors relative overflow-hidden"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-[#00875a]/0 to-[#00875a]/5 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
-                                <h3 className="text-lg md:text-2xl font-bold text-white/50 group-hover:text-white transition-colors tracking-tight relative z-10">{service}</h3>
+                                <h3 className="text-lg md:text-2xl font-bold text-white/50 group-hover:text-white transition-colors tracking-tight relative z-10">{typeof service === 'string' ? service : service.title}</h3>
                                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-[#00875a] group-hover:border-[#00875a] group-hover:text-black transition-all relative z-10">
                                     <ArrowRight size={18} className="md:w-5 md:h-5" />
                                 </div>

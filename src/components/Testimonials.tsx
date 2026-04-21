@@ -148,7 +148,6 @@ const Testimonials = (props: TestimonialsContent) => {
             ease: "linear",
           }}
           className="flex gap-8 w-max"
-          style={{ x: xParallax }} 
         >
           {doubledTestimonials.map((testimonial, idx) => (
             <TestimonialCard key={`${testimonial._id}-${idx}`} testimonial={testimonial} />

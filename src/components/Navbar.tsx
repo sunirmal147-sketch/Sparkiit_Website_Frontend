@@ -96,10 +96,12 @@ export default function Navbar() {
                     onClick={handleLogoClick}
                     className="flex items-center gap-2 shrink-0 group"
                 >
-                    <div className="flex items-center justify-center group-hover:scale-105 transition-transform">
-                        <Plus size={18} className="text-[#00875a] font-bold" />
+                    <div className="flex items-center justify-center shrink-0">
+                        <div className="w-9 h-9 bg-[#00875a] rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+                            <Plus size={22} className="text-white font-black" />
+                        </div>
                     </div>
-                    <span className="text-lg md:text-xl font-bold tracking-widest uppercase text-white truncate max-w-[120px] xs:max-w-none group-hover:text-[#00875a] transition-colors">
+                    <span className="text-xl font-bold tracking-widest uppercase text-white group-hover:text-[#00875a] transition-colors">
                         {site.logoText}
                     </span>
                 </Link>
@@ -119,9 +121,9 @@ export default function Navbar() {
 
                         {/* Enroll Now Dropdown - Single Line */}
                         <div className="absolute top-full left-0 mt-2 flex items-center gap-4 bg-[#050505] border border-white/10 rounded-full px-6 py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-xl shadow-2xl whitespace-nowrap">
-                            <Link href="/enroll?type=trial" className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Slot Booking</Link>
+                            <Link href={data?.settings?.slot_booking_url || "/enroll?type=trial"} className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Slot Booking</Link>
                             <div className="w-px h-3 bg-white/10" />
-                            <Link href="/enroll?type=full" className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Full Registration</Link>
+                            <Link href={data?.settings?.full_registration_url || "/enroll?type=full"} className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Full Registration</Link>
                         </div>
                     </div>
                     <Link href="/about" className="text-sm font-medium text-white/70 hover:text-white transition-colors whitespace-nowrap">
@@ -177,12 +179,7 @@ export default function Navbar() {
                                         <p className="text-[10px] font-black text-[#00875a] uppercase tracking-[0.2em]">Explore Domains</p>
                                     </div>
                                     <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
-                                        {(data?.services && data.services.length > 0 ? data.services : [
-                                            { title: "Application Development" },
-                                            { title: "UI/UX Strategy & Design" },
-                                            { title: "Blockchain Solutions" },
-                                            { title: "Digital Marketing" }
-                                        ]).map((service, idx) => (
+                                        {(data?.services || []).map((service, idx) => (
                                             <Link 
                                                 key={idx}
                                                 href={`/courses?category=${encodeURIComponent(service.title)}`}
