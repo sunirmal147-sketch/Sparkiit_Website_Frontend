@@ -6,9 +6,7 @@ import PremiumButton from "./PremiumButton";
 
 const stats = [
     { label: "YEARS EXP", val: 5 },
-    { label: "PROJECTS", val: 120 },
-    { label: "HAPPY CLIENTS", val: 85 },
-    { label: "TEAM", val: 24 }
+    { label: "PROJECTS", val: 120 }
 ];
 
 function Counter({ value }: { value: number }) {

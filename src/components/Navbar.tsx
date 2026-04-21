@@ -9,7 +9,7 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
-    const { cartItems } = useCart();
+    const { cartItems, setIsCartOpen } = useCart();
     const [searchQuery, setSearchQuery] = useState("");
     const [user, setUser] = useState<{ name?: string; email?: string; role?: string } | null>(null);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -121,9 +121,9 @@ export default function Navbar() {
 
                         {/* Enroll Now Dropdown - Single Line */}
                         <div className="absolute top-full left-0 mt-2 flex items-center gap-4 bg-[#050505] border border-white/10 rounded-full px-6 py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-xl shadow-2xl whitespace-nowrap">
-                            <Link href={data?.settings?.slot_booking_url || "/enroll?type=trial"} className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Slot Booking</Link>
+                            <Link href="https://pages.razorpay.com/pl_SHADRLSUxgr1qJ/view" className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Slot Booking</Link>
                             <div className="w-px h-3 bg-white/10" />
-                            <Link href={data?.settings?.full_registration_url || "/enroll?type=full"} className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Full Registration</Link>
+                            <Link href="https://pages.razorpay.com/pl_SHADRLSUxgr1qJ/view" className="text-[10px] text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-black">Full Registration</Link>
                         </div>
                     </div>
                     <Link href="/about" className="text-sm font-medium text-white/70 hover:text-white transition-colors whitespace-nowrap">
@@ -219,14 +219,17 @@ export default function Navbar() {
 
                 {/* Icons */}
                 <div className="flex items-center gap-1 md:gap-2">
-                    <div className="relative p-2 rounded-full hover:bg-white/5 cursor-pointer transition-colors group">
+                    <button 
+                        onClick={() => setIsCartOpen(true)}
+                        className="relative p-2 rounded-full hover:bg-white/5 cursor-pointer transition-colors group"
+                    >
                         <ShoppingBasket size={20} className="text-white/60 group-hover:text-white md:w-[22px] md:h-[22px]" />
                         {cartItems.length > 0 && (
                             <span className="absolute top-1 right-1 bg-[#00875a] text-white text-[9px] font-black w-3.5 h-3.5 flex items-center justify-center rounded-full animate-in zoom-in duration-300">
                                 {cartItems.length}
                             </span>
                         )}
-                    </div>
+                    </button>
                     
                     {/* User Menu */}
                     <div className="relative group hidden md:block">
@@ -346,8 +349,8 @@ export default function Navbar() {
 
                             <div className="flex flex-col gap-4">
                                 <span className="text-xs font-bold text-[#00875a] uppercase tracking-widest">Enroll Now</span>
-                                <Link href="/enroll?type=trial" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70 pl-4">Slot Booking</Link>
-                                <Link href="/enroll?type=full" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70 pl-4">Full Registration</Link>
+                                <Link href="https://pages.razorpay.com/pl_SHADRLSUxgr1qJ/view" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70 pl-4">Slot Booking</Link>
+                                <Link href="https://pages.razorpay.com/pl_SHADRLSUxgr1qJ/view" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70 pl-4">Full Registration</Link>
                             </div>
                             
                             <div className="h-px bg-white/5 my-4" />

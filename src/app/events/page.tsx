@@ -57,7 +57,7 @@ export default function EventsPage() {
             </section>
 
             {/* Tabs Section */}
-            <section className="px-6 md:px-20 pb-10 border-b border-white/5 sticky top-[72px] z-40 bg-[#050505]/80 backdrop-blur-md">
+            <section className="px-6 md:px-20 border-b border-white/5 sticky top-[72px] z-40 bg-[#050505] backdrop-blur-md">
                 <div className="max-w-7xl mx-auto flex gap-4 md:gap-8 overflow-x-auto no-scrollbar py-4 border-t border-white/5">
                     {[
                         { id: "ongoing", label: "Ongoing", icon: RefreshCw },
@@ -69,7 +69,7 @@ export default function EventsPage() {
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`flex items-center gap-3 px-8 py-4 rounded-2xl text-xs md:text-sm font-black uppercase tracking-widest transition-all whitespace-nowrap ${
                                 activeTab === tab.id 
-                                ? "bg-[#00875a] text-white shadow-[0_0_20px_rgba(0,135,90,0.3)] shadow-inner" 
+                                ? "bg-[#00875a] text-white shadow-[0_0_20px_rgba(0,135,90,0.3)]" 
                                 : "bg-white/5 text-white/40 hover:text-white hover:bg-white/10"
                             }`}
                         >

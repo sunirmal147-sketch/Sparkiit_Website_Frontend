@@ -15,12 +15,15 @@ interface CartContextType {
     removeFromCart: (itemId: string) => void;
     clearCart: () => void;
     isInCart: (itemId: string) => boolean;
+    isCartOpen: boolean;
+    setIsCartOpen: (isOpen: boolean) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [isCartOpen, setIsCartOpen] = useState(false);
 
     // Load cart from localStorage on mount
     useEffect(() => {
@@ -41,7 +44,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const addToCart = (item: CartItem) => {
         setCartItems((prev) => {
-            if (prev.find((i) => i._id === item._id)) return prev;
+            if (prev.find((i) => i._id === item._id)) {
+                setIsCartOpen(true); // Open anyway to show it's there
+                return prev;
+            }
+            setIsCartOpen(true); // Open automatically on add
             return [...prev, item];
         });
     };
@@ -59,7 +66,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, isInCart }}>
+        <CartContext.Provider value={{ 
+            cartItems, 
+            addToCart, 
+            removeFromCart, 
+            clearCart, 
+            isInCart,
+            isCartOpen,
+            setIsCartOpen
+        }}>
             {children}
         </CartContext.Provider>
     );
