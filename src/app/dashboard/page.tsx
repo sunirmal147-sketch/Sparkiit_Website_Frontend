@@ -38,6 +38,9 @@ export default function DashboardOverview() {
                 const data = await res.json();
                 if (data.success) {
                     setStats(data.data);
+                    if (data.data.name) {
+                        setUserName(data.data.name.split(' ')[0]);
+                    }
                 }
             } catch (error) {
                 console.error("Dashboard fetch error:", error);
