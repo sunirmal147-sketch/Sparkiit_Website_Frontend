@@ -46,10 +46,11 @@ export default function Footer(props: FooterContent) {
                         onClick={handleLogoClick}
                         className="flex items-center gap-2 mb-8 group shrink-0"
                     >
-                        <div className="w-9 h-9 bg-[#00875a] rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-                            <Plus size={22} className="text-white font-black" />
-                        </div>
-                        <span className="text-xl font-bold tracking-widest uppercase text-white group-hover:text-[#00875a] transition-colors">{site.logoText}</span>
+                        <img 
+                            src="/images.jpg" 
+                            alt="Sparkiit" 
+                            className="h-8 md:h-10 w-auto group-hover:scale-105 transition-transform" 
+                        />
                     </Link>
                     <p className="text-gray-500 leading-relaxed mb-8">
                         {site.footerDesc}

@@ -334,7 +334,7 @@ export default function ManageTeamPage() {
                         <Filter size={16} />
                         <span style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>Custom Period Filter</span>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                         <DateInput value={customStart} onChange={(e: any) => setCustomStart(e.target.value)} placeholder="Start Date" />
                         <ArrowRight size={14} style={{ color: "rgba(255,255,255,0.1)" }} />
                         <DateInput value={customEnd} onChange={(e: any) => setCustomEnd(e.target.value)} placeholder="End Date" />
@@ -362,12 +362,12 @@ export default function ManageTeamPage() {
                             {currentUser?.role === 'SUPER_ADMIN' ? "Organization View" : `${currentUser?.username} · ${team.length} Members`}
                         </p>
                         {currentUser?.role === 'SUPER_ADMIN' && (
-                            <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: 16 }}>
-                                <span style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>Managing Lead:</span>
+                            <div style={{ display: "flex", alignItems: "center", gap: 10, marginLeft: 20, paddingLeft: 20, borderLeft: "1px solid rgba(255,255,255,0.06)" }}>
+                                <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.2)", textTransform: "uppercase", whiteSpace: "nowrap" }}>Managing Lead:</span>
                                 <select 
                                     value={viewingAsLeadId || ""} 
                                     onChange={(e) => setViewingAsLeadId(e.target.value)}
-                                    style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", borderRadius: 8, padding: "4px 12px", fontSize: 11, fontWeight: 700, outline: "none" }}
+                                    style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: "#fff", borderRadius: 10, padding: "6px 12px", fontSize: 11, fontWeight: 700, outline: "none", cursor: "pointer" }}
                                 >
                                     {leads.map(l => (
                                         <option key={l._id} value={l._id} style={{ background: "#141414" }}>{l.username} ({l.role})</option>
@@ -451,11 +451,13 @@ export default function ManageTeamPage() {
                                         <div style={{ width: 38, height: 38, borderRadius: 10, background: isSelected ? ACCENT : "rgba(255,255,255,0.08)", color: isSelected ? "#000" : "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 15, flexShrink: 0 }}>
                                             {user.username?.charAt(0)?.toUpperCase()}
                                         </div>
-                                        <div style={{ textAlign: "left", flex: 1, overflow: "hidden" }}>
-                                            <h4 style={{ fontSize: 13, fontWeight: 800, color: "#fff", margin: 0, textTransform: "uppercase", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{user.username}</h4>
-                                            <span style={{ fontSize: 10, fontWeight: 700, padding: "1px 6px", borderRadius: 4, background: badge.bg, color: badge.color, display: "inline-block", marginTop: 2 }}>
-                                                {user.role.replace(/_/g, " ")}
-                                            </span>
+                                        <div style={{ textAlign: "left", flex: 1, overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                            <h4 style={{ fontSize: 13, fontWeight: 800, color: "#fff", margin: 0, textTransform: "uppercase", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1.2 }}>{user.username}</h4>
+                                            <div style={{ marginTop: 4 }}>
+                                                <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 6px", borderRadius: 4, background: badge.bg, color: badge.color, display: "inline-block", textTransform: "uppercase", letterSpacing: "0.02em" }}>
+                                                    {user.role.replace(/_/g, " ")}
+                                                </span>
+                                            </div>
                                         </div>
                                         <ChevronRight size={14} style={{ color: isSelected ? ACCENT : "rgba(255,255,255,0.1)" }} />
                                     </button>
@@ -602,18 +604,18 @@ export default function ManageTeamPage() {
                                                         </div>
                                                         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                                                             <div>
-                                                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                                                                    <span style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", fontWeight: 600 }}>Razorpay Payments</span>
-                                                                    <span style={{ fontSize: 14, fontWeight: 900, color: "#fff" }}>₹{teamSummary.systemRevenue.toLocaleString()}</span>
+                                                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
+                                                                    <span style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Razorpay Payments</span>
+                                                                    <span style={{ fontSize: 15, fontWeight: 900, color: "#fff" }}>₹{teamSummary.systemRevenue.toLocaleString()}</span>
                                                                 </div>
                                                                 <div style={{ height: 8, background: "rgba(255,255,255,0.05)", borderRadius: 4, overflow: "hidden" }}>
                                                                     <motion.div initial={{ width: 0 }} animate={{ width: `${(teamSummary.systemRevenue / (teamSummary.achievedRevenue || 1)) * 100}%` }} transition={{ duration: 1 }} style={{ height: "100%", background: ACCENT, borderRadius: 4 }} />
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                                                                    <span style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", fontWeight: 600 }}>External Adjustments</span>
-                                                                    <span style={{ fontSize: 14, fontWeight: 900, color: "#f59e0b" }}>₹{teamSummary.manualRevenue.toLocaleString()}</span>
+                                                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
+                                                                    <span style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>External Adjustments</span>
+                                                                    <span style={{ fontSize: 15, fontWeight: 900, color: "#f59e0b" }}>₹{teamSummary.manualRevenue.toLocaleString()}</span>
                                                                 </div>
                                                                 <div style={{ height: 8, background: "rgba(255,255,255,0.05)", borderRadius: 4, overflow: "hidden" }}>
                                                                     <motion.div initial={{ width: 0 }} animate={{ width: `${(teamSummary.manualRevenue / (teamSummary.achievedRevenue || 1)) * 100}%` }} transition={{ duration: 1 }} style={{ height: "100%", background: "#f59e0b", borderRadius: 4 }} />
@@ -631,28 +633,33 @@ export default function ManageTeamPage() {
                                                     </div>
 
                                                     {/* Velocity Meter */}
-                                                    <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)", borderRadius: 24, padding: 24, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                                                        <div style={{ position: "relative", width: 140, height: 140, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                            {/* Simple Circle Progress */}
-                                                            <svg width="140" height="140" viewBox="0 0 140 140">
-                                                                <circle cx="70" cy="70" r="60" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="12" />
-                                                                <motion.circle 
-                                                                    cx="70" cy="70" r="60" fill="none" stroke={ACCENT} strokeWidth="12" strokeDasharray="377" 
-                                                                    initial={{ strokeDashoffset: 377 }} 
-                                                                    animate={{ strokeDashoffset: 377 - (377 * Math.min(teamSummary.achievedRevenue / (teamSummary.totalTargetRevenue || 1), 1)) }} 
-                                                                    transition={{ duration: 1.5, ease: "easeOut" }}
-                                                                    strokeLinecap="round"
-                                                                />
-                                                            </svg>
-                                                            <div style={{ position: "absolute", textAlign: "center" }}>
-                                                                <div style={{ fontSize: 24, fontWeight: 900, color: "#fff" }}>{teamSummary.totalTargetRevenue > 0 ? Math.round((teamSummary.achievedRevenue / teamSummary.totalTargetRevenue) * 100) : 0}%</div>
-                                                                <div style={{ fontSize: 9, fontWeight: 800, color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>Fulfilled</div>
-                                                            </div>
+                                                    <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)", borderRadius: 24, padding: 24 }}>
+                                                        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
+                                                            <TrendingUp size={18} style={{ color: "rgba(255,255,255,0.3)" }} />
+                                                            <h3 style={{ fontSize: 16, fontWeight: 800, color: "#fff", margin: 0, textTransform: "uppercase" }}>Overall Velocity</h3>
                                                         </div>
-                                                        <h4 style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginTop: 24, textTransform: "uppercase" }}>Overall Velocity</h4>
-                                                        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", textAlign: "center", marginTop: 8, lineHeight: 1.6 }}>
-                                                            Current team trajectory shows <br/><b style={{ color: teamSummary.achievedRevenue >= teamSummary.totalTargetRevenue ? ACCENT : "#f59e0b" }}>{teamSummary.achievedRevenue >= teamSummary.totalTargetRevenue ? "Optimal Growth" : "Moderate Activity"}</b> output.
-                                                        </p>
+                                                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                                                            <div style={{ position: "relative", width: 140, height: 140, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                                {/* Simple Circle Progress */}
+                                                                <svg width="140" height="140" viewBox="0 0 140 140">
+                                                                    <circle cx="70" cy="70" r="60" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="12" />
+                                                                    <motion.circle 
+                                                                        cx="70" cy="70" r="60" fill="none" stroke={ACCENT} strokeWidth="12" strokeDasharray="377" 
+                                                                        initial={{ strokeDashoffset: 377 }} 
+                                                                        animate={{ strokeDashoffset: 377 - (377 * Math.min(teamSummary.achievedRevenue / (teamSummary.totalTargetRevenue || 1), 1)) }} 
+                                                                        transition={{ duration: 1.5, ease: "easeOut" }}
+                                                                        strokeLinecap="round"
+                                                                    />
+                                                                </svg>
+                                                                <div style={{ position: "absolute", textAlign: "center" }}>
+                                                                    <div style={{ fontSize: 24, fontWeight: 900, color: "#fff" }}>{teamSummary.totalTargetRevenue > 0 ? Math.round((teamSummary.achievedRevenue / teamSummary.totalTargetRevenue) * 100) : 0}%</div>
+                                                                    <div style={{ fontSize: 9, fontWeight: 800, color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>Fulfilled</div>
+                                                                </div>
+                                                            </div>
+                                                            <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", textAlign: "center", marginTop: 20, lineHeight: 1.6, maxWidth: 200 }}>
+                                                                Current team trajectory shows <br/><b style={{ color: teamSummary.achievedRevenue >= teamSummary.totalTargetRevenue ? ACCENT : "#f59e0b" }}>{teamSummary.achievedRevenue >= teamSummary.totalTargetRevenue ? "Optimal Growth" : "Moderate Activity"}</b> output.
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </>
@@ -844,15 +851,25 @@ export default function ManageTeamPage() {
 
 function DateInput({ value, onChange, placeholder }: any) {
     return (
-        <div style={{ position: "relative" }}>
-            <Calendar size={12} style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: value ? ACCENT : "rgba(255,255,255,0.2)", pointerEvents: "none" }} />
+        <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <Calendar size={14} style={{ position: "absolute", left: 12, color: value ? ACCENT : "rgba(255,255,255,0.2)", pointerEvents: "none" }} />
             <input 
                 type="date" 
                 value={value} 
                 onChange={onChange}
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "8px 10px 8px 30px", color: "#fff", fontSize: 11, fontWeight: 700, outline: "none", colorScheme: "dark" }}
+                style={{ 
+                    background: "rgba(255,255,255,0.03)", 
+                    border: "1px solid rgba(255,255,255,0.08)", 
+                    borderRadius: 12, 
+                    padding: "10px 12px 10px 36px", 
+                    color: "#fff", 
+                    fontSize: 12, 
+                    fontWeight: 700, 
+                    outline: "none", 
+                    colorScheme: "dark",
+                    width: 150
+                }}
             />
-            {!value && <span style={{ position: "absolute", left: 32, top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.2)", fontSize: 10, fontWeight: 700, pointerEvents: "none" }}>{placeholder}</span>}
         </div>
     );
 }

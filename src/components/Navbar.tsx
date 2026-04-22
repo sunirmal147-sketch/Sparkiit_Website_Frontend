@@ -96,14 +96,11 @@ export default function Navbar() {
                     onClick={handleLogoClick}
                     className="flex items-center gap-2 shrink-0 group"
                 >
-                    <div className="flex items-center justify-center shrink-0">
-                        <div className="w-9 h-9 bg-[#00875a] rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-                            <Plus size={22} className="text-white font-black" />
-                        </div>
-                    </div>
-                    <span className="text-xl font-bold tracking-widest uppercase text-white group-hover:text-[#00875a] transition-colors">
-                        {site.logoText}
-                    </span>
+                    <img 
+                        src="/images.jpg" 
+                        alt="Sparkiit" 
+                        className="h-8 md:h-10 w-auto group-hover:scale-105 transition-transform" 
+                    />
                 </Link>
 
                 <div className="hidden xl:flex items-center gap-5">
@@ -301,10 +298,11 @@ export default function Navbar() {
                                     onClick={handleLogoClick}
                                     className="flex items-center gap-2"
                                 >
-                                    <div className="bg-[#00875a] text-white w-8 h-8 flex items-center justify-center rounded-sm">
-                                        <Plus size={20} className="font-bold border-2 border-black rounded-sm" />
-                                    </div>
-                                    <span className="text-xl font-bold tracking-widest uppercase text-white">{site.logoText}</span>
+                                    <img 
+                                        src="/images.jpg" 
+                                        alt="Sparkiit" 
+                                        className="h-8 w-auto" 
+                                    />
                                 </Link>
                                 <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-white/50 hover:text-white">
                                     <X size={24} />
