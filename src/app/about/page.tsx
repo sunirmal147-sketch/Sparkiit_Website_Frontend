@@ -3,7 +3,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import OurStory from "@/components/OurStory";
-import CompanyInsights from "@/components/CompanyInsights";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -103,7 +102,6 @@ function AboutContent() {
                 </div>
             </section>
 
-            <CompanyInsights />
 
             <Footer />
         </main>
