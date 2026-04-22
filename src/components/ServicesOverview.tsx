@@ -70,7 +70,7 @@ export default function ServicesOverview(props: ServicesOverviewContent) {
                     {services.map((service, index) => (
                         <Link 
                             key={index}
-                            href={`/courses?category=${encodeURIComponent(typeof service === 'string' ? service : service.title)}`}
+                            href={`/domains?category=${encodeURIComponent(typeof service === 'string' ? service : service.title)}`}
                             className="block"
                         >
                             <motion.div

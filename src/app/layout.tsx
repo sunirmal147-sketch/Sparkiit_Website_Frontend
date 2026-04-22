@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
-import CustomCursor from "@/components/CustomCursor";
 import { CartProvider } from "@/context/CartContext";
 import CartSidebar from "@/components/CartSidebar";
 
@@ -34,7 +33,6 @@ export default function RootLayout({
         <SmoothScrollProvider>
           <CartProvider>
             <CartSidebar />
-            <CustomCursor />
             {children}
           </CartProvider>
         </SmoothScrollProvider>

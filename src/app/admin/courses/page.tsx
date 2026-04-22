@@ -14,6 +14,7 @@ interface Course {
     price: number;
     duration: string;
     status: "active" | "draft" | "archived";
+    batchStatus: "ongoing" | "upcoming" | "past" | "self-paced";
     imageUrl: string;
     paymentLink: string;
     links: string[];
@@ -32,6 +33,7 @@ interface CourseForm {
     price: number;
     duration: string;
     status: "active" | "draft" | "archived";
+    batchStatus: "ongoing" | "upcoming" | "past" | "self-paced";
     imageUrl: string;
     paymentLink: string;
     links: string[];
@@ -48,6 +50,7 @@ const emptyCourse: CourseForm = {
     price: 0, 
     duration: "", 
     status: "draft", 
+    batchStatus: "ongoing",
     imageUrl: "", 
     paymentLink: "",
     links: [],
@@ -114,6 +117,7 @@ export default function CoursesPage() {
             price: c.price,
             duration: c.duration,
             status: c.status,
+            batchStatus: c.batchStatus || "ongoing",
             imageUrl: c.imageUrl,
             paymentLink: c.paymentLink || "",
             links: c.links || [],
@@ -300,7 +304,7 @@ export default function CoursesPage() {
                             <table style={{ width: "100%", borderCollapse: "collapse" }}>
                                 <thead>
                                     <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                                        {["Title", "Level", "Curriculum", "Status", "Actions"].map((h) => (
+                                        {["Title", "Level", "Batch", "Status", "Actions"].map((h) => (
                                             <th key={h} style={{ padding: "14px 20px", fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "left" }}>
                                                 {h}
                                             </th>
@@ -316,12 +320,18 @@ export default function CoursesPage() {
                                             </td>
                                             <td style={{ padding: "14px 20px", fontSize: 12, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 700 }}>{c.level || "all"}</td>
                                             <td style={{ padding: "14px 20px" }}>
-                                                <Link href={`/admin/courses/${c._id}/curriculum`} style={{ fontSize: 12, color: "#00875a", fontWeight: 700, textDecoration: "none", background: "rgba(0,135,90,0.1)", padding: "4px 10px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                                                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-                                                    </svg>
-                                                    Manage
-                                                </Link>
+                                                <div style={{ 
+                                                    fontSize: 10, 
+                                                    fontWeight: 800, 
+                                                    padding: "4px 10px", 
+                                                    borderRadius: 6, 
+                                                    background: c.batchStatus === 'ongoing' ? 'rgba(0,135,90,0.1)' : c.batchStatus === 'upcoming' ? 'rgba(59,130,246,0.1)' : 'rgba(255,255,255,0.05)',
+                                                    color: c.batchStatus === 'ongoing' ? '#00875a' : c.batchStatus === 'upcoming' ? '#3b82f6' : 'rgba(255,255,255,0.4)',
+                                                    display: "inline-block",
+                                                    textTransform: "uppercase"
+                                                }}>
+                                                    {c.batchStatus}
+                                                </div>
                                             </td>
                                             <td style={{ padding: "14px 20px" }}>{statusBadge(c.status)}</td>
                                             <td style={{ padding: "14px 20px" }}>
@@ -391,6 +401,15 @@ export default function CoursesPage() {
                                     <option value="draft" style={{ background: "#1a1a1a" }}>Draft</option>
                                     <option value="active" style={{ background: "#1a1a1a" }}>Active</option>
                                     <option value="archived" style={{ background: "#1a1a1a" }}>Archived</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style={labelStyle}>Batch Status</label>
+                                <select style={selectStyle} value={form.batchStatus} onChange={(e) => setForm({ ...form, batchStatus: e.target.value as any })}>
+                                    <option value="ongoing" style={{ background: "#1a1a1a" }}>Ongoing</option>
+                                    <option value="upcoming" style={{ background: "#1a1a1a" }}>Upcoming</option>
+                                    <option value="past" style={{ background: "#1a1a1a" }}>Past</option>
+                                    <option value="self-paced" style={{ background: "#1a1a1a" }}>Self-Paced</option>
                                 </select>
                             </div>
                             <div>
