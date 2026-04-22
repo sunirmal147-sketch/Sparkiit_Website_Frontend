@@ -51,7 +51,18 @@ export default function HorizontalScrollSection(props: HorizontalScrollContent) 
     const title = props.title || "Domains We Serve";
     const subtitle = props.subtitle || "";
     const initialItems = props.items || [];
-    const items = initialItems.length > 0 ? initialItems : services;
+    
+    // Map backend data to frontend format if necessary
+    const mappedItems = initialItems.map((item: any, index: number) => ({
+        id: item._id || item.id || index,
+        num: item.num || (index + 1).toString().padStart(2, '0'),
+        title: item.title,
+        category: item.category || "GENERAL",
+        description: item.description,
+        image: item.image || item.thumbnailUrl || "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=2874&auto=format&fit=crop"
+    }));
+
+    const items = mappedItems.length > 0 ? mappedItems : services;
 
     const handleNext = () => {
         setActiveIndex((prev) => (prev + 1) % items.length);

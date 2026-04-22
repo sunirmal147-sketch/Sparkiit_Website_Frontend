@@ -15,9 +15,20 @@ export interface Service {
     _id?: string;
     title: string;
     description?: string;
+    category?: string;
     link?: string;
     icon?: string;
     thumbnailUrl?: string;
+}
+
+export interface HorizontalScrollItem {
+    _id: string;
+    title: string;
+    description: string;
+    category: string;
+    image: string;
+    num: string;
+    order: number;
 }
 
 export interface Recognition {
@@ -47,6 +58,7 @@ export interface Testimonial {
 export interface HomepageData {
     projects: Project[];
     services: Service[];
+    horizontalScrollItems: HorizontalScrollItem[];
     testimonials?: Testimonial[];
     recognitions?: Recognition[];
     brands?: Brand[];

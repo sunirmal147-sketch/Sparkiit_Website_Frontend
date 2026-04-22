@@ -15,7 +15,8 @@ import {
     LogOut,
     Plus,
     Calendar,
-    Mail
+    Mail,
+    Layers
 } from "lucide-react";
 
 // Nav Data Structure
@@ -70,6 +71,7 @@ const navGroups: NavGroup[] = [
             { label: "COLLABORATOR LOGO", href: "/admin/brands", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "COLLABORATORS" },
             { label: "FEATURED IN", href: "/admin/recognitions", icon: <FileText size={20} strokeWidth={1.8} />, permissionKey: "RECOGNITIONS" },
             { label: "MANAGE DOMAINS", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_SERVICES" },
+            { label: "HORIZONTAL SCROLL", href: "/admin/horizontal-scroll", icon: <Layers size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_HORIZONTAL_SCROLL" },
             { label: "MANAGE BLOGS", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_BLOGS" },
             { label: "MANAGE MENTORS", href: "/admin/mentors", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_MENTORS" },
             { label: "MANAGE EVENTS", href: "/admin/events", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_EVENTS" },

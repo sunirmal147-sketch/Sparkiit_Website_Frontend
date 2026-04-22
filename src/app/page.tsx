@@ -37,7 +37,7 @@ export default function Home() {
                   name: s.name,
                   enabled: s.enabled,
                   order: s.order,
-                  content: {} // Homepage currently uses global store/content, but we can transition this later
+                  content: s.name === 'HorizontalScroll' ? { ...s.content, items: data.horizontalScrollItems } : (s.content || {})
                 })) || []} 
               />
             )}

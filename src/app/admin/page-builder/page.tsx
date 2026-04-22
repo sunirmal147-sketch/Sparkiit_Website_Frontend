@@ -565,19 +565,19 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
             )}
 
             {/* Standard Text Content Schema */}
-            {["OurStory", "CompanyInsights", "WorkingProcess", "ServicesOverview", "RoadmapSection", "Testimonials", "Colleges", "FeaturedIn", "ReviewSection", "Collaborations", "FaqSection", "HorizontalScrollSection", "MentorsSection", "Marquee"].includes(section.name) && (
+            {["OurStory", "CompanyInsights", "WorkingProcess", "ServicesOverview", "RoadmapSection", "Testimonials", "Colleges", "FeaturedIn", "ReviewSection", "Collaborations", "FaqSection", "HorizontalScroll", "MentorsSection", "Marquee"].includes(section.name) && (
                 <div className="space-y-6">
                     <div>
                         <label className={labelStyle}>Title</label>
                         <input className={inputStyle} value={content.title || ""} onChange={(e: any) => handleChange("title", e.target.value)} />
                     </div>
-                    {["HeroSection", "Hero", "MentorsSection", "ReviewSection", "FaqSection", "HorizontalScrollSection", "Collaborations"].includes(section.name) && (
+                    {["HeroSection", "Hero", "MentorsSection", "ReviewSection", "FaqSection", "HorizontalScroll", "Collaborations"].includes(section.name) && (
                         <div>
                             <label className={labelStyle}>Subtitle / Slogan</label>
                             <textarea className={`${inputStyle} min-h-[80px]`} value={content.subtitle || ""} onChange={(e: any) => handleChange("subtitle", e.target.value)} />
                         </div>
                     )}
-                    {["OurStory", "CompanyInsights", "ServicesOverview", "Colleges", "RoadmapSection", "HorizontalScrollSection"].includes(section.name) && (
+                    {["OurStory", "CompanyInsights", "ServicesOverview", "Colleges", "RoadmapSection", "HorizontalScroll"].includes(section.name) && (
                         <div>
                             <label className={labelStyle}>Description</label>
                             <textarea className={`${inputStyle} min-h-[120px]`} value={content.description || ""} onChange={(e: any) => handleChange("description", e.target.value)} />
@@ -774,7 +774,7 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
             )}
 
             {/* Complex List: Collaborations / Testimonials Generic */}
-            {["Collaborations", "Testimonials", "HorizontalScrollSection", "ServicesOverview", "Colleges"].includes(section.name) && (
+            {["Collaborations", "Testimonials", "HorizontalScroll", "ServicesOverview", "Colleges"].includes(section.name) && (
                 <div className="space-y-6">
                     <label className={labelStyle}>Section Items</label>
                     <div className="space-y-4">
