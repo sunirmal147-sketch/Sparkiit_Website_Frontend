@@ -86,24 +86,7 @@ export default function DashboardOverview() {
                 ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Performance Chart Placeholder */}
-                <div className="p-8 rounded-3xl bg-white/5 border border-white/5 min-h-[22rem] flex flex-col">
-                    <h3 className="text-xl font-bold mb-6 uppercase flex items-center gap-2">
-                        <LineChartIcon className="text-[#00875a]" /> Performance Tracker
-                    </h3>
-                    <div className="flex-1 flex items-end gap-2 px-4 pb-4">
-                        {[40, 70, 45, 90, 65, 80, 50, 95].map((h, i) => (
-                            <motion.div 
-                                key={i}
-                                initial={{ height: 0 }}
-                                animate={{ height: `${h}%` }}
-                                className="flex-1 bg-gradient-to-t from-[#00875a]/20 to-[#00875a] rounded-t-lg"
-                            />
-                        ))}
-                    </div>
-                </div>
-
+            <div className="grid grid-cols-1 gap-8">
                 {/* Recent Activities */}
                 <div className="p-8 rounded-3xl bg-white/5 border border-white/5 min-h-[22rem]">
                      <h3 className="text-xl font-bold mb-6 uppercase">Recent Activities</h3>

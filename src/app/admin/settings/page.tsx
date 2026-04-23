@@ -18,6 +18,7 @@ const groups = [
         title: "Platform Core",
         items: [
             { label: "General & Branding", desc: "Site name, logos, and contact info", href: "/admin/settings/general", icon: <Palette className="text-pink-500" /> },
+            { label: "Dashboard Config", desc: "Skills, metrics and student views", href: "/admin/settings/dashboard", icon: <Layout className="text-emerald-500" /> },
             { label: "SEO & Meta", desc: "Global meta tags and search indexing", href: "/admin/settings/seo", icon: <Globe className="text-blue-500" /> },
         ]
     },

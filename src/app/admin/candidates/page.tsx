@@ -31,15 +31,7 @@ interface Candidate {
     };
     batchRank?: string;
     stipendEligible?: boolean;
-    skills?: {
-        tech: number;
-        softSkills: number;
-        blockchain: number;
-        smartContracts: number;
-        frontend: number;
-        ai: number;
-        systemDesign: number;
-    };
+    skills?: Record<string, number>;
     status: "active" | "inactive";
     createdAt: string;
 }
@@ -60,15 +52,7 @@ interface CandidateForm {
     };
     batchRank: string;
     stipendEligible: boolean;
-    skills: {
-        tech: number;
-        softSkills: number;
-        blockchain: number;
-        smartContracts: number;
-        frontend: number;
-        ai: number;
-        systemDesign: number;
-    };
+    skills: Record<string, number>;
     status: "active" | "inactive";
 }
 
@@ -80,7 +64,7 @@ const emptyCandidate: CandidateForm = {
     performanceMetrics: { overallScore: 0, attendance: 0, progress: 0, averageScore: 0 },
     batchRank: "N/A",
     stipendEligible: false,
-    skills: { tech: 0, softSkills: 0, blockchain: 0, smartContracts: 0, frontend: 0, ai: 0, systemDesign: 0 },
+    skills: {},
     status: "active" 
 };
 
@@ -92,6 +76,7 @@ export default function CandidatesPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const [editing, setEditing] = useState<Candidate | null>(null);
     const [form, setForm] = useState(emptyCandidate);
+    const [skillCategories, setSkillCategories] = useState<{id: string, name: string}[]>([]);
     const [saving, setSaving] = useState(false);
     const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
     const [assignModal, setAssignModal] = useState<Candidate | null>(null);
@@ -118,7 +103,39 @@ export default function CandidatesPage() {
             .catch(() => { });
     }, []);
 
-    useEffect(() => { fetchCandidates(); fetchCourses(); }, [fetchCandidates, fetchCourses]);
+    const fetchSettings = useCallback(() => {
+        const token = localStorage.getItem("adminToken");
+        fetch(`${API_BASE_URL}/api/admin/settings?group=dashboard`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+            .then((r) => r.json())
+            .then((d) => {
+                const skillSetting = d.data?.find((s: any) => s.key === "skill_categories");
+                if (skillSetting?.value) {
+                    try {
+                        const parsed = JSON.parse(skillSetting.value);
+                        if (Array.isArray(parsed)) {
+                            setSkillCategories(parsed);
+                        } else {
+                            throw new Error("Not an array");
+                        }
+                    } catch (e) {
+                        const legacy = skillSetting.value.split(",").map((s: string) => s.trim());
+                        setSkillCategories(legacy.map((name: string) => ({ id: name.toLowerCase().replace(/\s+/g, '_'), name })));
+                    }
+                } else {
+                    const defaults = ["Tech", "Soft Skills", "Blockchain", "Smart Contracts", "Frontend", "AI", "System Design"];
+                    setSkillCategories(defaults.map(name => ({ id: name.toLowerCase().replace(/\s+/g, '_'), name })));
+                }
+            })
+            .catch(() => { });
+    }, []);
+
+    useEffect(() => { 
+        fetchCandidates(); 
+        fetchCourses(); 
+        fetchSettings();
+    }, [fetchCandidates, fetchCourses, fetchSettings]);
 
     const openCreate = () => { setEditing(null); setForm(emptyCandidate); setModalOpen(true); };
     const openEdit = (c: Candidate) => { 
@@ -131,7 +148,7 @@ export default function CandidatesPage() {
             performanceMetrics: c.performanceMetrics || { overallScore: 0, attendance: 0, progress: 0, averageScore: 0 },
             batchRank: c.batchRank || "N/A",
             stipendEligible: c.stipendEligible || false,
-            skills: c.skills || { tech: 0, softSkills: 0, blockchain: 0, smartContracts: 0, frontend: 0, ai: 0, systemDesign: 0 },
+            skills: c.skills || {},
             status: c.status 
         }); 
         setModalOpen(true); 
@@ -416,23 +433,6 @@ export default function CandidatesPage() {
                                 </div>
                             </div>
 
-                            {/* Skill Matrix */}
-                            <div style={{ padding: "16px 0", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                                <h3 style={{ fontSize: 13, fontWeight: 700, color: "#00875a", marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.05em" }}>Skill Matrix (%)</h3>
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                                    {Object.keys(form.skills).map((skill) => (
-                                        <div key={skill}>
-                                            <label style={labelStyle}>{skill.replace(/([A-Z])/g, ' $1')}</label>
-                                            <input 
-                                                style={inputStyle} 
-                                                type="number" 
-                                                value={(form.skills as any)[skill]} 
-                                                onChange={(e) => setForm({ ...form, skills: { ...form.skills, [skill]: Number(e.target.value) } })} 
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
                         </div>
 
                         <div style={{ display: "flex", gap: 12, marginTop: 28, justifyContent: "flex-end" }}>

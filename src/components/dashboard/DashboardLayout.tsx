@@ -10,8 +10,11 @@ import {
     LineChart,
     LogOut,
     Menu,
-    X
+    X,
+    User,
+    ChevronDown
 } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -23,12 +26,12 @@ const sidebarLinks = [
     { title: "Certificates", icon: Award, href: "/dashboard/certificates" },
     { title: "Assessments", icon: ClipboardList, href: "/dashboard/tests" },
     { title: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
-    { title: "Performance", icon: LineChart, href: "/dashboard/performance" },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -83,28 +86,59 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                 {/* Profile Section */}
                 {user && (
-                    <div className="px-6 py-6 border-t border-white/5">
-                        <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/5">
-                            <div className="w-10 h-10 rounded-full bg-[#00875a] flex items-center justify-center font-bold text-white shadow-lg shadow-[#00875a]/20 shrink-0">
-                                {user.name?.charAt(0).toUpperCase()}
+                    <div className="px-4 py-6 border-t border-white/5 space-y-2">
+                        <button 
+                            onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                            className="w-full flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-[#00875a]/30 transition-all group"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-[#00875a] flex items-center justify-center font-bold text-white shadow-lg shadow-[#00875a]/20 shrink-0">
+                                    {user.name?.charAt(0).toUpperCase()}
+                                </div>
+                                <div className="min-w-0 text-left">
+                                    <p className="text-sm font-bold text-white truncate">{user.name}</p>
+                                    <p className="text-[10px] text-gray-400 truncate uppercase tracking-widest">{user.role || 'Student'}</p>
+                                </div>
                             </div>
-                            <div className="min-w-0">
-                                <p className="text-sm font-bold text-white truncate">{user.name}</p>
-                                <p className="text-[10px] text-gray-400 truncate uppercase tracking-widest">{user.role || 'Student'}</p>
-                            </div>
-                        </div>
+                            <motion.div
+                                animate={{ rotate: isProfileDropdownOpen ? 180 : 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="text-gray-500 group-hover:text-[#00875a]"
+                            >
+                                <ChevronDown size={16} />
+                            </motion.div>
+                        </button>
+                        
+                        <AnimatePresence>
+                            {isProfileDropdownOpen && (
+                                <motion.div 
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                    className="overflow-hidden"
+                                >
+                                    <div className="grid grid-cols-1 gap-2 py-2">
+                                        <Link 
+                                            href="/dashboard/profile"
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#00875a]/10 text-[#00875a] hover:bg-[#00875a] hover:text-white transition-all text-xs font-bold uppercase tracking-wider"
+                                        >
+                                            <User size={14} />
+                                            Update Profile
+                                        </Link>
+                                        <button 
+                                            onClick={handleLogout}
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all text-xs font-bold uppercase tracking-wider text-left"
+                                        >
+                                            <LogOut size={14} />
+                                            Logout
+                                        </button>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
                 )}
-
-                <div className="p-4 border-t border-white/5">
-                    <button 
-                        onClick={handleLogout}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-500/10 transition-all w-full"
-                    >
-                        <LogOut size={20} />
-                        Logout
-                    </button>
-                </div>
             </aside>
 
             {/* Mobile Header */}
@@ -143,14 +177,40 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 </Link>
                             );
                         })}
-                        <button 
-                            onClick={handleLogout}
-                            className="flex items-center gap-4 px-6 py-4 text-red-500 text-lg w-full"
-                        >
-                            <LogOut size={24} />
-                            Logout
-                        </button>
                     </nav>
+
+                    {/* Mobile Profile Section */}
+                    {user && (
+                        <div className="mt-8 pt-8 border-t border-white/5 space-y-4">
+                            <div className="flex items-center gap-4 p-4 rounded-3xl bg-white/5 border border-white/5">
+                                <div className="w-14 h-14 rounded-full bg-[#00875a] flex items-center justify-center font-bold text-white text-xl shadow-lg shadow-[#00875a]/20">
+                                    {user.name?.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                    <p className="text-lg font-bold text-white">{user.name}</p>
+                                    <p className="text-xs text-gray-400 uppercase tracking-widest">{user.role || 'Student'}</p>
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 gap-3">
+                                <Link 
+                                    href="/dashboard/profile"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-[#00875a] text-white font-bold uppercase tracking-widest text-sm shadow-lg shadow-[#00875a]/20"
+                                >
+                                    <User size={20} />
+                                    Update Profile
+                                </Link>
+                                <button 
+                                    onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                                    className="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-red-500/10 text-red-500 font-bold uppercase tracking-widest text-sm border border-red-500/20"
+                                >
+                                    <LogOut size={20} />
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </motion.div>
             )}
 

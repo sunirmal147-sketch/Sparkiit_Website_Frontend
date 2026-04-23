@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import { CartProvider } from "@/context/CartContext";
 import CartSidebar from "@/components/CartSidebar";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,14 @@ export default function RootLayout({
           <CartProvider>
             <CartSidebar />
             {children}
+            <Toaster position="bottom-right" toastOptions={{
+              style: {
+                background: '#0a0a0a',
+                color: '#fff',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '16px',
+              },
+            }} />
           </CartProvider>
         </SmoothScrollProvider>
       </body>
