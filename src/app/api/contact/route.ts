@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const GSHEET_URL = "https://script.google.com/macros/s/AKfycbyjhPqet9-oYoGh7JhhlozvOIBZySMgxVHRhj70G8nEuNDmn15aFgjyaRd8CD6UJ6Cw/exec";
+const GSHEET_URL = "https://script.google.com/macros/s/AKfycbwGxqTTCF9rpY5O3PpXdAdK6Vvl5yAbM1-LEpUXBG9reSeKQNKaAkEb2AMyI42-PvN5/exec";
 
 export async function POST(request: Request) {
     try {
@@ -8,23 +8,27 @@ export async function POST(request: Request) {
 
         console.log('Constructing GET request for GSheet:', body);
 
-        // Standardizing query parameters for the GET request
-        const params = new URLSearchParams({
-            fullName: body.fullName || '',
-            email: body.email || '',
-            message: body.message || ''
-        });
+        // Standardizing data for Google Sheets
+        const formData = new URLSearchParams();
+        formData.append('fullName', body.fullName || '');
+        formData.append('email', body.email || '');
+        formData.append('message', body.message || '');
 
-        const targetUrl = `${GSHEET_URL}?${params.toString()}`;
-        console.log('Target URL:', targetUrl);
+        console.log('Forwarding to GSheet:', GSHEET_URL);
 
-        const response = await fetch(targetUrl, {
-            method: 'GET',
+        // Using POST with form-urlencoded which is more robust for Google Scripts
+        const response = await fetch(GSHEET_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData.toString(),
             redirect: 'follow'
         });
 
         const rawText = await response.text();
         console.log('Google Response Status:', response.status);
+        console.log('Google Response Body:', rawText);
 
         if (!response.ok) {
             return NextResponse.json({ 
@@ -35,18 +39,22 @@ export async function POST(request: Request) {
         }
 
         // Check for HTML error pages (Authorization issues)
-        if (rawText.includes("<!DOCTYPE html>") || rawText.includes("google-site-verification")) {
+        if (rawText.includes("<!DOCTYPE html>") || rawText.includes("google-site-verification") || rawText.includes("Login")) {
              return NextResponse.json({ 
                 error: 'Authorization Error', 
-                message: 'Google returned an HTML page. Please ensure you have deployed the script as "Anyone".' 
+                message: 'Google returned an HTML/Login page. Please ensure you have deployed the script as "Anyone" and with "Execute as: Me".' 
             }, { status: 401 });
         }
 
         try {
-            return NextResponse.json(JSON.parse(rawText));
+            const jsonResponse = JSON.parse(rawText);
+            return NextResponse.json(jsonResponse);
         } catch (e) {
-            // Treat as success if status was 200 OK
-            return NextResponse.json({ result: 'success', message: 'Data logged' });
+            // If it's 200 OK but not JSON, it might still have worked
+            if (rawText.toLowerCase().includes("success")) {
+                return NextResponse.json({ result: 'success', message: 'Data logged' });
+            }
+            return NextResponse.json({ result: 'partial_success', message: 'Request sent but response was not JSON', raw: rawText });
         }
     } catch (error: any) {
         console.error('Proxy Error:', error);

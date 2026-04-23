@@ -404,11 +404,7 @@ export default function CandidatesPage() {
                             {/* New Dashboard Metrics */}
                             <div style={{ padding: "16px 0", borderTop: "1px solid rgba(255,255,255,0.06)", marginTop: 8 }}>
                                 <h3 style={{ fontSize: 13, fontWeight: 700, color: "#00875a", marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.05em" }}>Dashboard Metrics</h3>
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
-                                    <div>
-                                        <label style={labelStyle}>Batch Rank</label>
-                                        <input style={inputStyle} value={form.batchRank} onChange={(e) => setForm({ ...form, batchRank: e.target.value })} placeholder="#..." />
-                                    </div>
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12, marginBottom: 16 }}>
                                     <div>
                                         <label style={labelStyle}>Stipend Eligible</label>
                                         <select style={{ ...inputStyle, cursor: "pointer" }} value={form.stipendEligible ? "true" : "false"} onChange={(e) => setForm({ ...form, stipendEligible: e.target.value === "true" })}>

@@ -57,7 +57,6 @@ export default function DashboardOverview() {
         { title: "ENROLLED COURSES", value: stats?.enrolledCourses?.length || 0, icon: BookOpen, color: "text-blue-500", bg: "bg-blue-500/10" },
         { title: "CERTIFICATES", value: stats?.certificatesCount || 0, icon: Award, color: "text-[#00875a]", bg: "bg-[#00875a]/10" },
         { title: "COMPLETED TESTS", value: stats?.tests?.length || 0, icon: ClipboardCheck, color: "text-purple-500", bg: "bg-purple-500/10" },
-        { title: "BATCH RANK", value: stats?.batchRank || "#N/A", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10" },
         { title: "STIPEND ELIGIBILITY", value: stats?.stipendEligible ? "ELIGIBLE" : "NOT ELIGIBLE", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-500/10" },
     ];
 
@@ -68,7 +67,7 @@ export default function DashboardOverview() {
                 <p className="text-gray-400 mt-2">Here's a quick look at your learning progress.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {cards.map((card, i) => (
                     <motion.div
                         key={i}
