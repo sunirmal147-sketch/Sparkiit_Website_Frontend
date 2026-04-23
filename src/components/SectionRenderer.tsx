@@ -23,6 +23,7 @@ import ContactSection from "./ContactSection";
 import VerifySection from "./VerifySection";
 import CourseCatalogSection from "./CourseCatalogSection";
 import JobPortalSection from "./JobPortalSection";
+import VideoSection from "./VideoSection";
 
 interface Section {
     name: string;
@@ -74,6 +75,7 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
         VerifySection: (content) => <VerifySection {...content} />,
         CourseCatalogSection: (content) => <CourseCatalogSection {...content} />,
         JobPortalSection: (content) => <JobPortalSection {...content} />,
+        VideoSection: (content) => <VideoSection {...content} />,
     };
 
     const sectionsArray = Array.isArray(sections) ? sections : [];

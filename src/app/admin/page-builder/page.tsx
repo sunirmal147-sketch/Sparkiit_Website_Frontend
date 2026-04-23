@@ -561,7 +561,7 @@ export default function PageBuilder() {
                                 <h3 className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] mb-4 text-center">Add New Component</h3>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                                     {[
-                                        "HeroSection", "Marquee", "OurStory", "ServicesOverview", 
+                                        "HeroSection", "Marquee", "VideoSection", "OurStory", "ServicesOverview", 
                                         "WorkingProcess", "CompanyInsights", "LatestProjects", 
                                         "Testimonials", "MentorsSection", "RoadmapSection", 
                                         "FaqSection", "CustomRichText", "Footer",
@@ -751,6 +751,16 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
                         <div>
                             <label className={labelStyle}>CTA Link</label>
                             <input className={inputStyle} value={content.ctaLink || ""} onChange={(e: any) => handleChange("ctaLink", e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className={labelStyle}>Video URL</label>
+                            <input className={inputStyle} value={content.videoUrl || ""} onChange={(e: any) => handleChange("videoUrl", e.target.value)} placeholder="YouTube/MP4 Link" />
+                        </div>
+                        <div>
+                            <label className={labelStyle}>Video Thumbnail URL</label>
+                            <input className={inputStyle} value={content.videoThumbnail || ""} onChange={(e: any) => handleChange("videoThumbnail", e.target.value)} placeholder="Image URL" />
                         </div>
                     </div>
                 </div>
@@ -1305,8 +1315,64 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
                 </div>
             )}
 
+            {/* Video Section Schema */}
+            {section.name === "VideoSection" && (
+                <div className="space-y-6">
+                    <div>
+                        <label className={labelStyle}>Video Title</label>
+                        <input className={inputStyle} value={content.title || ""} onChange={(e: any) => handleChange("title", e.target.value)} />
+                    </div>
+                    <div>
+                        <label className={labelStyle}>Description</label>
+                        <textarea className={inputStyle} value={content.description || ""} onChange={(e: any) => handleChange("description", e.target.value)} />
+                    </div>
+                    <div>
+                        <label className={labelStyle}>Direct Video URL</label>
+                        <input className={inputStyle} value={content.videoUrl || ""} onChange={(e: any) => handleChange("videoUrl", e.target.value)} placeholder="https://example.com/video.mp4" />
+                    </div>
+                    <div>
+                        <label className={labelStyle}>Upload Video (Max 15MB)</label>
+                        <div className="relative group">
+                            <input 
+                                type="file" 
+                                accept="video/*"
+                                onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        if (file.size > 15 * 1024 * 1024) {
+                                            alert("Video size must be less than 15MB");
+                                            return;
+                                        }
+                                        const reader = new FileReader();
+                                        reader.onload = (event) => {
+                                            handleChange("videoFile", event.target?.result);
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                }}
+                                className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                            />
+                            <div className="w-full bg-white/5 border border-dashed border-white/20 rounded-xl px-4 py-8 text-center group-hover:border-[#00875a]/50 transition-all">
+                                <Plus size={24} className="mx-auto mb-2 text-white/20 group-hover:text-[#00875a]" />
+                                <p className="text-[10px] font-black uppercase text-white/40 tracking-widest">
+                                    {content.videoFile ? "Video Uploaded ✅" : "Click or Drag to Upload Video"}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {content.videoFile && (
+                        <button 
+                            onClick={() => handleChange("videoFile", "")}
+                            className="text-[9px] font-black text-red-500 uppercase tracking-widest hover:underline"
+                        >
+                            Remove Uploaded Video
+                        </button>
+                    )}
+                </div>
+            )}
+
             {/* Generic Schema for others */}
-            {!["HeroSection", "Hero", "Features", "OurStory", "CompanyInsights", "WorkingProcess", "Marquee", "FeaturedIn", "Colleges", "CustomRichText", "ServicesOverview", "RoadmapSection", "Testimonials", "ReviewSection", "Collaborations", "FaqSection", "HorizontalScrollSection", "MentorsSection", "LatestProjects", "ParallaxImage"].includes(section.name) && (
+            {!["HeroSection", "Hero", "Features", "OurStory", "CompanyInsights", "WorkingProcess", "Marquee", "FeaturedIn", "Colleges", "CustomRichText", "ServicesOverview", "RoadmapSection", "Testimonials", "ReviewSection", "Collaborations", "FaqSection", "HorizontalScrollSection", "MentorsSection", "LatestProjects", "ParallaxImage", "VideoSection"].includes(section.name) && (
                 <div className="space-y-6">
                     <div className="p-8 bg-white/5 border border-white/10 rounded-3xl text-center">
                         <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Visual Editor for {section.name} is coming soon.</p>
