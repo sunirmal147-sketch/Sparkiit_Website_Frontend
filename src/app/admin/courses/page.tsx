@@ -301,49 +301,51 @@ export default function CoursesPage() {
                                 <h3 style={{ fontSize: 16, fontWeight: 700, color: "#fff", margin: 0, textTransform: "uppercase", letterSpacing: "0.05em" }}>{domainName}</h3>
                                 <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", fontWeight: 500 }}>({domainCourses.length} Courses)</span>
                             </div>
-                            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                                <thead>
-                                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                                        {["Title", "Level", "Batch", "Status", "Actions"].map((h) => (
-                                            <th key={h} style={{ padding: "14px 20px", fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "left" }}>
-                                                {h}
-                                            </th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {domainCourses.map((c) => (
-                                        <tr key={c._id} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)", transition: "background 0.15s" }}>
-                                            <td style={{ padding: "14px 20px" }}>
-                                                <div style={{ fontWeight: 500, fontSize: 14, color: "#fff" }}>{c.title}</div>
-                                                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginTop: 2, maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.description}</div>
-                                            </td>
-                                            <td style={{ padding: "14px 20px", fontSize: 12, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 700 }}>{c.level || "all"}</td>
-                                            <td style={{ padding: "14px 20px" }}>
-                                                <div style={{ 
-                                                    fontSize: 10, 
-                                                    fontWeight: 800, 
-                                                    padding: "4px 10px", 
-                                                    borderRadius: 6, 
-                                                    background: c.batchStatus === 'ongoing' ? 'rgba(0,135,90,0.1)' : c.batchStatus === 'upcoming' ? 'rgba(59,130,246,0.1)' : 'rgba(255,255,255,0.05)',
-                                                    color: c.batchStatus === 'ongoing' ? '#00875a' : c.batchStatus === 'upcoming' ? '#3b82f6' : 'rgba(255,255,255,0.4)',
-                                                    display: "inline-block",
-                                                    textTransform: "uppercase"
-                                                }}>
-                                                    {c.batchStatus}
-                                                </div>
-                                            </td>
-                                            <td style={{ padding: "14px 20px" }}>{statusBadge(c.status)}</td>
-                                            <td style={{ padding: "14px 20px" }}>
-                                                <div style={{ display: "flex", gap: 8 }}>
-                                                    <button onClick={() => openEdit(c)} style={{ padding: "6px 12px", borderRadius: 8, background: "rgba(129,140,248,0.1)", border: "1px solid rgba(129,140,248,0.15)", color: "#818cf8", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Edit</button>
-                                                    <button onClick={() => setDeleteConfirm(c._id)} style={{ padding: "6px 12px", borderRadius: 8, background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.15)", color: "#f87171", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Delete</button>
-                                                </div>
-                                            </td>
+                            <div style={{ overflowX: "auto", width: "100%" }}>
+                                <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 700 }}>
+                                    <thead>
+                                        <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                                            {["Title", "Level", "Batch", "Status", "Actions"].map((h) => (
+                                                <th key={h} style={{ padding: "14px 20px", fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "left" }}>
+                                                    {h}
+                                                </th>
+                                            ))}
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {domainCourses.map((c) => (
+                                            <tr key={c._id} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)", transition: "background 0.15s" }}>
+                                                <td style={{ padding: "14px 20px", minWidth: 200 }}>
+                                                    <div style={{ fontWeight: 500, fontSize: 14, color: "#fff" }}>{c.title}</div>
+                                                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginTop: 2, maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.description}</div>
+                                                </td>
+                                                <td style={{ padding: "14px 20px", fontSize: 12, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 700, whiteSpace: "nowrap" }}>{c.level || "all"}</td>
+                                                <td style={{ padding: "14px 20px", whiteSpace: "nowrap" }}>
+                                                    <div style={{ 
+                                                        fontSize: 10, 
+                                                        fontWeight: 800, 
+                                                        padding: "4px 10px", 
+                                                        borderRadius: 6, 
+                                                        background: c.batchStatus === 'ongoing' ? 'rgba(0,135,90,0.1)' : c.batchStatus === 'upcoming' ? 'rgba(59,130,246,0.1)' : 'rgba(255,255,255,0.05)',
+                                                        color: c.batchStatus === 'ongoing' ? '#00875a' : c.batchStatus === 'upcoming' ? '#3b82f6' : 'rgba(255,255,255,0.4)',
+                                                        display: "inline-block",
+                                                        textTransform: "uppercase"
+                                                    }}>
+                                                        {c.batchStatus}
+                                                    </div>
+                                                </td>
+                                                <td style={{ padding: "14px 20px", whiteSpace: "nowrap" }}>{statusBadge(c.status)}</td>
+                                                <td style={{ padding: "14px 20px" }}>
+                                                    <div style={{ display: "flex", gap: 8 }}>
+                                                        <button onClick={() => openEdit(c)} style={{ padding: "6px 12px", borderRadius: 8, background: "rgba(129,140,248,0.1)", border: "1px solid rgba(129,140,248,0.15)", color: "#818cf8", fontSize: 12, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Edit</button>
+                                                        <button onClick={() => setDeleteConfirm(c._id)} style={{ padding: "6px 12px", borderRadius: 8, background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.15)", color: "#f87171", fontSize: 12, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Delete</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     ))
                 )}

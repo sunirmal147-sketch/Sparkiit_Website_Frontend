@@ -135,9 +135,9 @@ export default function AdminLogin() {
                 fontFamily: "'Inter', sans-serif"
             }}>
                 <div style={{
-                    width: "100%",
+                    width: "90%",
                     maxWidth: 450,
-                    padding: 40,
+                    padding: "32px 24px",
                     background: "rgba(255, 255, 255, 0.02)",
                     border: "1px solid rgba(168, 224, 62, 0.1)",
                     borderRadius: 24,
@@ -220,9 +220,9 @@ export default function AdminLogin() {
             fontFamily: "'Inter', sans-serif"
         }}>
             <div style={{
-                width: "100%",
+                width: "90%",
                 maxWidth: 400,
-                padding: 40,
+                padding: "32px 24px",
                 background: "rgba(255, 255, 255, 0.02)",
                 border: "1px solid rgba(168, 224, 62, 0.1)",
                 borderRadius: 24,

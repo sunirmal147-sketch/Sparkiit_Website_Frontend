@@ -208,7 +208,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Recent Activity */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
                 {/* Recent Courses */}
                 <div style={{ ...cardStyle, flex: "unset" }}>
                     <h3 style={{ fontSize: 15, fontWeight: 600, color: "#fff", marginBottom: 16 }}>Recent Courses</h3>

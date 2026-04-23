@@ -64,6 +64,15 @@ export default function HorizontalScrollSection(props: HorizontalScrollContent) 
 
     const items = mappedItems.length > 0 ? mappedItems : services;
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
     const handleNext = () => {
         setActiveIndex((prev) => (prev + 1) % items.length);
     };
@@ -115,7 +124,6 @@ export default function HorizontalScrollSection(props: HorizontalScrollContent) 
                 <div className="relative w-full h-full flex items-center justify-center preserve-3d transition-all duration-700">
                     {items.map((service, index) => {
                         const offset = index - activeIndex;
-                        const absOffset = Math.abs(offset);
                         
                         // Handle circular offset for continuous loop appearance
                         let displayOffset = offset;
@@ -129,9 +137,9 @@ export default function HorizontalScrollSection(props: HorizontalScrollContent) 
                                 key={service.id || index}
                                 initial={false}
                                 animate={{
-                                    x: displayOffset * (typeof window !== 'undefined' && window.innerWidth < 768 ? 160 : 350),
-                                    scale: isCenter ? 1 : (typeof window !== 'undefined' && window.innerWidth < 768 ? 0.8 : 0.75),
-                                    rotateY: displayOffset * (typeof window !== 'undefined' && window.innerWidth < 768 ? -15 : -25),
+                                    x: displayOffset * (isMobile ? 180 : 350),
+                                    scale: isCenter ? 1 : (isMobile ? 0.8 : 0.75),
+                                    rotateY: displayOffset * (isMobile ? -15 : -25),
                                     z: isCenter ? 0 : -300,
                                     opacity: Math.abs(displayOffset) > 1 ? 0 : (isCenter ? 1 : 0.4),
                                     filter: isCenter ? "blur(0px)" : "blur(4px)",

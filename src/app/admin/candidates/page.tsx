@@ -299,66 +299,68 @@ export default function CandidatesPage() {
                         <p style={{ fontSize: 12, marginTop: 4 }}>Click &quot;Add Candidate&quot; to add your first candidate</p>
                     </div>
                 ) : (
-                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                        <thead>
-                            <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                                {["Name", "Email", "Phone", "Courses", "Paid (₹)", "Remaining (₹)", "Status", "Actions"].map((h) => (
-                                    <th key={h} style={{ padding: "14px 20px", fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "left" }}>
-                                        {h}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {candidates.map((c) => (
-                                <tr key={c._id} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)", transition: "background 0.15s" }}
-                                    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.02)")}
-                                    onMouseLeave={(e) => (e.currentTarget.style.background = "")}>
-                                    <td style={{ padding: "14px 20px", fontWeight: 500, fontSize: 14, color: "#fff" }}>{c.name}</td>
-                                    <td style={{ padding: "14px 20px", fontSize: 13, color: "rgba(255,255,255,0.6)" }}>{c.email}</td>
-                                    <td style={{ padding: "14px 20px", fontSize: 13, color: "rgba(255,255,255,0.6)" }}>{c.phone || "—"}</td>
-                                    <td style={{ padding: "14px 20px" }}>
-                                        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                                            {c.enrolledCourses?.length ? (
-                                                c.enrolledCourses.map((course) => (
-                                                    <span key={course._id} style={{ fontSize: 11, padding: "2px 8px", borderRadius: 6, background: "rgba(0,135,90,0.08)", color: "#00875a", fontWeight: 500 }}>
-                                                        {course.title}
-                                                    </span>
-                                                ))
-                                            ) : (
-                                                <span style={{ fontSize: 11, color: "rgba(255,255,255,0.25)" }}>None</span>
-                                            )}
-                                        </div>
-                                    </td>
-                                    <td style={{ padding: "14px 20px", fontSize: 13, color: "#00875a", fontWeight: 600 }}>₹{c.paymentDetails?.paidAmount || 0}</td>
-                                    <td style={{ padding: "14px 20px", fontSize: 13, color: "#f87171", fontWeight: 600 }}>₹{c.paymentDetails?.remainingAmount || 0}</td>
-                                    <td style={{ padding: "14px 20px" }}>
-                                        <span style={{
-                                            fontSize: 11, fontWeight: 600, padding: "3px 12px", borderRadius: 20,
-                                            background: c.status === "active" ? "rgba(94,234,212,0.12)" : "rgba(255,255,255,0.06)",
-                                            color: c.status === "active" ? "#5eead4" : "rgba(255,255,255,0.4)",
-                                            textTransform: "uppercase", letterSpacing: "0.04em",
-                                        }}>
-                                            {c.status}
-                                        </span>
-                                    </td>
-                                    <td style={{ padding: "14px 20px" }}>
-                                        <div style={{ display: "flex", gap: 6 }}>
-                                            <button onClick={() => setAssignModal(c)} style={{ padding: "6px 10px", borderRadius: 8, background: "rgba(0,135,90,0.1)", border: "1px solid rgba(0,135,90,0.15)", color: "#00875a", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
-                                                Courses
-                                            </button>
-                                            <button onClick={() => openEdit(c)} style={{ padding: "6px 10px", borderRadius: 8, background: "rgba(129,140,248,0.1)", border: "1px solid rgba(129,140,248,0.15)", color: "#818cf8", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
-                                                Edit
-                                            </button>
-                                            <button onClick={() => setDeleteConfirm(c._id)} style={{ padding: "6px 10px", borderRadius: 8, background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.15)", color: "#f87171", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </td>
+                    <div style={{ overflowX: "auto", width: "100%", borderRadius: 16, border: "1px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.01)" }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 800 }}>
+                            <thead>
+                                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                                    {["Name", "Email", "Phone", "Courses", "Paid (₹)", "Remaining (₹)", "Status", "Actions"].map((h) => (
+                                        <th key={h} style={{ padding: "14px 20px", fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "left" }}>
+                                            {h}
+                                        </th>
+                                    ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {candidates.map((c) => (
+                                    <tr key={c._id} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)", transition: "background 0.15s" }}
+                                        onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.02)")}
+                                        onMouseLeave={(e) => (e.currentTarget.style.background = "")}>
+                                        <td style={{ padding: "14px 20px", fontWeight: 500, fontSize: 14, color: "#fff", whiteSpace: "nowrap" }}>{c.name}</td>
+                                        <td style={{ padding: "14px 20px", fontSize: 13, color: "rgba(255,255,255,0.6)", whiteSpace: "nowrap" }}>{c.email}</td>
+                                        <td style={{ padding: "14px 20px", fontSize: 13, color: "rgba(255,255,255,0.6)", whiteSpace: "nowrap" }}>{c.phone || "—"}</td>
+                                        <td style={{ padding: "14px 20px" }}>
+                                            <div style={{ display: "flex", gap: 4, flexWrap: "wrap", minWidth: 150 }}>
+                                                {c.enrolledCourses?.length ? (
+                                                    c.enrolledCourses.map((course) => (
+                                                        <span key={course._id} style={{ fontSize: 11, padding: "2px 8px", borderRadius: 6, background: "rgba(0,135,90,0.08)", color: "#00875a", fontWeight: 500, whiteSpace: "nowrap" }}>
+                                                            {course.title}
+                                                        </span>
+                                                    ))
+                                                ) : (
+                                                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.25)" }}>None</span>
+                                                )}
+                                            </div>
+                                        </td>
+                                        <td style={{ padding: "14px 20px", fontSize: 13, color: "#00875a", fontWeight: 600 }}>₹{c.paymentDetails?.paidAmount || 0}</td>
+                                        <td style={{ padding: "14px 20px", fontSize: 13, color: "#f87171", fontWeight: 600 }}>₹{c.paymentDetails?.remainingAmount || 0}</td>
+                                        <td style={{ padding: "14px 20px" }}>
+                                            <span style={{
+                                                fontSize: 11, fontWeight: 600, padding: "3px 12px", borderRadius: 20,
+                                                background: c.status === "active" ? "rgba(94,234,212,0.12)" : "rgba(255,255,255,0.06)",
+                                                color: c.status === "active" ? "#5eead4" : "rgba(255,255,255,0.4)",
+                                                textTransform: "uppercase", letterSpacing: "0.04em",
+                                            }}>
+                                                {c.status}
+                                            </span>
+                                        </td>
+                                        <td style={{ padding: "14px 20px" }}>
+                                            <div style={{ display: "flex", gap: 6 }}>
+                                                <button onClick={() => setAssignModal(c)} style={{ padding: "6px 10px", borderRadius: 8, background: "rgba(0,135,90,0.1)", border: "1px solid rgba(0,135,90,0.15)", color: "#00875a", fontSize: 12, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
+                                                    Courses
+                                                </button>
+                                                <button onClick={() => openEdit(c)} style={{ padding: "6px 10px", borderRadius: 8, background: "rgba(129,140,248,0.1)", border: "1px solid rgba(129,140,248,0.15)", color: "#818cf8", fontSize: 12, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
+                                                    Edit
+                                                </button>
+                                                <button onClick={() => setDeleteConfirm(c._id)} style={{ padding: "6px 10px", borderRadius: 8, background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.15)", color: "#f87171", fontSize: 12, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
 
