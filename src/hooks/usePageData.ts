@@ -25,7 +25,7 @@ export function usePageData(slug: string) {
         if (!slug) return;
         
         setLoading(true);
-        fetch(`${API_BASE}/pages/${slug}`)
+        fetch(`${API_BASE}/pages/${slug}`, { cache: 'no-store' })
             .then(res => res.json())
             .then(json => {
                 if (json.success) {

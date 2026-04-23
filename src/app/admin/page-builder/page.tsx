@@ -2,6 +2,16 @@
 import { API_BASE_URL } from "@/lib/api-config";
 
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+
+// React 19 compatibility polyfill for react-quill
+if (typeof window !== "undefined") {
+    (ReactDOM as any).findDOMNode = (instance: any) => {
+        if (!instance) return null;
+        if (instance instanceof HTMLElement) return instance;
+        return null;
+    };
+}
 import { 
     Save, 
     RefreshCw, 
@@ -20,7 +30,9 @@ import {
     Image as ImageIcon,
     Link as LinkIcon,
     Edit2,
-    Layers
+    Layers,
+    ChevronLeft,
+    ArrowLeft
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -42,6 +54,8 @@ interface PageData {
     _id: string;
     name: string;
     slug: string;
+    status?: 'active' | 'inactive';
+    isSimple?: boolean;
     sections: Section[];
 }
 
@@ -53,10 +67,14 @@ export default function PageBuilder() {
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
     
     // UI State
+    const [viewMode, setViewMode] = useState<"LIST" | "CREATE" | "EDIT">("LIST");
     const [activeSection, setActiveSection] = useState<number | null>(null);
-    const [showAddPageModal, setShowAddPageModal] = useState(false);
-    const [newPageName, setNewPageName] = useState("");
-    const [newPageSlug, setNewPageSlug] = useState("");
+    const [newPageData, setNewPageData] = useState({
+        name: "",
+        slug: "",
+        content: "",
+        status: "active" as "active" | "inactive"
+    });
 
     useEffect(() => {
         fetchPages();
@@ -92,10 +110,23 @@ export default function PageBuilder() {
     };
 
     const handleCreatePage = async () => {
-        if (!newPageName.trim()) return;
+        if (!newPageData.name.trim()) return;
         setLoading(true);
         try {
             const token = localStorage.getItem("adminToken");
+            
+            // Create page with a CustomRichText section if content is provided
+            const sections = [
+                { name: "HeroSection", enabled: true, order: 1, content: {} },
+                { 
+                    name: "CustomRichText", 
+                    enabled: true, 
+                    order: 2, 
+                    content: { html: newPageData.content } 
+                },
+                { name: "Footer", enabled: true, order: 3, content: {} }
+            ];
+
             const res = await fetch(`${API_BASE}/pages`, {
                 method: "POST",
                 headers: { 
@@ -103,21 +134,19 @@ export default function PageBuilder() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ 
-                    name: newPageName,
-                    slug: newPageSlug || newPageName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
-                    sections: [
-                        { name: "HeroSection", enabled: true, order: 1, content: {} },
-                        { name: "Footer", enabled: true, order: 2, content: {} }
-                    ]
+                    name: newPageData.name,
+                    slug: newPageData.slug || newPageData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
+                    status: newPageData.status,
+                    isSimple: true,
+                    sections: sections
                 })
             });
             const data = await res.json();
             if (data.success) {
                 setPages([...pages, data.data]);
                 selectPage(data.data);
-                setShowAddPageModal(false);
-                setNewPageName("");
-                setNewPageSlug("");
+                setViewMode("LIST");
+                setNewPageData({ name: "", slug: "", content: "", status: "active" });
                 setMessage({ type: "success", text: "New page created!" });
             }
         } catch (error) {
@@ -147,6 +176,43 @@ export default function PageBuilder() {
             }
         } catch (error) {
             setMessage({ type: "error", text: "Failed to delete page" });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleInitializePages = async () => {
+        setLoading(true);
+        const token = localStorage.getItem("adminToken");
+        const missingPages = [
+            { name: "Domains", slug: "domains", sections: [{ name: "CourseCatalogSection", enabled: true, order: 0, content: {} }] },
+            { name: "About Us", slug: "about", sections: [{ name: "HeroSection", enabled: true, order: 0, content: { title: "WE ARE SPARKIIT.", subtitle: "Who We Are" } }, { name: "OurStory", enabled: true, order: 1, content: {} }] },
+            { name: "Contact Us", slug: "contact", sections: [{ name: "ContactSection", enabled: true, order: 0, content: {} }] },
+            { name: "Verification", slug: "verify", sections: [{ name: "VerifySection", enabled: true, order: 0, content: {} }] },
+            { name: "Job Portal", slug: "job-portal", sections: [{ name: "JobPortalSection", enabled: true, order: 0, content: {} }] },
+            { name: "Blogs", slug: "blog", sections: [{ name: "CustomRichText", enabled: true, order: 0, content: { html: "<h1>Coming Soon</h1>" } }] },
+            { name: "FAQ", slug: "faqs", sections: [{ name: "FaqSection", enabled: true, order: 0, content: {} }] },
+            { name: "Events", slug: "events", sections: [{ name: "CustomRichText", enabled: true, order: 0, content: { html: "<h1>Latest Events</h1>" } }] }
+        ];
+
+        try {
+            for (const page of missingPages) {
+                // Check if page already exists
+                if (pages.some(p => p.slug === page.slug)) continue;
+
+                await fetch(`${API_BASE}/pages`, {
+                    method: "POST",
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(page)
+                });
+            }
+            await fetchPages();
+            setMessage({ type: "success", text: "CMS Pages Initialized Successfully!" });
+        } catch (error) {
+            setMessage({ type: "error", text: "Failed to initialize some pages." });
         } finally {
             setLoading(false);
         }
@@ -221,22 +287,140 @@ export default function PageBuilder() {
         );
     }
 
+    if (viewMode === "CREATE") {
+        const labelStyle = "text-[10px] font-black text-white/20 uppercase tracking-[0.2em] mb-3 block";
+        const inputStyle = "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-sm text-white focus:border-[#00875a] outline-none transition-all placeholder:text-white/10";
+        
+        return (
+            <div className="max-w-5xl mx-auto p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="flex items-center justify-between mb-12 bg-white/5 p-6 rounded-[32px] border border-white/10">
+                    <div>
+                        <h1 className="text-3xl font-black text-white uppercase tracking-tighter">Create <span className="text-[#00875a]">Page</span></h1>
+                        <p className="text-white/20 text-[10px] uppercase tracking-widest font-black mt-1">Design a new entry in your platform's architecture</p>
+                    </div>
+                    <button 
+                        onClick={() => setViewMode("LIST")}
+                        className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3 rounded-2xl transition-all uppercase text-[10px] tracking-widest border border-white/10 shadow-xl"
+                    >
+                        <ArrowLeft size={16} /> Back to Archive
+                    </button>
+                </div>
+
+                <div className="space-y-10 bg-white/[0.02] p-10 rounded-[48px] border border-white/5 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#00875a]/5 blur-[120px] rounded-full pointer-events-none" />
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                        <div>
+                            <label className={labelStyle}>Page Name <span className="text-red-500">*</span></label>
+                            <input 
+                                className={inputStyle}
+                                placeholder="e.g. About Us, Service Details"
+                                value={newPageData.name}
+                                onChange={(e) => setNewPageData({ 
+                                    ...newPageData, 
+                                    name: e.target.value,
+                                    slug: e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')
+                                })}
+                            />
+                        </div>
+                        <div>
+                            <label className={labelStyle}>URL Slug <span className="text-red-500">*</span></label>
+                            <div className="relative">
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 text-sm font-bold">/</span>
+                                <input 
+                                    className={`${inputStyle} pl-8`}
+                                    placeholder="custom-slug"
+                                    value={newPageData.slug}
+                                    onChange={(e) => setNewPageData({ ...newPageData, slug: e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '') })}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="relative z-10">
+                        <label className={labelStyle}>Content <span className="text-red-500">*</span></label>
+                        <div className="bg-white/5 border border-white/10 rounded-[32px] overflow-hidden quill-dark shadow-inner min-h-[400px]">
+                            <ReactQuill 
+                                theme="snow"
+                                value={newPageData.content}
+                                onChange={(val) => setNewPageData({ ...newPageData, content: val })}
+                                modules={{
+                                    toolbar: [
+                                        [{ 'header': [1, 2, 3, false] }],
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                        ['link', 'clean']
+                                    ]
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="relative z-10">
+                        <label className={labelStyle}>Visibility Status <span className="text-red-500">*</span></label>
+                        <select 
+                            className={`${inputStyle} cursor-pointer appearance-none`}
+                            value={newPageData.status}
+                            onChange={(e: any) => setNewPageData({ ...newPageData, status: e.target.value })}
+                        >
+                            <option value="active" className="bg-[#141414]">Active (Live on Website)</option>
+                            <option value="inactive" className="bg-[#141414]">Inactive (Draft Mode)</option>
+                        </select>
+                    </div>
+
+                    <div className="pt-8 border-t border-white/5 flex justify-end relative z-10">
+                        <button
+                            onClick={handleCreatePage}
+                            disabled={loading || !newPageData.name.trim()}
+                            className="bg-[#00875a] hover:bg-[#00c978] disabled:opacity-30 text-black font-black px-12 py-5 rounded-[24px] uppercase tracking-widest text-xs transition-all shadow-[0_10px_40px_rgba(0,135,90,0.3)] hover:shadow-[0_15px_50px_rgba(0,135,90,0.4)] transform hover:scale-[1.02] active:scale-95 flex items-center gap-3"
+                        >
+                            {loading ? <RefreshCw className="animate-spin" size={16} /> : <Save size={16} />}
+                            {loading ? "Generating Page..." : "Deploy New Page"}
+                        </button>
+                    </div>
+                </div>
+
+                <style jsx global>{`
+                    .quill-dark .ql-toolbar {
+                        background: rgba(255,255,255,0.03) !important;
+                        border: none !important;
+                        border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+                        padding: 20px !important;
+                    }
+                    .quill-dark .ql-container {
+                        border: none !important;
+                        min-height: 350px;
+                        font-family: 'Inter', sans-serif;
+                        font-size: 15px;
+                        color: white;
+                    }
+                    .quill-dark .ql-editor {
+                        padding: 30px !important;
+                    }
+                    .quill-dark .ql-stroke { stroke: rgba(255,255,255,0.5) !important; }
+                    .quill-dark .ql-fill { fill: rgba(255,255,255,0.5) !important; }
+                    .quill-dark .ql-picker { color: rgba(255,255,255,0.5) !important; }
+                    .quill-dark .ql-editor.ql-blank::before { color: rgba(255,255,255,0.15) !important; left: 30px !important; }
+                `}</style>
+            </div>
+        );
+    }
+
     return (
-        <div className="max-w-[1600px] mx-auto p-4 flex flex-col lg:flex-row gap-8 min-h-[calc(100vh-100px)]">
+        <div className="max-w-[1600px] mx-auto p-4 flex flex-col lg:flex-row gap-8 min-h-[calc(100vh-100px)] animate-in fade-in duration-700">
             
             {/* Sidebar: Page List */}
             <div className="w-full lg:w-72 bg-white/5 border border-white/10 rounded-3xl p-6 flex flex-col">
                 <div className="flex items-center justify-between mb-8">
                     <h2 className="text-xl font-black text-white uppercase tracking-tighter">Pages</h2>
                     <button 
-                        onClick={() => setShowAddPageModal(true)}
+                        onClick={() => setViewMode("CREATE")}
                         className="p-2 bg-[#00875a]/20 text-[#00875a] rounded-xl hover:bg-[#00875a]/30 transition-all"
                     >
                         <Plus size={20} />
                     </button>
                 </div>
-
-                <div className="flex-1 space-y-2">
+                <div className="flex-1 space-y-2 custom-scrollbar overflow-y-auto max-h-[calc(100vh-250px)] pr-2">
                     {pages.map(page => (
                         <div 
                             key={page._id}
@@ -292,14 +476,21 @@ export default function PageBuilder() {
                                     <LinkIcon size={12} /> Live Path: {pageData.slug === 'Home' ? '/' : `/${pageData.slug}`}
                                 </p>
                             </div>
-                            <button
-                                onClick={handleSave}
-                                disabled={saving}
-                                className="bg-[#00875a] hover:bg-[#00c978] disabled:opacity-50 text-black font-black px-8 py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest text-xs"
-                            >
-                                {saving ? <RefreshCw className="animate-spin" size={16} /> : <Save size={16} />}
-                                {saving ? "Deploying..." : "Save Layout"}
-                            </button>
+                            <div className="flex items-center gap-4">
+                                <button 
+                                    onClick={handleInitializePages}
+                                    className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-[#00875a] hover:border-[#00875a]/30 transition-all flex items-center gap-2"
+                                >
+                                    <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
+                                    Initialize CMS Pages
+                                </button>
+                                <button 
+                                    onClick={handleSave}
+                                    className="px-8 py-3 bg-[#00875a] text-white rounded-2xl text-xs font-black uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#00875a]/20 flex items-center gap-2"
+                                >
+                                    <Save size={18} /> Save Changes
+                                </button>
+                            </div>
                         </header>
 
                         {message && (
@@ -419,58 +610,6 @@ export default function PageBuilder() {
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            {/* Modal: Add Page */}
-            <AnimatePresence>
-                {showAddPageModal && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md bg-black/60">
-                        <motion.div 
-                            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-                            className="w-full max-w-md bg-[#141414] border border-white/10 p-8 rounded-3xl shadow-2xl"
-                        >
-                            <div className="flex items-center justify-between mb-8">
-                                <h2 className="text-2xl font-black text-white uppercase tracking-tighter">New <span className="text-[#00875a]">Page</span></h2>
-                                <button onClick={() => setShowAddPageModal(false)} className="text-white/40 hover:text-white transition-colors"><X size={24} /></button>
-                            </div>
-                            
-                            <div className="space-y-6">
-                                <div>
-                                    <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] mb-2 block text-center lg:text-left">Page Name</label>
-                                    <input 
-                                        autoFocus
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-sm text-white focus:border-[#00875a] outline-none transition-all placeholder:text-white/10"
-                                        placeholder="e.g. Courses, About Us..."
-                                        value={newPageName}
-                                        onChange={(e) => {
-                                            setNewPageName(e.target.value);
-                                            setNewPageSlug(e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''));
-                                        }}
-                                    />
-                                </div>
-                                <div>
-                                    <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] mb-2 block text-center lg:text-left">Page Slug (URL)</label>
-                                    <div className="relative">
-                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 text-sm font-bold">/</span>
-                                        <input 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl pl-8 pr-4 py-4 text-sm text-white focus:border-[#00875a] outline-none transition-all placeholder:text-white/10"
-                                            placeholder="custom-url"
-                                            value={newPageSlug}
-                                            onChange={(e) => setNewPageSlug(e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''))}
-                                            onKeyDown={(e) => e.key === "Enter" && handleCreatePage()}
-                                        />
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={handleCreatePage}
-                                    className="w-full bg-[#00875a] hover:bg-[#00c978] text-black font-black py-4 rounded-xl uppercase tracking-widest text-xs transition-all"
-                                >
-                                    Create Page
-                                </button>
-                            </div>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
         </div>
     );
 }
@@ -479,6 +618,7 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
     const content = section.content || {};
 
     const handleChange = (key: string, value: any) => {
+        console.log(`[PageBuilder] Changing ${key}:`, value);
         onChange({ ...content, [key]: value });
     };
 
@@ -518,81 +658,117 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
                                 modules={quillModules}
                             />
                         </div>
-                        <style jsx global>{`
-                            .quill-dark .ql-toolbar {
-                                background: rgba(255,255,255,0.05) !important;
-                                border: none !important;
-                                border-bottom: 1px solid rgba(255,255,255,0.1) !important;
-                            }
-                            .quill-dark .ql-container {
-                                border: none !important;
-                                min-height: 250px;
-                                font-family: inherit;
-                                font-size: 14px;
-                                color: white;
-                            }
-                            .quill-dark .ql-stroke { stroke: rgba(255,255,255,0.6) !important; }
-                            .quill-dark .ql-fill { fill: rgba(255,255,255,0.6) !important; }
-                            .quill-dark .ql-picker { color: rgba(255,255,255,0.6) !important; }
-                            .quill-dark .ql-editor.ql-blank::before { color: rgba(255,255,255,0.2) !important; }
-                        `}</style>
                     </div>
                 </div>
             )}
+            <style jsx global>{`
+                .quill-dark .ql-toolbar {
+                    background: rgba(255,255,255,0.05) !important;
+                    border: none !important;
+                    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+                }
+                .quill-dark .ql-container {
+                    border: none !important;
+                    min-height: 250px;
+                    font-family: inherit;
+                    font-size: 14px;
+                    color: white;
+                }
+                .quill-dark .ql-stroke { stroke: rgba(255,255,255,0.6) !important; }
+                .quill-dark .ql-fill { fill: rgba(255,255,255,0.6) !important; }
+                .quill-dark .ql-picker { color: rgba(255,255,255,0.6) !important; }
+                .quill-dark .ql-editor.ql-blank::before { color: rgba(255,255,255,0.2) !important; }
+            `}</style>
 
-            {/* Standard Hero Schema */}
+            {/* Hero Schema */}
             {section.name.includes("Hero") && (
                 <div className="space-y-6">
-                    <div>
-                        <label className={labelStyle}>Headline</label>
-                        <input className={inputStyle} value={content.title || ""} onChange={(e: any) => handleChange("title", e.target.value)} />
+                    <div className="grid grid-cols-3 gap-3">
+                        <div>
+                            <label className={labelStyle}>Word 1</label>
+                            <input className={inputStyle} value={content.word1 || ""} onChange={(e: any) => handleChange("word1", e.target.value)} placeholder="IDEA" />
+                        </div>
+                        <div>
+                            <label className={labelStyle}>Word 2</label>
+                            <input className={inputStyle} value={content.word2 || ""} onChange={(e: any) => handleChange("word2", e.target.value)} placeholder="INNOVATE" />
+                        </div>
+                        <div>
+                            <label className={labelStyle}>Word 3</label>
+                            <input className={inputStyle} value={content.word3 || ""} onChange={(e: any) => handleChange("word3", e.target.value)} placeholder="TRANSFORM" />
+                        </div>
                     </div>
                     <div>
-                        <label className={labelStyle}>Sub-Headline</label>
-                        <textarea className={`${inputStyle} min-h-[100px]`} value={content.subtitle || ""} onChange={(e: any) => handleChange("subtitle", e.target.value)} />
+                        <label className={labelStyle}>Tagline / Description</label>
+                        <textarea className={`${inputStyle} min-h-[80px]`} value={content.tagline || ""} onChange={(e: any) => handleChange("tagline", e.target.value)} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className={labelStyle}>Button Text</label>
+                            <label className={labelStyle}>CTA Text</label>
                             <input className={inputStyle} value={content.ctaText || ""} onChange={(e: any) => handleChange("ctaText", e.target.value)} />
                         </div>
                         <div>
-                            <label className={labelStyle}>Button Link</label>
+                            <label className={labelStyle}>CTA Link</label>
                             <input className={inputStyle} value={content.ctaLink || ""} onChange={(e: any) => handleChange("ctaLink", e.target.value)} />
                         </div>
                     </div>
                 </div>
             )}
 
+            {/* Contact Section Schema */}
+            {section.name === "ContactSection" && (
+                <div className="space-y-6">
+                    <div>
+                        <label className={labelStyle}>Headline</label>
+                        <input className={inputStyle} value={content.title || ""} onChange={(e: any) => handleChange("title", e.target.value)} />
+                    </div>
+                    <div>
+                        <label className={labelStyle}>Email</label>
+                        <input className={inputStyle} value={content.email || ""} onChange={(e: any) => handleChange("email", e.target.value)} />
+                    </div>
+                    <div>
+                        <label className={labelStyle}>Phone</label>
+                        <input className={inputStyle} value={content.phone || ""} onChange={(e: any) => handleChange("phone", e.target.value)} />
+                    </div>
+                    <div>
+                        <label className={labelStyle}>Address</label>
+                        <textarea className={inputStyle} value={content.address || ""} onChange={(e: any) => handleChange("address", e.target.value)} />
+                    </div>
+                </div>
+            )}
+
             {/* Standard Text Content Schema */}
-            {["OurStory", "CompanyInsights", "WorkingProcess", "ServicesOverview", "RoadmapSection", "Testimonials", "Colleges", "FeaturedIn", "ReviewSection", "Collaborations", "FaqSection", "HorizontalScroll", "MentorsSection", "Marquee"].includes(section.name) && (
+            {["OurStory", "CompanyInsights", "WorkingProcess", "ServicesOverview", "RoadmapSection", "Testimonials", "Colleges", "FeaturedIn", "ReviewSection", "Collaborations", "FaqSection", "HorizontalScroll", "MentorsSection", "Marquee", "ParallaxImage"].includes(section.name) ? (
                 <div className="space-y-6">
                     <div>
                         <label className={labelStyle}>Title</label>
                         <input className={inputStyle} value={content.title || ""} onChange={(e: any) => handleChange("title", e.target.value)} />
                     </div>
-                    {["HeroSection", "Hero", "MentorsSection", "ReviewSection", "FaqSection", "HorizontalScroll", "Collaborations"].includes(section.name) && (
+                    {["MentorsSection", "ReviewSection", "FaqSection", "HorizontalScroll", "Collaborations", "OurStory"].includes(section.name) && (
                         <div>
                             <label className={labelStyle}>Subtitle / Slogan</label>
                             <textarea className={`${inputStyle} min-h-[80px]`} value={content.subtitle || ""} onChange={(e: any) => handleChange("subtitle", e.target.value)} />
                         </div>
                     )}
-                    {["OurStory", "CompanyInsights", "ServicesOverview", "Colleges", "RoadmapSection", "HorizontalScroll"].includes(section.name) && (
-                        <div>
-                            <label className={labelStyle}>Description</label>
-                            <textarea className={`${inputStyle} min-h-[120px]`} value={content.description || ""} onChange={(e: any) => handleChange("description", e.target.value)} />
-                        </div>
-                    )}
-                    {["ReviewSection"].includes(section.name) && (
-                        <div>
-                            <label className={labelStyle}>Rating (0-5)</label>
-                            <input type="number" step="0.1" max="5" min="0" className={inputStyle} value={content.rating || "5"} onChange={(e: any) => handleChange("rating", e.target.value)} />
-                        </div>
-                    )}
+                    <div>
+                        <label className={labelStyle}>Description</label>
+                        <textarea className={`${inputStyle} min-h-[120px]`} value={content.description || ""} onChange={(e: any) => handleChange("description", e.target.value)} />
+                    </div>
+                </div>
+            ) : !section.name.includes("Hero") && section.name !== "ContactSection" && section.name !== "CustomRichText" && (
+                <div className="space-y-6 p-4 bg-white/5 rounded-2xl border border-white/10">
+                    <p className="text-[10px] font-black text-white/20 uppercase mb-4 tracking-widest">Generic Properties</p>
+                    <div>
+                        <label className={labelStyle}>Title</label>
+                        <input className={inputStyle} value={content.title || ""} onChange={(e: any) => handleChange("title", e.target.value)} />
+                    </div>
+                    <div>
+                        <label className={labelStyle}>Description</label>
+                        <textarea className={`${inputStyle} min-h-[120px]`} value={content.description || ""} onChange={(e: any) => handleChange("description", e.target.value)} />
+                    </div>
                 </div>
             )}
 
-            {/* List Items Schema (String Array) */}
+            {/* List Items Schema */}
             {["Marquee", "FeaturedIn"].includes(section.name) && (
                 <div className="space-y-6">
                     <label className={labelStyle}>Text Items</label>
@@ -703,43 +879,150 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
             {/* Complex List: Roadmap Nodes */}
             {section.name === "RoadmapSection" && (
                 <div className="space-y-6">
-                    <label className={labelStyle}>Roadmap Nodes</label>
+                    <label className={labelStyle}>Roadmap Steps</label>
                     <div className="space-y-4">
-                        {(content.nodes || []).map((node: any, idx: number) => (
+                        {(content.items || []).map((node: any, idx: number) => (
                             <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group space-y-4 border-l-4 border-[#00875a]/30">
                                 <button onClick={() => {
-                                    const newItems = [...content.nodes];
+                                    const newItems = [...content.items];
                                     newItems.splice(idx, 1);
-                                    handleChange("nodes", newItems);
+                                    handleChange("items", newItems);
                                 }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
-                                <div className="grid grid-cols-3 gap-4">
-                                    <select className={inputStyle} value={node.type || "top"} onChange={(e) => {
-                                        const newItems = [...content.nodes];
-                                        newItems[idx] = { ...node, type: e.target.value };
-                                        handleChange("nodes", newItems);
-                                    }}>
-                                        <option value="top">Top</option>
-                                        <option value="bottom">Bottom</option>
-                                    </select>
-                                    <input className={inputStyle} placeholder="Date (e.g. SEP 2025)" value={node.date || ""} onChange={(e) => {
-                                        const newItems = [...content.nodes];
-                                        newItems[idx] = { ...node, date: e.target.value };
-                                        handleChange("nodes", newItems);
-                                    }} />
-                                    <input className={inputStyle} placeholder="Title" value={node.title || ""} onChange={(e) => {
-                                        const newItems = [...content.nodes];
-                                        newItems[idx] = { ...node, title: e.target.value };
-                                        handleChange("nodes", newItems);
-                                    }} />
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className={labelStyle}>Step Number</label>
+                                        <input type="number" className={inputStyle} value={node.step || idx + 1} onChange={(e) => {
+                                            const newItems = [...content.items];
+                                            newItems[idx] = { ...node, step: parseInt(e.target.value) };
+                                            handleChange("items", newItems);
+                                        }} />
+                                    </div>
+                                    <div>
+                                        <label className={labelStyle}>Label Side</label>
+                                        <select className={inputStyle} value={node.labelSide || "top"} onChange={(e) => {
+                                            const newItems = [...content.items];
+                                            newItems[idx] = { ...node, labelSide: e.target.value };
+                                            handleChange("items", newItems);
+                                        }}>
+                                            <option value="top">Top</option>
+                                            <option value="bottom">Bottom</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <textarea className={inputStyle} placeholder="Description" value={node.description || ""} onChange={(e) => {
-                                    const newItems = [...content.nodes];
-                                    newItems[idx] = { ...node, description: e.target.value };
-                                    handleChange("nodes", newItems);
+                                <textarea className={inputStyle} placeholder="Step Title" value={node.title || ""} onChange={(e) => {
+                                    const newItems = [...content.items];
+                                    newItems[idx] = { ...node, title: e.target.value };
+                                    handleChange("items", newItems);
                                 }} />
                             </div>
                         ))}
-                        <button onClick={() => handleChange("nodes", [...(content.nodes || []), { type: "top", date: "", title: "", description: "" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add Roadmap Node</button>
+                        <button onClick={() => handleChange("items", [...(content.items || []), { step: (content.items?.length || 0) + 1, title: "", labelSide: "top" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add Roadmap Step</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Complex List: Horizontal Scroll Items */}
+            {section.name === "HorizontalScroll" && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>Scroll Items (Domains)</label>
+                    <div className="space-y-4">
+                        {(content.items || []).map((item: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group space-y-4">
+                                <button onClick={() => {
+                                    const newItems = [...content.items];
+                                    newItems.splice(idx, 1);
+                                    handleChange("items", newItems);
+                                }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <input className={inputStyle} placeholder="Title" value={item.title || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...item, title: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                    <input className={inputStyle} placeholder="Category" value={item.category || ""} onChange={(e) => {
+                                        const newItems = [...content.items];
+                                        newItems[idx] = { ...item, category: e.target.value };
+                                        handleChange("items", newItems);
+                                    }} />
+                                </div>
+                                <input className={inputStyle} placeholder="Image URL" value={item.image || ""} onChange={(e) => {
+                                    const newItems = [...content.items];
+                                    newItems[idx] = { ...item, image: e.target.value };
+                                    handleChange("items", newItems);
+                                }} />
+                                <textarea className={inputStyle} placeholder="Description" value={item.description || ""} onChange={(e) => {
+                                    const newItems = [...content.items];
+                                    newItems[idx] = { ...item, description: e.target.value };
+                                    handleChange("items", newItems);
+                                }} />
+                            </div>
+                        ))}
+                        <button onClick={() => handleChange("items", [...(content.items || []), { title: "", category: "", image: "", description: "" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add Domain Card</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Complex List: Testimonials */}
+            {section.name === "Testimonials" && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>Testimonials</label>
+                    <div className="space-y-4">
+                        {(content.testimonials || []).map((t: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group space-y-4">
+                                <button onClick={() => {
+                                    const newItems = [...content.testimonials];
+                                    newItems.splice(idx, 1);
+                                    handleChange("testimonials", newItems);
+                                }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <input className={inputStyle} placeholder="Name" value={t.name || ""} onChange={(e) => {
+                                        const newItems = [...content.testimonials];
+                                        newItems[idx] = { ...t, name: e.target.value };
+                                        handleChange("testimonials", newItems);
+                                    }} />
+                                    <input className={inputStyle} placeholder="Role" value={t.role || ""} onChange={(e) => {
+                                        const newItems = [...content.testimonials];
+                                        newItems[idx] = { ...t, role: e.target.value };
+                                        handleChange("testimonials", newItems);
+                                    }} />
+                                </div>
+                                <textarea className={inputStyle} placeholder="Testimonial Content" value={t.content || ""} onChange={(e) => {
+                                    const newItems = [...content.testimonials];
+                                    newItems[idx] = { ...t, content: e.target.value };
+                                    handleChange("testimonials", newItems);
+                                }} />
+                            </div>
+                        ))}
+                        <button onClick={() => handleChange("testimonials", [...(content.testimonials || []), { name: "", role: "", content: "", avatar: "" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add Testimonial</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Complex List: Company Insights Stats */}
+            {section.name === "CompanyInsights" && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>Key Stats</label>
+                    <div className="space-y-4">
+                        {(content.stats || []).map((s: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl relative group grid grid-cols-2 gap-4">
+                                <button onClick={() => {
+                                    const newItems = [...content.stats];
+                                    newItems.splice(idx, 1);
+                                    handleChange("stats", newItems);
+                                }} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-black z-10"><X size={12} /></button>
+                                <input className={inputStyle} placeholder="Label (e.g. PROJECTS)" value={s.label || ""} onChange={(e) => {
+                                    const newItems = [...content.stats];
+                                    newItems[idx] = { ...s, label: e.target.value };
+                                    handleChange("stats", newItems);
+                                }} />
+                                <input type="number" className={inputStyle} placeholder="Value" value={s.val || 0} onChange={(e) => {
+                                    const newItems = [...content.stats];
+                                    newItems[idx] = { ...s, val: parseInt(e.target.value) };
+                                    handleChange("stats", newItems);
+                                }} />
+                            </div>
+                        ))}
+                        <button onClick={() => handleChange("stats", [...(content.stats || []), { label: "", val: 0 }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add Stat Card</button>
                     </div>
                 </div>
             )}
@@ -769,6 +1052,35 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
                             </div>
                         ))}
                         <button onClick={() => handleChange("faqs", [...(content.faqs || []), { question: "", answer: "" }])} className="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-xs font-black uppercase text-white/20 hover:text-[#00875a]">+ Add FAQ</button>
+                    </div>
+                </div>
+            )}
+
+            {/* List Items Schema (String Array) */}
+            {["Marquee", "FeaturedIn"].includes(section.name) && (
+                <div className="space-y-6">
+                    <label className={labelStyle}>Text Items</label>
+                    <div className="space-y-3">
+                        {(content.items || []).map((item: string, idx: number) => (
+                            <div key={idx} className="flex gap-2">
+                                <input className={inputStyle} value={item} onChange={(e) => {
+                                    const newItems = [...content.items];
+                                    newItems[idx] = e.target.value;
+                                    handleChange("items", newItems);
+                                }} />
+                                <button onClick={() => {
+                                    const newItems = [...content.items];
+                                    newItems.splice(idx, 1);
+                                    handleChange("items", newItems);
+                                }} className="p-3 bg-red-500/10 text-red-500 rounded-xl"><X size={16} /></button>
+                            </div>
+                        ))}
+                        <button 
+                            onClick={() => handleChange("items", [...(content.items || []), ""])}
+                            className="w-full py-3 border border-dashed border-white/10 rounded-xl text-xs font-black uppercase text-white/40 hover:text-[#00875a] transition-all"
+                        >
+                            + Add Item
+                        </button>
                     </div>
                 </div>
             )}

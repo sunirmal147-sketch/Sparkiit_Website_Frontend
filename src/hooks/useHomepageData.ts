@@ -114,6 +114,7 @@ export interface HomepageData {
         name: string;
         enabled: boolean;
         order: number;
+        content?: any;
     }[];
 }
 
@@ -123,7 +124,7 @@ export function useHomepageData() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch(`${API_BASE}/homepage`)
+        fetch(`${API_BASE}/homepage`, { cache: 'no-store' })
             .then(res => res.json())
             .then(json => {
                 if (json.success) {

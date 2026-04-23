@@ -7,6 +7,7 @@ import { useHomepageData } from "@/hooks/useHomepageData";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useCart } from "@/context/CartContext";
+import { API_BASE_URL } from "@/lib/api-config";
 
 export default function Navbar() {
     const { cartItems, setIsCartOpen } = useCart();
@@ -15,6 +16,7 @@ export default function Navbar() {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
+    const [pages, setPages] = useState<any[]>([]);
     const { data } = useHomepageData();
     const router = useRouter();
     const site = data?.content?.site || { logoText: "SPARKIIT" };
@@ -36,6 +38,16 @@ export default function Navbar() {
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
+
+        // Fetch CMS pages
+        fetch(`${API_BASE_URL}/api/public/pages`)
+            .then(res => res.json())
+            .then(json => {
+                if (json.success) {
+                    setPages(json.data);
+                }
+            })
+            .catch(err => console.error("Error fetching pages:", err));
     }, []);
 
     const handleLogout = useCallback(() => {
@@ -140,9 +152,16 @@ export default function Navbar() {
 
                         {/* More Dropdown */}
                         <div className="absolute top-full left-0 mt-2 w-48 bg-[#050505] border border-white/10 rounded-xl py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-xl shadow-2xl">
+                            {/* Standard Pages */}
                             <Link href="/job-portal" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">Job Portal</Link>
                             <Link href="/blog" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">Blogs</Link>
                             <Link href="/faqs" className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">FAQ</Link>
+                            
+                            {/* Dynamic CMS Pages (Excluding ones already in main navbar) */}
+                            {pages.filter(p => !['Home', 'Domains', 'About Us', 'Contact Us', 'Verification', 'Job Portal', 'Blogs', 'FAQ', 'Events'].includes(p.name)).map((p, idx) => (
+                                <Link key={idx} href={`/${p.slug}`} className="block px-6 py-2 text-sm text-white/60 hover:text-[#00875a] transition-colors uppercase tracking-widest font-bold">{p.name}</Link>
+                            ))}
+
                             <div className="h-px bg-white/5 my-2" />
                             <Link href="/events" className="block px-6 py-2 text-sm text-[#00875a] hover:text-[#00c978] transition-colors uppercase tracking-widest font-black">Events</Link>
                         </div>
@@ -357,6 +376,12 @@ export default function Navbar() {
                             <Link href="/job-portal" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Job Portal</Link>
                             <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">Blogs</Link>
                             <Link href="/faqs" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">FAQ</Link>
+                            
+                            {/* Dynamic CMS Pages for Mobile */}
+                            {pages.filter(p => !['Home', 'Domains', 'About Us', 'Contact Us', 'Verification', 'Job Portal', 'Blogs', 'FAQ', 'Events'].includes(p.name)).map((p, idx) => (
+                                <Link key={idx} href={`/${p.slug}`} onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-white/70">{p.name}</Link>
+                            ))}
+
                             <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-widest text-[#00875a]">Events</Link>
                             
                             <div className="h-px bg-white/5 my-4" />

@@ -19,6 +19,10 @@ import MentorsSection from "./MentorsSection";
 import AmbassadorEngagement from "./Testimonials";
 import RichTextSection from "./RichTextSection";
 import FaqSection from "./FaqSection";
+import ContactSection from "./ContactSection";
+import VerifySection from "./VerifySection";
+import CourseCatalogSection from "./CourseCatalogSection";
+import JobPortalSection from "./JobPortalSection";
 
 interface Section {
     name: string;
@@ -66,9 +70,14 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
         MentorsSection: (content) => <MentorsSection {...content} />,
         FaqSection: (content) => <FaqSection {...content} />,
         CustomRichText: (content) => <RichTextSection html={content.html} />,
+        ContactSection: (content) => <ContactSection {...content} />,
+        VerifySection: (content) => <VerifySection {...content} />,
+        CourseCatalogSection: (content) => <CourseCatalogSection {...content} />,
+        JobPortalSection: (content) => <JobPortalSection {...content} />,
     };
 
-    const sortedSections = [...sections]
+    const sectionsArray = Array.isArray(sections) ? sections : [];
+    const sortedSections = [...sectionsArray]
         .filter(s => s.enabled)
         .sort((a, b) => a.order - b.order);
 

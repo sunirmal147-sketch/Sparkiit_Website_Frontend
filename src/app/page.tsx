@@ -12,6 +12,12 @@ export default function Home() {
   const { data, loading, error } = useHomepageData();
   const [introComplete, setIntroComplete] = useState(false);
 
+  React.useEffect(() => {
+    if (data) {
+        console.log("[Home] Homepage data received:", data);
+    }
+  }, [data]);
+
   return (
     <>
       <AnimatePresence>

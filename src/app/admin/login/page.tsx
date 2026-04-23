@@ -24,14 +24,22 @@ export default function AdminLogin() {
     }, [step]);
 
     const startCamera = async () => {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            setError("Camera API not supported in this browser or context.");
+            return;
+        }
+
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
             }
-        } catch (err) {
-            console.error("Error accessing camera:", err);
-            setError("Could not access camera. You can still skip and enter.");
+            setError(""); 
+        } catch (err: any) {
+            if (err.name !== "NotAllowedError" && err.name !== "PermissionDeniedError") {
+                console.error("Error accessing camera:", err);
+            }
+            setError("Camera access was denied. You can still use the 'Skip' button to enter.");
         }
     };
 

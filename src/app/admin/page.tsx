@@ -126,7 +126,7 @@ export default function AdminDashboard() {
     const studentActions = [
         { title: "USERS MANAGEMENT", desc: "Students & Metrics", icon: Users, link: "/admin/candidates", color: "#818cf8" },
         { title: "MANAGE PROJECTS", desc: "Assignments & Submissions", icon: Briefcase, link: "/admin/projects", color: "#c084fc" },
-        { title: "MANAGE COURSES", desc: "Curriculum & Lessons", icon: BookOpen, link: "/admin/courses", color: "#00875a" },
+        { title: "STUDENT ENROLLMENTS", desc: "Manage Student Courses", icon: GraduationCap, link: "/admin/candidates", color: "#00875a" },
         { title: "CERT BUILDER", desc: "Design Templates", icon: Settings2, link: "/admin/certificate-builder/internship", color: "#f87171" },
         { title: "CERTIFICATES", desc: "Issue & Track", icon: Award, link: "/admin/certificates", color: "#f472b6" },
         { title: "MANAGE ORDERS", desc: "Sales & Payments", icon: ShoppingCart, link: "/admin/orders", color: "#fb923c" },
@@ -138,7 +138,7 @@ export default function AdminDashboard() {
         { title: "RATING SECTION", desc: "Home Page Layout", icon: Blocks, link: "/admin/sections", color: "#ec4899" },
         { title: "ENROLLMENT LINKS", desc: "Global Sign Up Flows", icon: Calendar, link: "/admin/settings/enroll", color: "#f43f5e" },
         { title: "COLLABORATOR LOGO", desc: "Partner Logos", icon: Copyright, link: "/admin/brands", color: "#a855f7" },
-        { title: "MANAGE COURSES", desc: "Upload & Payment Links", icon: Globe, link: "/admin/courses", color: "#00875a" },
+        { title: "COURSE CATALOG", desc: "Curriculum & Lessons", icon: BookOpen, link: "/admin/courses", color: "#00875a" },
         { title: "MANAGE DOMAINS", desc: "Platform Config", icon: Monitor, link: "/admin/services", color: "#60a5fa" },
         { title: "MANAGE BLOGS", desc: "Articles & News", icon: FileText, link: "/admin/blogs", color: "#5eead4" },
         { title: "MANAGE MENTORS", desc: "Slider Profiles", icon: Users, link: "/admin/mentors", color: "#10b981" },

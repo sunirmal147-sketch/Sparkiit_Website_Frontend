@@ -119,7 +119,9 @@ function Particles({ onComplete }: { onComplete: () => void }) {
             duration: 1.5,
             ease: "power2.inOut",
             onUpdate: () => {
-                pointsRef.current.geometry.attributes.position.needsUpdate = true;
+                if (pointsRef.current) {
+                    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+                }
             }
         });
 
@@ -132,7 +134,9 @@ function Particles({ onComplete }: { onComplete: () => void }) {
                 for (let i = 0; i < currentPos.length; i++) {
                     currentPos[i] = THREE.MathUtils.lerp(spherePositions[i], scatteredPositions[i], progress);
                 }
-                pointsRef.current.geometry.attributes.position.needsUpdate = true;
+                if (pointsRef.current) {
+                    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+                }
             }
         }, "+=0.2");
 
@@ -145,7 +149,9 @@ function Particles({ onComplete }: { onComplete: () => void }) {
                 for (let i = 0; i < currentPos.length; i++) {
                     currentPos[i] = THREE.MathUtils.lerp(scatteredPositions[i], textPositions[i], progress);
                 }
-                pointsRef.current.geometry.attributes.position.needsUpdate = true;
+                if (pointsRef.current) {
+                    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+                }
             }
         }, "-=0.3");
 

@@ -22,11 +22,13 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
+    const [mounted, setMounted] = useState(false);
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
 
-    // Load cart from localStorage on mount
+    // Initial mount and load from localStorage
     useEffect(() => {
+        setMounted(true);
         const savedCart = localStorage.getItem("sparkiit_cart");
         if (savedCart) {
             try {
@@ -39,8 +41,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     // Save cart to localStorage on change
     useEffect(() => {
-        localStorage.setItem("sparkiit_cart", JSON.stringify(cartItems));
-    }, [cartItems]);
+        if (mounted) {
+            localStorage.setItem("sparkiit_cart", JSON.stringify(cartItems));
+        }
+    }, [cartItems, mounted]);
+
+    // Don't render cart UI until mounted to avoid hydration mismatch
+    if (!mounted) return null;
 
     const addToCart = (item: CartItem) => {
         setCartItems((prev) => {
