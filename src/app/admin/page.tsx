@@ -10,7 +10,7 @@ import {
     MapPin, Blocks, Copyright, PanelBottom,
     LayoutGrid, FilePlus, Hash, HelpCircle,
     HandCoins, Settings, Calendar, Home, Layout,
-    Share2, Search, Shield, Camera, Globe
+    Share2, Search, Shield, Camera, Globe, GraduationCap
 } from "lucide-react";
 
 function ActionSection({ title, actions, cardStyle }: any) {
