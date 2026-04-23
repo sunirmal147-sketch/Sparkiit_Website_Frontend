@@ -84,11 +84,21 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
     return (
         <>
             {sortedSections.map((section, index) => {
-                const renderFn = sectionMap[section.name];
-                if (!renderFn) return null;
+                // Case-insensitive lookup
+                const sectionName = section.name;
+                const renderFn = sectionMap[sectionName] || 
+                                 sectionMap[Object.keys(sectionMap).find(k => k.toLowerCase() === sectionName.toLowerCase()) || ""];
+                
+                if (!renderFn) {
+                    console.warn(`[SectionRenderer] No component found for section: "${sectionName}"`);
+                    return null;
+                }
+
+                console.log(`[SectionRenderer] Rendering ${sectionName} with content:`, section.content);
+                
                 return (
-                    <React.Fragment key={`${section.name}-${index}`}>
-                        {renderFn(section.content)}
+                    <React.Fragment key={`${sectionName}-${index}`}>
+                        {renderFn(section.content || {})}
                     </React.Fragment>
                 );
             })}

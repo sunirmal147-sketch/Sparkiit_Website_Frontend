@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { useHomepageData } from "@/hooks/useHomepageData";
 import TextReveal from "./TextReveal";
-import PremiumButton from "./PremiumButton";
 
 export interface OurStoryContent {
     title?: string;
@@ -26,27 +25,30 @@ export default function OurStory(props: OurStoryContent) {
 
     const story = {
         title: props.title || data?.content?.story?.title || "The journey of SPARKIIT",
-        subtitle: props.subtitle || data?.content?.story?.subtitle || "Since our inception, we have been empowering learners with industry-focused education across diverse domains, helping them build real-world skills, explore career paths, and stay ahead in an ever-evolving digital world.",
-        description: props.description || data?.content?.story?.description || "Our mission is to empower learners with the knowledge, skills, and guidance they need to shape their future. We believe education should open doors, not create barriers. By combining practical learning with industry expertise, we deliver experiences that are engaging, career-focused, and built for real-world success.",
+        subtitle: props.subtitle || data?.content?.story?.subtitle || "SPARKIIT EDTECH LLP was created to solve a real problem—students often finish courses with theory, but lack the practical exposure companies expect. To change that, SPARKIIT set out to build a learning ecosystem focused on real skills, real projects, and real industry experience.",
+        description: props.description || data?.content?.story?.description || "From live training and guided mentorship to hands-on projects and structured internships, SPARKIIT designs programs that help learners move beyond classrooms and step confidently toward their careers. The focus has always been simple: make learning practical, relevant, and aligned with what today’s industries actually need.",
+        extraText: "Today, SPARKIIT EDTECH LLP continues to grow as a career-focused learning platform dedicated to helping students explore domains, build confidence, and become industry-ready.",
         image: props.image || ""
     };
 
     return (
-        <section ref={containerRef} className="py-16 px-6 md:px-20 bg-[#050505] overflow-hidden">
+        <section ref={containerRef} className="py-24 px-6 md:px-20 bg-[#050505] overflow-hidden">
             <motion.div 
-                style={{ y: yParallax, opacity: opacityFade }}
+                style={{ opacity: opacityFade }}
                 className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-start"
             >
                 <div className="lg:sticky lg:top-32 w-full lg:w-1/3">
-                    <motion.p
+                    <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="text-[#00875a] font-bold uppercase tracking-[0.3em] text-xs mb-6"
+                        className="mb-8"
                     >
-                        Our Story
-                    </motion.p>
+                        <span className="text-[#00875a] font-bold uppercase tracking-[0.2em] text-xs border border-[#00875a]/20 px-6 py-2.5 rounded-full inline-block backdrop-blur-sm">
+                            Our Story
+                        </span>
+                    </motion.div>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tighter leading-tight">
                         <TextReveal text={(story.title || "").replace(' <br /> ', ' ')} />
                     </h2>
@@ -71,9 +73,15 @@ export default function OurStory(props: OurStoryContent) {
                     >
                         {story.description}
                     </motion.p>
-                    <div className="pt-10">
-                        <PremiumButton text="Read Full Story" variant="secondary" href="/about?fullstory=true" />
-                    </div>
+                    <motion.p
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        className="text-lg text-gray-500 leading-relaxed font-medium"
+                    >
+                        {story.extraText}
+                    </motion.p>
                 </div>
             </motion.div>
         </section>

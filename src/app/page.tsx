@@ -13,16 +13,28 @@ export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
 
   React.useEffect(() => {
+    const hasShown = sessionStorage.getItem("preloaderShown");
+    if (hasShown) {
+      setIntroComplete(true);
+    }
+  }, []);
+
+  React.useEffect(() => {
     if (data) {
         console.log("[Home] Homepage data received:", data);
     }
   }, [data]);
 
+  const handleComplete = () => {
+    setIntroComplete(true);
+    sessionStorage.setItem("preloaderShown", "true");
+  };
+
   return (
     <>
       <AnimatePresence>
         {!introComplete && (
-          <Preloader onComplete={() => setIntroComplete(true)} />
+          <Preloader onComplete={handleComplete} />
         )}
       </AnimatePresence>
 

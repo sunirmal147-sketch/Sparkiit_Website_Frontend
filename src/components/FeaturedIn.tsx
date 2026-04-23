@@ -35,7 +35,7 @@ export default function FeaturedIn(props: FeaturedInContent) {
                     className="flex flex-col items-center gap-12"
                 >
                     <div className="flex flex-col items-center gap-4">
-                        <span className="text-[#00875a] font-bold uppercase tracking-[0.3em] text-[10px] border border-[#00875a]/20 px-4 py-2 rounded-full backdrop-blur-sm">
+                        <span className="text-[#00875a] font-bold uppercase tracking-[0.2em] text-xs border border-[#00875a]/20 px-6 py-2.5 rounded-full backdrop-blur-sm">
                             As Seen On
                         </span>
                         <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">

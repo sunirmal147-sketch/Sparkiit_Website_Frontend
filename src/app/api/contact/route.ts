@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const GSHEET_URL = "https://script.google.com/macros/s/AKfycbyjhPqet9-oYoGh7JhhlozvOIBZySMgxVHRhj70G8nEuNDmn15aFgjyaRd8CD6UJ6Cw/exec";
+const GSHEET_URL = "https://script.google.com/macros/s/AKfycbxRpuQDYmzYhVWD-ttNUBpAaFcNVZdCqnbI3kjGo3EV0-t5D6nJGw31XJl9qTjagBlx/exec";
 
 export async function POST(request: Request) {
     try {
@@ -12,6 +12,7 @@ export async function POST(request: Request) {
         const formData = new URLSearchParams();
         formData.append('fullName', body.fullName || '');
         formData.append('email', body.email || '');
+        formData.append('phone', body.phone || '');
         formData.append('message', body.message || '');
 
         console.log('Forwarding to GSheet:', GSHEET_URL);

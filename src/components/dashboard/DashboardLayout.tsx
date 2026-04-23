@@ -92,8 +92,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             className="w-full flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-[#00875a]/30 transition-all group"
                         >
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-[#00875a] flex items-center justify-center font-bold text-white shadow-lg shadow-[#00875a]/20 shrink-0">
-                                    {user.name?.charAt(0).toUpperCase()}
+                                <div className="w-10 h-10 rounded-full bg-[#00875a] flex items-center justify-center font-bold text-white shadow-lg shadow-[#00875a]/20 shrink-0 overflow-hidden">
+                                    {user.avatar ? (
+                                        <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        user.name?.charAt(0).toUpperCase()
+                                    )}
                                 </div>
                                 <div className="min-w-0 text-left">
                                     <p className="text-sm font-bold text-white truncate">{user.name}</p>
@@ -183,8 +187,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     {user && (
                         <div className="mt-8 pt-8 border-t border-white/5 space-y-4">
                             <div className="flex items-center gap-4 p-4 rounded-3xl bg-white/5 border border-white/5">
-                                <div className="w-14 h-14 rounded-full bg-[#00875a] flex items-center justify-center font-bold text-white text-xl shadow-lg shadow-[#00875a]/20">
-                                    {user.name?.charAt(0).toUpperCase()}
+                                <div className="w-14 h-14 rounded-full bg-[#00875a] flex items-center justify-center font-bold text-white text-xl shadow-lg shadow-[#00875a]/20 overflow-hidden">
+                                    {user.avatar ? (
+                                        <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        user.name?.charAt(0).toUpperCase()
+                                    )}
                                 </div>
                                 <div>
                                     <p className="text-lg font-bold text-white">{user.name}</p>

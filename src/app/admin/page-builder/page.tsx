@@ -186,7 +186,13 @@ export default function PageBuilder() {
         const token = localStorage.getItem("adminToken");
         const missingPages = [
             { name: "Domains", slug: "domains", sections: [{ name: "CourseCatalogSection", enabled: true, order: 0, content: {} }] },
-            { name: "About Us", slug: "about", sections: [{ name: "HeroSection", enabled: true, order: 0, content: { title: "WE ARE SPARKIIT.", subtitle: "Who We Are" } }, { name: "OurStory", enabled: true, order: 1, content: {} }] },
+            { name: "About Us", slug: "about", sections: [
+                { name: "HeroSection", enabled: true, order: 0, content: { title: "WE ARE SPARKIIT.", subtitle: "Who We Are" } }, 
+                { name: "OurStory", enabled: true, order: 1, content: {
+                    subtitle: "SPARKIIT EDTECH LLP was created to solve a real problem—students often finish courses with theory, but lack the practical exposure companies expect.",
+                    description: "From live training and guided mentorship to hands-on projects and structured internships, SPARKIIT designs programs that help learners move beyond classrooms and step confidently toward their careers."
+                } }
+            ] },
             { name: "Contact Us", slug: "contact", sections: [{ name: "ContactSection", enabled: true, order: 0, content: {} }] },
             { name: "Verification", slug: "verify", sections: [{ name: "VerifySection", enabled: true, order: 0, content: {} }] },
             { name: "Job Portal", slug: "job-portal", sections: [{ name: "JobPortalSection", enabled: true, order: 0, content: {} }] },
@@ -274,8 +280,9 @@ export default function PageBuilder() {
 
     const updateSectionContent = (index: number, content: any) => {
         if (!pageData) return;
-        const newSections = [...pageData.sections];
-        newSections[index].content = content;
+        const newSections = pageData.sections.map((s, i) => 
+            i === index ? { ...s, content: content } : s
+        );
         setPageData({ ...pageData, sections: newSections });
     };
 
@@ -559,7 +566,7 @@ export default function PageBuilder() {
                                         "Testimonials", "MentorsSection", "RoadmapSection", 
                                         "FaqSection", "CustomRichText", "Footer",
                                         "Colleges", "FeaturedIn", "ReviewSection", 
-                                        "Collaborations", "HorizontalScroll", "ParallaxImage"
+                                        "Collaborations", "HorizontalScroll", "ParallaxImage", "ContactSection"
                                     ].map(type => (
                                         <button 
                                             key={type}
@@ -587,21 +594,29 @@ export default function PageBuilder() {
                         </div>
                     </>
                 )}
-            </div>
-
-            {/* Content Editor Panel */}
+            </div>            {/* Content Editor Panel */}
             <AnimatePresence>
                 {activeSection !== null && pageData && (
                     <motion.div 
-                        initial={{ x: 300, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: 300, opacity: 0 }}
-                        className="w-[500px] bg-[#141414] border-l border-white/10 p-6 flex flex-col h-[calc(100vh-100px)] sticky top-24 rounded-3xl"
+                        initial={{ x: 500, opacity: 0 }} 
+                        animate={{ x: 0, opacity: 1 }} 
+                        exit={{ x: 500, opacity: 0 }}
+                        className="fixed top-24 right-6 w-[500px] bg-[#141414] border border-white/10 p-8 flex flex-col h-[calc(100vh-140px)] rounded-[40px] shadow-[-20px_20px_80px_rgba(0,0,0,0.8)] z-[100] backdrop-blur-xl"
                     >
-                        <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-xl font-black text-white uppercase tracking-tighter">Content <span className="text-[#00875a]">Editor</span></h2>
-                            <button onClick={() => setActiveSection(null)} className="text-white/20 hover:text-white transition-colors"><X size={20} /></button>
+                        <div className="flex items-center justify-between mb-10 shrink-0">
+                            <div>
+                                <h2 className="text-2xl font-black text-white uppercase tracking-tighter leading-none">Content</h2>
+                                <p className="text-[10px] font-black text-[#00875a] uppercase tracking-[0.3em] mt-1">Editor Panel</p>
+                            </div>
+                            <button 
+                                onClick={() => setActiveSection(null)} 
+                                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                            >
+                                <X size={20} />
+                            </button>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="flex-1 overflow-y-auto pr-2 custom-editor-scrollbar scroll-smooth">
                            <SectionContentForm 
                                 section={pageData.sections[activeSection]} 
                                 onChange={(content) => updateSectionContent(activeSection, content)} 
@@ -610,6 +625,22 @@ export default function PageBuilder() {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            <style jsx global>{`
+                .custom-editor-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                }
+                .custom-editor-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-editor-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 20px;
+                }
+                .custom-editor-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(0, 135, 90, 0.4);
+                }
+            `}</style>
         </div>
     );
 }
@@ -635,13 +666,24 @@ function SectionContentForm({ section, onChange }: { section: Section, onChange:
     };
 
     return (
-        <div className="space-y-8">
-            <div className="pb-4 border-b border-white/5">
-                <p className="text-[10px] font-black text-[#00875a] uppercase tracking-widest mb-1">Target Section</p>
-                <h4 className="text-lg font-black text-white uppercase tracking-tighter italic">{section.name}</h4>
-                <div className="mt-4">
+        <div className="space-y-10 pb-20">
+            <div className="p-6 bg-white/[0.03] border border-white/5 rounded-[32px] mb-8">
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-lg bg-[#00875a]/10 flex items-center justify-center text-[#00875a]">
+                        <Settings size={16} />
+                    </div>
+                    <div>
+                        <p className="text-[10px] font-black text-[#00875a] uppercase tracking-widest">Active Section</p>
+                        <h4 className="text-xl font-black text-white uppercase tracking-tighter italic leading-none mt-1 break-words max-w-[300px]">{section.name}</h4>
+                    </div>
+                </div>
+                
+                <div className="pt-4 border-t border-white/5">
                     <label className={labelStyle}>Section Identifier</label>
-                    <input className={inputStyle} value={section.name} onChange={(e: any) => onChange({ ...content, _name: e.target.value })} placeholder="Internal Name" />
+                    <div className="relative">
+                        <input className={`${inputStyle} pl-10`} value={section.name} onChange={(e: any) => onChange({ ...content, _name: e.target.value })} placeholder="Internal Name" />
+                        <Layout size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" />
+                    </div>
                 </div>
             </div>
 

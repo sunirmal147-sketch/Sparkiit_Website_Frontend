@@ -41,14 +41,16 @@ export default function ServicesOverview(props: ServicesOverviewContent) {
         <section id="expertise" ref={containerRef} className="py-16 px-6 md:px-20 bg-[#050505] border-y border-white/5 overflow-hidden">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-20">
                 <motion.div style={{ x: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : xParallax }} className="lg:w-1/3">
-                    <motion.p 
+                    <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="text-[#00875a] font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6"
+                        className="mb-8"
                     >
-                        Our Expertise
-                    </motion.p>
+                        <span className="text-[#00875a] font-bold uppercase tracking-[0.2em] text-xs border border-[#00875a]/20 px-6 py-2.5 rounded-full inline-block backdrop-blur-sm">
+                            Our Expertise
+                        </span>
+                    </motion.div>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-white uppercase tracking-tighter mb-8 lg:mb-10 leading-tight">
                         <TextReveal text={title} />
                     </h2>

@@ -11,6 +11,8 @@ export interface HeroContent {
     word1?: string;
     word2?: string;
     word3?: string;
+    title?: string;
+    subtitle?: string;
     tagline?: string;
     ctaText?: string;
     ctaLink?: string;
@@ -51,12 +53,14 @@ export default function HeroSection(props: HeroContent) {
     }, [mouseX, mouseY]);
     
     // Merge props with homepage data
+    const isInternalPage = !!(props.title || props.word1);
+    
     const hero = {
-        word1: props.word1 || data?.content?.hero?.word1 || "IDEA",
-        word2: props.word2 || data?.content?.hero?.word2 || "INNOVATE",
-        word3: props.word3 || data?.content?.hero?.word3 || "TRANSFORM",
-        tagline: props.tagline || data?.content?.hero?.tagline || "Not Basic Training. A High Impact Career Engine",
-        ctaText: props.ctaText || data?.content?.hero?.ctaText || "Let's Talk",
+        word1: props.word1 || props.title || (isInternalPage ? "" : data?.content?.hero?.word1) || "IDEA",
+        word2: props.word2 || props.subtitle || (isInternalPage ? "" : data?.content?.hero?.word2) || "INNOVATE",
+        word3: props.word3 || (isInternalPage ? "" : data?.content?.hero?.word3) || (isInternalPage ? "" : "TRANSFORM"),
+        tagline: props.tagline || (isInternalPage ? "" : data?.content?.hero?.tagline) || "Where ambition meets opportunity.",
+        ctaText: props.ctaText || (isInternalPage ? "" : data?.content?.hero?.ctaText) || "Get Started",
         ctaLink: props.ctaLink || "/contact",
         videoThumbnail: props.videoThumbnail || "",
         videoUrl: props.videoUrl || ""
@@ -80,8 +84,8 @@ export default function HeroSection(props: HeroContent) {
     // Star rotation based on scroll
     const starRotate = useTransform(scrollYProgress, [0, 1], [0, 360 * 2]);
 
+    const words = [hero.word1, hero.word2, hero.word3].filter(Boolean);
     const xTransforms = [xIdea, xInnovate, xTransform];
-    const words = [hero.word1, hero.word2, hero.word3];
 
     return (
         <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 pt-24 md:pt-20 overflow-hidden">

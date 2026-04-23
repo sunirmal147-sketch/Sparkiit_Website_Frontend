@@ -12,16 +12,18 @@ interface ContactSectionProps {
     address?: string;
 }
 
-export default function ContactSection({ 
-    title = "LET'S Turn Your Goals Into ACTION.", 
-    subtitle = "Contact Us",
-    email = "hello@sparkiit.com",
-    phone = "+1 (234) 567-890",
-    address = "123 Design St, Creative City"
-}: ContactSectionProps) {
+export default function ContactSection(props: ContactSectionProps) {
+    const { 
+        title = "LET'S Turn Your Goals Into ACTION.", 
+        subtitle = "Contact Us",
+        email = "hello@sparkiit.com",
+        phone = "+1 (234) 567-890",
+        address = "123 Design St, Creative City"
+    } = props;
     const [formData, setFormData] = useState({
         fullName: "",
         email: "",
+        phone: "",
         message: ""
     });
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -43,7 +45,7 @@ export default function ContactSection({
 
             if (response.ok) {
                 setStatus('success');
-                setFormData({ fullName: "", email: "", message: "" });
+                setFormData({ fullName: "", email: "", phone: "", message: "" });
                 setTimeout(() => setStatus('idle'), 5000);
             } else {
                 throw new Error(result.error || "Failed to send inquiry");
@@ -72,7 +74,10 @@ export default function ContactSection({
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                         className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-12"
-                        dangerouslySetInnerHTML={{ __html: title.replace("Into ACTION.", "<br /> <span class='text-white/20'>Into ACTION.</span>") }}
+                        dangerouslySetInnerHTML={{ __html: (title || "").includes("Into ACTION.") 
+                            ? (title || "").replace("Into ACTION.", "<br /> <span class='text-white/20'>Into ACTION.</span>") 
+                            : (title || "") 
+                        }}
                     />
 
                     <div className="space-y-10">
@@ -140,6 +145,10 @@ export default function ContactSection({
                                         <div className="space-y-3">
                                             <label className="text-[10px] font-black uppercase tracking-widest text-white/30 ml-2">Email Address</label>
                                             <input required type="email" placeholder="john@example.com" className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-[#00875a]/50 focus:bg-white/[0.08] outline-none transition-all text-white placeholder:text-white/10 font-medium" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                                        </div>
+                                        <div className="space-y-3 md:col-span-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-white/30 ml-2">Phone Number</label>
+                                            <input type="tel" placeholder="Your phone number" className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-[#00875a]/50 focus:bg-white/[0.08] outline-none transition-all text-white placeholder:text-white/10 font-medium" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} />
                                         </div>
                                     </div>
                                     

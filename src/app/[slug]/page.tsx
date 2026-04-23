@@ -8,8 +8,10 @@ import { usePageData } from "@/hooks/usePageData";
 import Preloader from "@/components/Preloader";
 import { AnimatePresence } from "framer-motion";
 
-export default function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = use(params);
+export default function DynamicPage({ params }: { params: any }) {
+    // Robustly handle params whether it's a Promise or a plain object
+    const resolvedParams = params instanceof Promise ? React.use(params) : params;
+    const { slug } = resolvedParams;
     const { data, loading, error } = usePageData(slug);
     
     useEffect(() => {
@@ -22,6 +24,18 @@ export default function DynamicPage({ params }: { params: Promise<{ slug: string
     }, [data, error, slug]);
 
     const [introComplete, setIntroComplete] = React.useState(false);
+
+    useEffect(() => {
+        const hasShown = sessionStorage.getItem("preloaderShown");
+        if (hasShown) {
+            setIntroComplete(true);
+        }
+    }, []);
+
+    const handleComplete = () => {
+        setIntroComplete(true);
+        sessionStorage.setItem("preloaderShown", "true");
+    };
 
     if (error) {
         return (
@@ -38,15 +52,13 @@ export default function DynamicPage({ params }: { params: Promise<{ slug: string
     return (
         <div className="bg-[#050505] min-h-screen">
             <AnimatePresence mode="wait">
-                {!introComplete && <Preloader key="preloader" onComplete={() => setIntroComplete(true)} />}
+                {!introComplete && <Preloader key="preloader" onComplete={handleComplete} />}
             </AnimatePresence>
             
             <Navbar />
             
-            <main>
-                {data?.sections && data.sections.map((section: any, index: number) => (
-                    <SectionRenderer key={`${section.name}-${index}`} section={section} />
-                ))}
+            <main className={`transition-opacity duration-1000 ${introComplete && !loading ? 'opacity-100' : 'opacity-0'}`}>
+                {data?.sections && <SectionRenderer sections={data.sections} />}
             </main>
 
             <Footer />

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { User, Phone, Mail, Lock, ShieldCheck, Save, Loader2 } from "lucide-react";
+import { User, Phone, Mail, Lock, ShieldCheck, Save, Loader2, Camera, Image as ImageIcon } from "lucide-react";
 import { API_BASE_URL } from "@/lib/api-config";
 import { toast } from "react-hot-toast";
 
@@ -14,7 +14,8 @@ export default function ProfilePage() {
         email: "",
         phone: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
+        avatar: ""
     });
 
     useEffect(() => {
@@ -31,6 +32,7 @@ export default function ProfilePage() {
                         name: data.data.name || "",
                         email: data.data.email || "",
                         phone: data.data.phone || "",
+                        avatar: data.data.avatar || "",
                     }));
                 }
             } catch (error) {
@@ -63,6 +65,7 @@ export default function ProfilePage() {
                 body: JSON.stringify({
                     name: formData.name,
                     phone: formData.phone,
+                    avatar: formData.avatar,
                     password: formData.password || undefined
                 })
             });
@@ -75,6 +78,7 @@ export default function ProfilePage() {
                 if (storedUser) {
                     const user = JSON.parse(storedUser);
                     user.name = data.data.name;
+                    user.avatar = data.data.avatar;
                     localStorage.setItem("user", JSON.stringify(user));
                 }
                 setFormData(prev => ({ ...prev, password: "", confirmPassword: "" }));
@@ -86,6 +90,20 @@ export default function ProfilePage() {
             toast.error("An error occurred while updating profile");
         } finally {
             setSaving(false);
+        }
+    };
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            if (file.size > 1024 * 1024) { // 1MB limit for base64
+                toast.error("Image size should be less than 1MB");
+                return;
+            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData(prev => ({ ...prev, avatar: reader.result as string }));
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -109,6 +127,25 @@ export default function ProfilePage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="p-8 rounded-3xl bg-white/5 border border-white/5"
             >
+                <div className="flex flex-col items-center mb-12">
+                    <div className="relative group">
+                        <div className="w-32 h-32 rounded-full border-2 border-[#00875a] p-1 overflow-hidden bg-white/5">
+                            {formData.avatar ? (
+                                <img src={formData.avatar} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                            ) : (
+                                <div className="w-full h-full rounded-full flex items-center justify-center bg-white/5 text-white/20">
+                                    <User size={48} />
+                                </div>
+                            )}
+                        </div>
+                        <label className="absolute bottom-0 right-0 w-10 h-10 bg-[#00875a] rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-all border-4 border-[#050505]">
+                            <Camera size={18} className="text-white" />
+                            <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
+                        </label>
+                    </div>
+                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-4">Profile Picture</p>
+                </div>
+
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Name Field */}

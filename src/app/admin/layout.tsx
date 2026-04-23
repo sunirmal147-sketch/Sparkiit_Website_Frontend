@@ -65,7 +65,6 @@ const navGroups: NavGroup[] = [
         title: "WEBSITE MANAGEMENT",
         items: [
             { label: "PAGE BUILDER", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} />, permissionKey: "PAGE_BUILDER" },
-            { label: "CONTACT US", href: "/admin/contact", icon: <Mail size={20} strokeWidth={1.8} />, permissionKey: "CONTACT_US" },
             { label: "RATING SECTION", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} />, permissionKey: "SECTIONS" },
             { label: "ENROLLMENT LINKS", href: "/admin/settings/enroll", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "ENROLLMENT_LINKS" },
             { label: "COLLABORATOR LOGO", href: "/admin/brands", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "COLLABORATORS" },
