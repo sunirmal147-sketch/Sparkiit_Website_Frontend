@@ -1,8 +1,8 @@
 "use client";
 import { API_BASE_URL } from "@/lib/api-config";
-
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function CoursesPage() {
@@ -17,7 +17,7 @@ export default function CoursesPage() {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
-                setCourses(data.enrolledCourses || []);
+                setCourses(data.data?.enrolledCourses || []);
             } catch (error) {
                 console.error("Courses fetch error:", error);
             } finally {
@@ -89,7 +89,7 @@ export default function CoursesPage() {
                         <div className="col-span-full py-20 text-center border-2 border-dashed border-white/5 rounded-3xl">
                             <p className="text-gray-500 uppercase font-bold tracking-widest leading-relaxed">
                                 You haven't enrolled in any courses yet.<br />
-                                <span className="text-[#00875a] cursor-pointer hover:underline">Browse our catalog</span>
+                                <Link href="/courses" className="text-[#00875a] cursor-pointer hover:underline">Browse our catalog</Link>
                             </p>
                         </div>
                     )}

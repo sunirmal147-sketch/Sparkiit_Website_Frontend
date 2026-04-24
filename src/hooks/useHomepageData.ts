@@ -124,11 +124,23 @@ export function useHomepageData() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch(`${API_BASE}/homepage`, { cache: 'no-store' })
+        // Try to load from cache first
+        const cached = localStorage.getItem('homepage_data');
+        if (cached) {
+            try {
+                setData(JSON.parse(cached));
+                setLoading(false);
+            } catch (e) {
+                console.error("Failed to parse cached homepage data", e);
+            }
+        }
+
+        fetch(`${API_BASE}/homepage`)
             .then(res => res.json())
             .then(json => {
                 if (json.success) {
                     setData(json.data);
+                    localStorage.setItem('homepage_data', JSON.stringify(json.data));
                 } else {
                     setError(json.message);
                 }

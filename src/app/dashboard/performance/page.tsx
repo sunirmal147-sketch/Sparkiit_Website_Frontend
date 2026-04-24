@@ -17,7 +17,7 @@ export default function PerformancePage() {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
-                setStats(data);
+                setStats(data.data);
             } catch (error) {
                 console.error("Dashboard fetch error:", error);
             } finally {

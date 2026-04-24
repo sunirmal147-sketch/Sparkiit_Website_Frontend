@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 
 const API_BASE = API_BASE_URL + '/api/public';
 
-
 export interface Course {
     _id: string;
     title: string;
@@ -27,11 +26,22 @@ export function useCourses() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        const cached = localStorage.getItem('courses_data');
+        if (cached) {
+            try {
+                setCourses(JSON.parse(cached));
+                setLoading(false);
+            } catch (e) {
+                console.error("Failed to parse cached courses data", e);
+            }
+        }
+
         fetch(`${API_BASE}/courses`)
             .then(res => res.json())
             .then(json => {
                 if (json.success) {
                     setCourses(json.data);
+                    localStorage.setItem('courses_data', JSON.stringify(json.data));
                 } else {
                     setError(json.message);
                 }

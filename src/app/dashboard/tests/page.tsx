@@ -17,7 +17,7 @@ export default function TestsPage() {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
-                setTests(data);
+                setTests(data.data || []);
             } catch (error) {
                 console.error("Tests fetch error:", error);
             } finally {

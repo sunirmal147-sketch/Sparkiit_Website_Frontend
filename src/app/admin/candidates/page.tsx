@@ -346,7 +346,7 @@ export default function CandidatesPage() {
                                         <td style={{ padding: "14px 20px" }}>
                                             <div style={{ display: "flex", gap: 6 }}>
                                                 <button onClick={() => setAssignModal(c)} style={{ padding: "6px 10px", borderRadius: 8, background: "rgba(0,135,90,0.1)", border: "1px solid rgba(0,135,90,0.15)", color: "#00875a", fontSize: 12, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
-                                                    Courses
+                                                    Manage Courses
                                                 </button>
                                                 <button onClick={() => openEdit(c)} style={{ padding: "6px 10px", borderRadius: 8, background: "rgba(129,140,248,0.1)", border: "1px solid rgba(129,140,248,0.15)", color: "#818cf8", fontSize: 12, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
                                                     Edit

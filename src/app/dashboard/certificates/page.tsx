@@ -17,7 +17,7 @@ export default function CertificatesPage() {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
-                setCertificates(data);
+                setCertificates(data.data || []);
             } catch (error) {
                 console.error("Certificates fetch error:", error);
             } finally {
