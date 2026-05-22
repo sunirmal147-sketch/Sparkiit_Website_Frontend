@@ -73,14 +73,14 @@ export default function ServicesOverview(props: ServicesOverviewContent) {
                         <Link 
                             key={index}
                             href={`/domains?category=${encodeURIComponent(typeof service === 'string' ? service : service.title)}`}
-                            className="block"
+                            className="block h-full"
                         >
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className="group bg-[#050505] p-6 sm:p-8 md:p-12 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors relative overflow-hidden"
+                                className="group h-full bg-[#050505] p-6 sm:p-8 md:p-12 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors relative overflow-hidden"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-[#00875a]/0 to-[#00875a]/5 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
                                 <h3 className="text-lg md:text-2xl font-bold text-white/50 group-hover:text-white transition-colors tracking-tight relative z-10">{typeof service === 'string' ? service : service.title}</h3>

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const services = [
     {
@@ -47,6 +48,15 @@ export interface HorizontalScrollContent {
 
 export default function HorizontalScrollSection(props: HorizontalScrollContent) {
     const [activeIndex, setActiveIndex] = useState(0);
+    const router = useRouter();
+
+    const handleCardClick = (index: number, category: string) => {
+        if (index === activeIndex) {
+            router.push(`/domains?category=${encodeURIComponent(category)}`);
+        } else {
+            setActiveIndex(index);
+        }
+    };
 
     const title = props.title || "Domains We Serve";
     const subtitle = props.subtitle || "";
@@ -149,6 +159,7 @@ export default function HorizontalScrollSection(props: HorizontalScrollContent) 
                                     stiffness: 260,
                                     damping: 30
                                 }}
+                                onClick={() => handleCardClick(index, service.category)}
                                 className="absolute w-[260px] xs:w-[300px] md:w-[450px] aspect-[4/5] md:aspect-[3/4] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden group cursor-pointer"
                                 style={{
                                     zIndex: 50 - Math.abs(displayOffset),
