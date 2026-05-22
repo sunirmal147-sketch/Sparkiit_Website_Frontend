@@ -1,5 +1,6 @@
 "use client";
 import { API_BASE_URL } from "@/lib/api-config";
+const SUPER_ADMIN_EMAIL = "sunirmal147@gmail.com";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -87,7 +88,7 @@ const navGroups: NavGroup[] = [
     {
         title: "CMS MANAGEMENT",
         items: [
-            { label: "CMS USER", href: "/admin/users", icon: <Settings size={20} strokeWidth={1.8} />, permissionKey: "CMS_USER" },
+            { label: "ADMINS", href: "/admin/admins", icon: <Settings size={20} strokeWidth={1.8} />, permissionKey: "CMS_USER" },
             { label: "ATTENDANCE LOGS", href: "/admin/attendance", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "ATTENDANCE_LOGS" },
             { label: "SETTINGS", href: "/admin/settings", icon: <Settings size={20} strokeWidth={1.8} />, permissionKey: "SETTINGS" },
             { label: "LOGOUT", href: "#", icon: <LogOut size={20} strokeWidth={1.8} />, onClick: () => {} },
@@ -102,7 +103,8 @@ function NavItemComponent({ item, sidebarOpen, pathname, user, onClick }: { item
     
     // Role & Permission check
     // SUPER_ADMIN sees everything. Others must have the specific permissionKey (or no key meant for everyone like Logout)
-    if (user?.role !== 'SUPER_ADMIN' && item.permissionKey && !user?.allowedSections?.includes(item.permissionKey)) {
+    const isSuperAdmin = user?.role === 'SUPER_ADMIN' && user?.email === SUPER_ADMIN_EMAIL;
+    if (!isSuperAdmin && item.permissionKey && !user?.allowedSections?.includes(item.permissionKey)) {
         return null;
     }
 
@@ -439,7 +441,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <nav style={{ padding: "16px 12px", flex: 1, overflowY: "auto", overflowX: "hidden", WebkitOverflowScrolling: "touch" }}>
                     {navGroups.map((group, idx) => {
                         const visibleItems = group.items.filter(item => {
-                            if (user?.role === 'SUPER_ADMIN') return true;
+                            const isSuperAdmin = user?.role === 'SUPER_ADMIN' && user?.email === SUPER_ADMIN_EMAIL;
+                            if (isSuperAdmin) return true;
                             if (!item.permissionKey) return true; // Settings, Logout
                             return user?.allowedSections?.includes(item.permissionKey);
                         });

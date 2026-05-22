@@ -18,6 +18,21 @@ const nextConfig: NextConfig = {
         hostname: 'ui-avatars.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.image2url.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image2url.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'blogger.googleusercontent.com',
+        pathname: '/**',
+      },
     ],
   },
 };
