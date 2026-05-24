@@ -93,9 +93,15 @@ function MentorsContent({ mentors, title, subtitle }: { mentors: Mentor[], title
 
             {/* Transparent Text Overlay */}
             <div className="relative z-10 pointer-events-none text-center text-white">
-                <h2 className="text-[10vw] md:text-[6vw] font-black leading-[0.8] uppercase tracking-tighter mix-blend-overlay opacity-50 whitespace-nowrap">
+                <motion.h2 
+                    initial={{ opacity: 0, scale: 0.85, y: 20 }}
+                    whileInView={{ opacity: 0.5, scale: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-[10vw] md:text-[6vw] font-black leading-[0.8] uppercase tracking-tighter mix-blend-overlay whitespace-nowrap"
+                >
                     {title || "LET'S BUILD."}
-                </h2>
+                </motion.h2>
             </div>
 
             {/* Custom Background Noise/Texture */}

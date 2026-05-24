@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import AnimatedHeading from "./AnimatedHeading";
 
 const nodes: { x: number; y: number; step: number; title: string; labelSide: "top" | "bottom" }[] = [
     { x: 60,   y: 340, step: 1,  title: "Choose your Programs",                                                        labelSide: "bottom" },
@@ -77,14 +78,11 @@ export default function RoadmapSection(props: RoadmapSectionContent) {
             <div className="max-w-7xl mx-auto px-6 md:px-16 mb-10 relative z-10">
                 <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <span className="text-[#00875a] text-[11px] font-black uppercase tracking-[0.4em] block mb-3"></span>
-                    <h2 className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.9] md:leading-none">
-                        {title.split(' ').map((word, i) => (
-                            <React.Fragment key={i}>
-                                {i === 1 ? <br className="block md:hidden" /> : null}
-                                <span className={i === 1 ? "text-[#00875a]" : ""}>{word} </span>
-                            </React.Fragment>
-                        ))}
-                    </h2>
+                    <AnimatedHeading 
+                        text={title}
+                        highlightWords={[title.split(' ')[1] || "to"]}
+                        className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.9] md:leading-none"
+                    />
                 </motion.div>
             </div>
 

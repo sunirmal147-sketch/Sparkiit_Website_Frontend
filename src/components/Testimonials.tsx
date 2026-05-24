@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { useHomepageData } from '@/hooks/useHomepageData';
+import AnimatedHeading from './AnimatedHeading';
 
 const TestimonialCard = ({ testimonial }: { testimonial: any }) => {
   return (
@@ -122,21 +123,11 @@ const Testimonials = (props: TestimonialsContent) => {
             Testimonials
           </span>
         </motion.div>
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+        <AnimatedHeading
+          text={title}
+          highlightWords={["success"]}
           className="text-4xl md:text-7xl font-bold text-white uppercase tracking-tighter"
-        >
-          {title.split(' ').map((word, i) => (
-            <React.Fragment key={i}>
-              <span className={word.toLowerCase() === 'success' ? "text-transparent bg-clip-text bg-gradient-to-r from-[#00875a] to-[#00a86b]" : ""}>
-                {word}{" "}
-              </span>
-            </React.Fragment>
-          ))}
-        </motion.h2>
+        />
       </div>
 
       <div className="relative w-full overflow-hidden py-10">
@@ -158,12 +149,12 @@ const Testimonials = (props: TestimonialsContent) => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 text-center mt-20 relative z-10">
-        <motion.p
-          style={{ opacity }}
+        <AnimatedHeading
+          as="p"
+          text="Mentors Dedicated to <br /> Supporting Your Growth"
+          highlightWords={["mentors", "dedicated", "to"]}
           className="text-white text-3xl md:text-5xl font-black max-w-4xl mx-auto uppercase tracking-tighter leading-tight"
-        >
-          <span className="text-[#00875a]">Mentors Dedicated to</span> <br className="hidden md:block" /> Supporting Your Growth
-        </motion.p>
+        />
       </div>
     </section>
   );

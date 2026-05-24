@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Search, MapPin, Briefcase, Clock, Filter, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import AnimatedHeading from "./AnimatedHeading";
 
 const JOBS = [
     { id: 1, title: "Senior Full Stack Developer", company: "Sparkiit Tech", location: "Remote / Bengaluru", type: "Full-time", category: "Development", salary: "₹18L - ₹24L", posted: "2 days ago" },
@@ -28,6 +29,16 @@ export default function JobPortalSection() {
     return (
         <section className="py-24 px-6 md:px-20 bg-[#050505]">
             <div className="max-w-7xl mx-auto">
+                {/* Title */}
+                <div className="text-center mb-16">
+                    <span className="text-[#00875a] font-bold uppercase tracking-[0.4em] text-xs mb-6 block">Career Opportunities</span>
+                    <AnimatedHeading 
+                        text="JOB PORTAL"
+                        highlightWords={["PORTAL"]}
+                        className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-8 text-white"
+                    />
+                </div>
+
                 {/* Search Bar */}
                 <div className="max-w-2xl mx-auto flex flex-col md:flex-row gap-4 bg-white/5 p-2 rounded-2xl md:rounded-full border border-white/10 backdrop-blur-xl shadow-2xl mb-20">
                     <div className="flex-1 flex items-center px-6 gap-3">

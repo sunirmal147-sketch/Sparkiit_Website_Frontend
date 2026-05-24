@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 import PremiumButton from "./PremiumButton";
+import AnimatedHeading from "./AnimatedHeading";
 
 const stats = [
     { label: "YEARS EXP", val: 5 },
@@ -67,14 +68,11 @@ export default function CompanyInsights(props: CompanyInsightsContent) {
 
                 <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-t border-white/5 pt-10">
                     <div className="max-w-xl">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white uppercase tracking-tighter mb-6">
-                            {title.split(' & ').map((part, i) => (
-                                <React.Fragment key={i}>
-                                    {part}{i === 0 && ' & '}
-                                    {i === 0 && <br />}
-                                </React.Fragment>
-                            ))}
-                        </h2>
+                        <AnimatedHeading
+                            text={title.replace(' & ', ' & <br /> ')}
+                            highlightWords={["insights", "articles"]}
+                            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white uppercase tracking-tighter mb-6"
+                        />
                         <p className="text-gray-400 leading-relaxed font-medium">
                             {description}
                         </p>

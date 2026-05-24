@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useHomepageData } from "@/hooks/useHomepageData";
+import AnimatedHeading from "./AnimatedHeading";
 
 const publications = [
     { name: "The Times of India", logoUrl: "" },
@@ -43,13 +44,11 @@ export default function FeaturedIn(props: FeaturedInContent) {
                         <span className="text-[#00875a] font-bold uppercase tracking-[0.2em] text-xs border border-[#00875a]/20 px-6 py-2.5 rounded-full backdrop-blur-sm">
                             As Seen On
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter">
-                            {title.split(' ').map((word, i) => (
-                                <span key={i} className={word.toLowerCase() === 'in' ? "text-[#00875a]" : ""}>
-                                    {word}{" "}
-                                </span>
-                            ))}
-                        </h2>
+                        <AnimatedHeading 
+                            text={title}
+                            highlightWords={["in"]}
+                            className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter"
+                        />
                     </div>
 
                     <div className="flex flex-nowrap justify-start md:justify-center items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-7xl overflow-x-auto no-scrollbar py-4 px-6 scroll-smooth">

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp, Plus, Minus, HelpCircle } from "lucide-react";
 import { API_PUBLIC_URL } from "@/lib/api-config";
 import { motion, AnimatePresence } from "framer-motion";
+import AnimatedHeading from "./AnimatedHeading";
 
 interface FAQ {
     _id: string;
@@ -74,19 +75,11 @@ export default function FaqSection(props: FaqSectionContent) {
                         >
                             {subtitle}
                         </motion.span>
-                        <motion.h2 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.1 }}
+                        <AnimatedHeading 
+                            text={title}
+                            highlightWords={["questions"]}
                             className="text-4xl md:text-6xl font-black text-white leading-tight uppercase"
-                        >
-                            {title.split(' ').map((word, i) => (
-                                <span key={i} className={word.toLowerCase() === 'questions' ? "text-[#00875a]" : ""}>
-                                    {word}{" "}
-                                </span>
-                            ))}
-                        </motion.h2>
+                        />
                     </div>
 
                     <div className="space-y-4">

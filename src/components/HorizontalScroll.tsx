@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import AnimatedHeading from "./AnimatedHeading";
 
 const services = [
     {
@@ -107,13 +108,11 @@ export default function HorizontalScrollSection(props: HorizontalScrollContent) 
                 >
                     {subtitle}
                 </motion.span>
-                <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
-                    {title.split(' ').map((word, i) => (
-                        <span key={i} className={i >= title.split(' ').length - 2 ? "text-[#00875a]" : ""}>
-                            {word}{" "}
-                        </span>
-                    ))}
-                </h2>
+                <AnimatedHeading 
+                    text={title}
+                    highlightWords={title.split(' ').slice(-2)}
+                    className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter"
+                />
             </div>
 
             <div className="relative w-full max-w-5xl h-[450px] md:h-[600px] flex items-center justify-center perspective-[2000px]">

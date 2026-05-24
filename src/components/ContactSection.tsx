@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, MapPin, Phone, Send, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import AnimatedHeading from "./AnimatedHeading";
 
 interface ContactSectionProps {
     title?: string;
@@ -68,16 +69,13 @@ export default function ContactSection(props: ContactSectionProps) {
                     >
                         {subtitle}
                     </motion.p>
-                    <motion.h1
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
+                    <AnimatedHeading 
+                        as="h1"
+                        text={(title || "").includes("Into ACTION.") 
+                            ? (title || "").replace("Into ACTION.", "<br /> Into ACTION.") 
+                            : (title || "")}
+                        highlightWords={["Into", "ACTION"]}
                         className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-12"
-                        dangerouslySetInnerHTML={{ __html: (title || "").includes("Into ACTION.") 
-                            ? (title || "").replace("Into ACTION.", "<br /> <span class='text-white/20'>Into ACTION.</span>") 
-                            : (title || "") 
-                        }}
                     />
 
                     <div className="space-y-10">

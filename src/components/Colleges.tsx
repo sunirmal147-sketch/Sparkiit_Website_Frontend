@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import AnimatedHeading from "./AnimatedHeading";
 
 function Counter({ value, className }: { value: string; className?: string }) {
     const ref = useRef(null);
@@ -79,26 +80,11 @@ export default function Colleges(props: CollegesContent) {
                         <span className="text-[#00875a] font-bold uppercase tracking-[0.2em] text-xs border border-[#00875a]/20 px-6 py-2.5 rounded-full backdrop-blur-sm">
                             Our Impact
                         </span>
-                        <h2 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter mt-8 leading-[0.9] overflow-hidden">
-                            {title.split(' ').map((word, i) => (
-                                <span key={i} className="inline-block overflow-hidden pb-2 mr-4">
-                                    <motion.span
-                                        initial={{ y: "100%" }}
-                                        whileInView={{ y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ 
-                                            duration: 0.8, 
-                                            delay: i * 0.05, 
-                                            ease: [0.215, 0.61, 0.355, 1] 
-                                        }}
-                                        className={`inline-block ${word.includes('500+') || word.toLowerCase() === 'colleges' ? "text-[#00875a]" : ""}`}
-                                    >
-                                        {word}
-                                    </motion.span>
-                                    {i === 3 ? <br /> : null}
-                                </span>
-                            ))}
-                        </h2>
+                        <AnimatedHeading 
+                            text={title.split(' ').map((word, i) => i === 3 ? `${word} <br />` : word).join(' ')}
+                            highlightWords={["500+", "colleges"]}
+                            className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter mt-8 leading-[0.9]"
+                        />
                         <p className="text-white/50 mt-8 text-lg md:text-xl max-w-xl font-medium leading-relaxed">
                             {description}
                         </p>

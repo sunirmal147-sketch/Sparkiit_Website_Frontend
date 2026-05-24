@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import AnimatedHeading from './AnimatedHeading';
 
 export interface VideoSectionProps {
     videoUrl?: string;
@@ -54,9 +55,10 @@ export default function VideoSection({
                                 className="max-w-3xl"
                             >
                                 {title && (
-                                    <h2 className="text-3xl md:text-7xl font-black text-white uppercase tracking-tighter leading-tight mb-6">
-                                        {title}
-                                    </h2>
+                                    <AnimatedHeading 
+                                        text={title}
+                                        className="text-3xl md:text-7xl font-black text-white uppercase tracking-tighter leading-tight mb-6"
+                                    />
                                 )}
                                 {description && (
                                     <p className="text-white/60 text-lg md:text-2xl font-medium max-w-2xl leading-relaxed">
