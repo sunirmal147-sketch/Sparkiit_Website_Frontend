@@ -69,7 +69,6 @@ export default function Footer(props: FooterContent) {
                         <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
                         <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
                         <li><Link href="/domains" className="hover:text-white transition-colors">Domains</Link></li>
-                        <li><Link href="/projects" className="hover:text-white transition-colors">Projects</Link></li>
                         <li><Link href="/blog" className="hover:text-white transition-colors">Blogs</Link></li>
                         <li><Link href="/verify" className="hover:text-white transition-colors">Verify Certificate</Link></li>
                     </ul>

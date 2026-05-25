@@ -29,6 +29,7 @@ export default function CartSidebar() {
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        data-lenis-prevent
                         className="fixed right-0 top-0 h-[100dvh] w-full max-w-[450px] bg-[#0a0a0a] border-l border-white/10 z-[101] shadow-2xl flex flex-col"
                     >
                         {/* Header */}

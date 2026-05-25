@@ -118,13 +118,16 @@ export default function MentorsSection(props: MentorsSectionContent) {
         setMounted(true);
         if (!props.mentors) {
             fetch(`${API_BASE_URL}/api/public/mentors`)
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP status: ${res.status}`);
+                    return res.json();
+                })
                 .then(data => {
                     if (data.success) {
                         setApiMentors(data.data);
                     }
                 })
-                .catch(err => console.error("Error fetching mentors:", err));
+                .catch(err => console.warn("Error fetching mentors (using fallback):", err.message));
         }
     }, [props.mentors]);
 

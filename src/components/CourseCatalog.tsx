@@ -73,7 +73,7 @@ export default function CourseCatalog({ initialCategory, showTitle = true }: Cou
                 >
                     <p className="text-[#00875a] font-bold uppercase tracking-[0.4em] text-xs mb-6">Expertise Hub</p>
                     <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-8">
-                        Our <span className="text-white/20">Solutions.</span>
+                        Domains <span className="text-white/20">We Serve.</span>
                     </h1>
                 </motion.div>
             )}
@@ -205,7 +205,8 @@ export default function CourseCatalog({ initialCategory, showTitle = true }: Cou
                             initial={{ opacity: 0, y: 50, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 50, scale: 0.95 }}
-                            className="relative w-full max-w-5xl max-h-full bg-[#0a0a0a] border border-white/10 rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row"
+                            data-lenis-prevent
+                            className="relative w-full max-w-5xl max-h-[85vh] bg-[#0a0a0a] border border-white/10 rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row"
                         >
                             <button 
                                 onClick={() => setSelectedCourse(null)}

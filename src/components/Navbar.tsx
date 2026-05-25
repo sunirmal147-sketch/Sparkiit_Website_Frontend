@@ -52,13 +52,16 @@ export default function Navbar() {
 
         // Fetch CMS pages
         fetch(`${API_BASE_URL}/api/public/pages`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP status: ${res.status}`);
+                return res.json();
+            })
             .then(json => {
                 if (json.success) {
                     setPages(json.data);
                 }
             })
-            .catch(err => console.error("Error fetching pages:", err));
+            .catch(err => console.warn("Error fetching pages (using fallback):", err.message));
     }, []);
 
     const handleLogout = useCallback(() => {

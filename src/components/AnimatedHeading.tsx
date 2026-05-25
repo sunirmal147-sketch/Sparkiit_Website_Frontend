@@ -51,15 +51,28 @@ export default function AnimatedHeading({
         },
     };
 
+    const hoverVariants = {
+        hidden: { y: 0 },
+        visible: { y: 0 },
+        hovered: { y: "-100%" }
+    };
+
+    const duplicateVariants = {
+        hidden: { y: "100%" },
+        visible: { y: "100%" },
+        hovered: { y: 0 }
+    };
+
     const Tag = as;
 
     return (
         <Tag className={className}>
             <motion.span
-                className="inline-flex flex-wrap items-center"
+                className="inline-flex flex-wrap items-center cursor-default"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
+                whileHover="hovered"
                 viewport={{ once: true, amount: 0.15 }}
             >
                 {words.map((word, index) => {
@@ -82,16 +95,34 @@ export default function AnimatedHeading({
                     return (
                         <span 
                             key={index} 
-                            className="inline-block overflow-hidden pb-1 mr-[0.22em] last:mr-0"
+                            className="inline-block overflow-hidden pb-1 mr-[0.22em] last:mr-0 relative"
                             style={{ verticalAlign: "bottom" }}
                         >
                             <motion.span
                                 variants={wordVariants}
-                                className={`inline-block ${
-                                    isHighlighted ? "text-[#00875a]" : ""
-                                }`}
+                                className="inline-block"
                             >
-                                {word}
+                                <span className="relative inline-flex overflow-hidden">
+                                    {/* Original Word */}
+                                    <motion.span
+                                        variants={hoverVariants}
+                                        transition={{ duration: 0.4, delay: index * 0.02, ease: [0.33, 1, 0.68, 1] }}
+                                        className={`inline-block ${
+                                            isHighlighted ? "text-[#00875a]" : ""
+                                        }`}
+                                    >
+                                        {word}
+                                    </motion.span>
+                                    
+                                    {/* Rolling green replacement */}
+                                    <motion.span
+                                        variants={duplicateVariants}
+                                        transition={{ duration: 0.4, delay: index * 0.02, ease: [0.33, 1, 0.68, 1] }}
+                                        className="absolute inset-0 text-[#00875a] inline-block"
+                                    >
+                                        {word}
+                                    </motion.span>
+                                </span>
                             </motion.span>
                         </span>
                     );
