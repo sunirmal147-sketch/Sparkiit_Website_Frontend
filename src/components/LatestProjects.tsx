@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useHomepageData } from "@/hooks/useHomepageData";
 // import TextReveal from "./TextReveal"; // You can likely remove this import now
 
@@ -169,6 +169,17 @@ export default function RecognisedBy(props: RecognisedByContent) {
     const items = (rawItems || []).filter((item: any) => item && (item.image || item.logoUrl));
 
     const [selectedPdf, setSelectedPdf] = useState<{ url: string; name: string } | null>(null);
+
+    useEffect(() => {
+        if (selectedPdf) {
+            document.documentElement.classList.add("modal-open");
+        } else {
+            document.documentElement.classList.remove("modal-open");
+        }
+        return () => {
+            document.documentElement.classList.remove("modal-open");
+        };
+    }, [selectedPdf]);
 
     const targetRef = useRef(null);
     const { scrollYProgress } = useScroll({

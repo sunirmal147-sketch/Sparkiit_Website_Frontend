@@ -55,7 +55,14 @@ body {
 
 /* Custom Cursor Hiding & Global Interactive Glows */
 @media (hover: hover) and (pointer: fine) {
-  html, body, a, button, [role="button"], input, select, textarea {
+  html:not(.modal-open),
+  html:not(.modal-open) body,
+  html:not(.modal-open) a,
+  html:not(.modal-open) button,
+  html:not(.modal-open) [role="button"],
+  html:not(.modal-open) input,
+  html:not(.modal-open) select,
+  html:not(.modal-open) textarea {
     cursor: none !important;
   }
 }

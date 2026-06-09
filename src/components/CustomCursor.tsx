@@ -8,6 +8,20 @@ type CursorState = "default" | "text" | "clickable";
 export default function CustomCursor() {
     const [isVisible, setIsVisible] = useState(false);
     const [cursorState, setCursorState] = useState<CursorState>("default");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            const open = document.documentElement.classList.contains('modal-open');
+            setIsModalOpen(open);
+        });
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["class"]
+        });
+        setIsModalOpen(document.documentElement.classList.contains('modal-open'));
+        return () => observer.disconnect();
+    }, []);
     
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -153,7 +167,7 @@ export default function CustomCursor() {
         }
     };
 
-    if (!isVisible) return null;
+    if (!isVisible || isModalOpen) return null;
 
     return (
         <>
