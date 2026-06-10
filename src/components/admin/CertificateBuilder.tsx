@@ -46,8 +46,8 @@ export default function CertificateBuilder({ type }: { type: "INTERNSHIP" | "PRO
 
         setUploading(true);
         const formData = new FormData();
-        formData.append("pdf", file);
         formData.append("uploadType", "templates");
+        formData.append("pdf", file);
 
         try {
             const token = localStorage.getItem("adminToken");

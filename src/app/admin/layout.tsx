@@ -69,6 +69,7 @@ const navGroups: NavGroup[] = [
             { label: "RATING SECTION", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} />, permissionKey: "SECTIONS" },
             { label: "ENROLLMENT LINKS", href: "/admin/settings/enroll", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "ENROLLMENT_LINKS" },
             { label: "FEATURED IN", href: "/admin/brands", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "COLLABORATORS" },
+            { label: "COLLABORATORS", href: "/admin/collaborators", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "COLLABORATORS" },
             { label: "RECOGNISED BY", href: "/admin/recognitions", icon: <FileText size={20} strokeWidth={1.8} />, permissionKey: "RECOGNITIONS" },
             { label: "MANAGE DOMAINS", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_SERVICES" },
             { label: "HORIZONTAL SCROLL", href: "/admin/horizontal-scroll", icon: <Layers size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_HORIZONTAL_SCROLL" },

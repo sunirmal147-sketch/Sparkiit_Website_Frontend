@@ -6,6 +6,7 @@ import { CartProvider } from "@/context/CartContext";
 import CartSidebar from "@/components/CartSidebar";
 import { Toaster } from "react-hot-toast";
 import CustomCursor from "@/components/CustomCursor";
+import BrandingLoader from "@/components/BrandingLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <BrandingLoader />
         <SmoothScrollProvider>
           <CartProvider>
             <CustomCursor />

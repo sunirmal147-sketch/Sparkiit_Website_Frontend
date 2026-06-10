@@ -245,6 +245,7 @@ function InputField({ label, value, onChange, placeholder, icon }: any) {
 }
 
 function AssetField({ label, value, onChange, icon }: any) {
+    const resolvedPreview = value && value.startsWith("/uploads") ? `${API_BASE_URL}${value}` : value;
     return (
         <div className="space-y-4">
             <label className="text-[10px] font-black uppercase tracking-widest text-white/30 flex items-center gap-2">
@@ -259,7 +260,7 @@ function AssetField({ label, value, onChange, icon }: any) {
                     placeholder="https://..."
                 />
                 <div className="h-16 w-full rounded-xl bg-white/5 border border-white/5 flex items-center justify-center overflow-hidden">
-                    {value ? <img src={value} className="max-h-full max-w-full object-contain p-2" alt="Preview" /> : <p className="text-[8px] font-black text-white/10 uppercase tracking-widest">No Asset Preview</p>}
+                    {value ? <img src={resolvedPreview} className="max-h-full max-w-full object-contain p-2" alt="Preview" /> : <p className="text-[8px] font-black text-white/10 uppercase tracking-widest">No Asset Preview</p>}
                 </div>
             </div>
         </div>

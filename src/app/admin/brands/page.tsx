@@ -33,8 +33,8 @@ export default function BrandsPage() {
 
         setUploading(true);
         const formData = new FormData();
-        formData.append("image", file);
         formData.append("uploadType", "brands");
+        formData.append("image", file);
 
         const token = localStorage.getItem("adminToken");
 

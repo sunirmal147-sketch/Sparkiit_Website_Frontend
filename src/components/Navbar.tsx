@@ -29,6 +29,11 @@ export default function Navbar() {
     const router = useRouter();
     const site = data?.content?.site || { logoText: "SPARKIIT" };
 
+    const rawLogoUrl = data?.settings?.siteLogo as string || "";
+    const logoUrl = rawLogoUrl.startsWith("/uploads") 
+        ? `${API_BASE_URL}${rawLogoUrl}` 
+        : (rawLogoUrl || "/images.jpg");
+
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         const query = searchQuery.trim();
@@ -153,7 +158,7 @@ export default function Navbar() {
                     className="flex items-center gap-2 shrink-0 group"
                 >
                     <img 
-                        src="/images.jpg" 
+                        src={logoUrl} 
                         alt="Sparkiit" 
                         className="h-8 md:h-10 w-auto group-hover:scale-105 transition-transform" 
                     />
@@ -368,7 +373,7 @@ export default function Navbar() {
                                     className="flex items-center gap-2"
                                 >
                                     <img 
-                                        src="/images.jpg" 
+                                        src={logoUrl} 
                                         alt="Sparkiit" 
                                         className="h-8 w-auto" 
                                     />

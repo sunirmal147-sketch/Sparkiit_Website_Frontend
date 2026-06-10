@@ -62,6 +62,7 @@ export interface HomepageData {
     testimonials?: Testimonial[];
     recognitions?: Recognition[];
     brands?: Brand[];
+    collaborators?: Brand[];
     content: {
         hero?: {
             word1?: string;
@@ -147,11 +148,21 @@ const normalizeUrls = (data: HomepageData | null): HomepageData | null => {
         return obj;
     };
 
+    // Normalize settings values (e.g. siteLogo, siteFavicon) that may start with /uploads
+    const normalizedSettings = data.settings ? Object.fromEntries(
+        Object.entries(data.settings).map(([key, val]) => [key, typeof val === 'string' ? fixUrl(val) : val])
+    ) : data.settings;
+
     return {
         ...data,
+        settings: normalizedSettings,
         brands: data.brands?.map(b => ({
             ...b,
             logoUrl: fixUrl(b.logoUrl)
+        })) || [],
+        collaborators: data.collaborators?.map(c => ({
+            ...c,
+            logoUrl: fixUrl(c.logoUrl)
         })) || [],
         recognitions: data.recognitions?.map(r => ({
             ...r,

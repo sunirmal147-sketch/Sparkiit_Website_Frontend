@@ -25,7 +25,7 @@ export default function Collaborations(props: CollaborationsContent) {
     const { data } = useHomepageData();
     const title = props.title || "Collaborators";
     const subtitle = props.subtitle || "Building the Future Together";
-    const initialItems = props.items || (data?.brands?.map(b => ({ name: b.name, logo: b.name[0], logoUrl: b.logoUrl })) || []);
+    const initialItems = props.items || (data?.collaborators?.map(c => ({ name: c.name, logo: c.name[0], logoUrl: c.logoUrl })) || []);
     const items = initialItems.length > 0 ? initialItems : collaborators;
 
     return (

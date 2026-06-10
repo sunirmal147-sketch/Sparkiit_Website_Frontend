@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Plus, Github, Twitter, Linkedin, Instagram } from "lucide-react";
 import { useHomepageData } from "@/hooks/useHomepageData";
+import { API_BASE_URL } from "@/lib/api-config";
 
 export interface FooterContent {
     logoText?: string;
@@ -17,10 +18,15 @@ export interface FooterContent {
 export default function Footer(props: FooterContent) {
     const { data } = useHomepageData();
     
+    const rawLogoUrl = data?.settings?.footerLogoUrl as string || "";
+    const logoUrl = rawLogoUrl.startsWith("/uploads") 
+        ? `${API_BASE_URL}${rawLogoUrl}` 
+        : (rawLogoUrl || "/images.jpg");
+
     const site = {
         logoText: props.logoText || data?.content?.site?.logoText || "SPARKIIT",
-        footerDesc: props.footerDesc || data?.content?.site?.footerDesc || "A structured pathway designed for driven students to explore opportunities, develop in-demand skills, and turn career goals into real achievements.",
-        copyright: props.copyright || data?.content?.site?.copyright || "© 2026 SPARKIIT AGENCY. ALL RIGHTS RESERVED.",
+        footerDesc: props.footerDesc || (data?.settings?.footerTagline as string) || data?.content?.site?.footerDesc || "A structured pathway designed for driven students to explore opportunities, develop in-demand skills, and turn career goals into real achievements.",
+        copyright: props.copyright || (data?.settings?.footerCopyright as string) || data?.content?.site?.copyright || "© 2026 SPARKIIT AGENCY. ALL RIGHTS RESERVED.",
         github: props.github || data?.content?.site?.github || "#",
         twitter: props.twitter || data?.content?.site?.twitter || "#",
         linkedin: props.linkedin || data?.content?.site?.linkedin || "#",
@@ -40,14 +46,14 @@ export default function Footer(props: FooterContent) {
     return (
         <footer className="bg-[#050505] border-t border-white/5 pt-12 pb-12 px-6 md:px-20">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-12">
-                <div className="lg:col-span-1">
+                <div className="lg:col-span-2">
                     <Link 
                         href="/" 
                         onClick={handleLogoClick}
                         className="flex items-center gap-2 mb-8 group shrink-0"
                     >
                         <img 
-                            src="/images.jpg" 
+                            src={logoUrl} 
                             alt="Sparkiit" 
                             className="h-8 md:h-10 w-auto group-hover:scale-105 transition-transform" 
                         />
@@ -71,16 +77,6 @@ export default function Footer(props: FooterContent) {
                         <li><Link href="/domains" className="hover:text-white transition-colors">Domains</Link></li>
                         <li><Link href="/blog" className="hover:text-white transition-colors">Blogs</Link></li>
                         <li><Link href="/verify" className="hover:text-white transition-colors">Verify Certificate</Link></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-8">Services</h4>
-                    <ul className="space-y-4 text-gray-500">
-                        <li><Link href="#" className="hover:text-white transition-colors">UI/UX Design</Link></li>
-                        <li><Link href="#" className="hover:text-white transition-colors">Web Development</Link></li>
-                        <li><Link href="#" className="hover:text-white transition-colors">Blockchain</Link></li>
-                        <li><Link href="#" className="hover:text-white transition-colors">Cloud Solutions</Link></li>
                     </ul>
                 </div>
 

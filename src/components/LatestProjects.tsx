@@ -183,33 +183,54 @@ export default function RecognisedBy(props: RecognisedByContent) {
     }, [selectedPdf]);
 
     useEffect(() => {
-        if (selectedPdf) {
-            if (selectedPdf.url.startsWith("data:")) {
-                try {
-                    const parts = selectedPdf.url.split(';base64,');
-                    const contentType = parts[0].split(':')[1];
-                    const raw = window.atob(parts[1]);
-                    const rawLength = raw.length;
-                    const uInt8Array = new Uint8Array(rawLength);
-                    for (let i = 0; i < rawLength; ++i) {
-                        uInt8Array[i] = raw.charCodeAt(i);
-                    }
-                    const blob = new Blob([uInt8Array], { type: contentType });
-                    const blobUrl = URL.createObjectURL(blob);
-                    setIframeSrc(blobUrl);
-                    return () => {
-                        URL.revokeObjectURL(blobUrl);
-                    };
-                } catch (e) {
-                    console.error("Failed to convert base64 to Blob URL:", e);
-                    setIframeSrc(selectedPdf.url);
+        if (!selectedPdf || !selectedPdf.url) {
+            setIframeSrc("");
+            return;
+        }
+
+        let revoke: string | null = null;
+
+        if (selectedPdf.url.startsWith("data:")) {
+            // Base64 data URI → convert to blob
+            try {
+                const parts = selectedPdf.url.split(';base64,');
+                const contentType = parts[0].split(':')[1];
+                const raw = window.atob(parts[1]);
+                const rawLength = raw.length;
+                const uInt8Array = new Uint8Array(rawLength);
+                for (let i = 0; i < rawLength; ++i) {
+                    uInt8Array[i] = raw.charCodeAt(i);
                 }
-            } else {
-                setIframeSrc(selectedPdf.url);
+                const blob = new Blob([uInt8Array], { type: contentType });
+                const blobUrl = URL.createObjectURL(blob);
+                revoke = blobUrl;
+                setIframeSrc(blobUrl);
+            } catch (e) {
+                console.error("Failed to convert base64 to Blob URL:", e);
+                setIframeSrc("");
             }
         } else {
-            setIframeSrc("");
+            // Remote URL → fetch as blob to avoid cross-origin iframe issues
+            fetch(selectedPdf.url)
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return res.blob();
+                })
+                .then(blob => {
+                    const blobUrl = URL.createObjectURL(blob);
+                    revoke = blobUrl;
+                    setIframeSrc(blobUrl);
+                })
+                .catch(err => {
+                    console.error("Failed to fetch PDF:", err);
+                    // Fallback: try direct URL
+                    setIframeSrc(selectedPdf.url);
+                });
         }
+
+        return () => {
+            if (revoke) URL.revokeObjectURL(revoke);
+        };
     }, [selectedPdf]);
 
     const targetRef = useRef(null);
@@ -236,7 +257,11 @@ export default function RecognisedBy(props: RecognisedByContent) {
                             key={index} 
                             item={item} 
                             index={index} 
-                            onClick={() => setSelectedPdf({ url: item.link || "", name: item.name || item.title || "Recognition Document" })}
+                            onClick={() => {
+                                if (item.link) {
+                                    setSelectedPdf({ url: item.link, name: item.name || item.title || "Recognition Document" });
+                                }
+                            }}
                         />
                     ))}
                     <div className="w-[10vw] md:w-[20vw] flex-shrink-0" />
@@ -284,7 +309,6 @@ export default function RecognisedBy(props: RecognisedByContent) {
                                         src={iframeSrc.startsWith("blob:") ? iframeSrc : `${iframeSrc}#toolbar=0&navpanes=0&scrollbar=1`}
                                         title={selectedPdf.name}
                                         className="w-full h-full border-none"
-                                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
                                     />
                                 ) : (
                                     <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-white/2">
