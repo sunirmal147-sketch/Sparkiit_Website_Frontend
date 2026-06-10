@@ -46,7 +46,7 @@ const navGroups: NavGroup[] = [
     {
         title: "STUDENT DASHBOARD MANAGEMENT",
         items: [
-            { label: "USERS MANAGEMENT", href: "/admin/candidates", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "STUDENT_USERS_MANAGEMENT" },
+            { label: "STUDENT ENROLLMENTS", href: "/admin/candidates", icon: <GraduationCap size={20} strokeWidth={1.8} />, permissionKey: "STUDENT_USERS_MANAGEMENT" },
             { label: "MANAGE PROJECTS", href: "/admin/projects", icon: <Briefcase size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_PROJECTS" },
             { label: "MANAGE COURSES", href: "/admin/courses", icon: <GraduationCap size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_COURSES" },
             { label: "CERTIFICATE BUILDER", 
@@ -68,8 +68,8 @@ const navGroups: NavGroup[] = [
             { label: "PAGE BUILDER", href: "/admin/page-builder", icon: <FilePlus size={20} strokeWidth={1.8} />, permissionKey: "PAGE_BUILDER" },
             { label: "RATING SECTION", href: "/admin/sections", icon: <Blocks size={20} strokeWidth={1.8} />, permissionKey: "SECTIONS" },
             { label: "ENROLLMENT LINKS", href: "/admin/settings/enroll", icon: <Calendar size={20} strokeWidth={1.8} />, permissionKey: "ENROLLMENT_LINKS" },
-            { label: "COLLABORATOR LOGO", href: "/admin/brands", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "COLLABORATORS" },
-            { label: "FEATURED IN", href: "/admin/recognitions", icon: <FileText size={20} strokeWidth={1.8} />, permissionKey: "RECOGNITIONS" },
+            { label: "FEATURED IN", href: "/admin/brands", icon: <Users size={20} strokeWidth={1.8} />, permissionKey: "COLLABORATORS" },
+            { label: "RECOGNISED BY", href: "/admin/recognitions", icon: <FileText size={20} strokeWidth={1.8} />, permissionKey: "RECOGNITIONS" },
             { label: "MANAGE DOMAINS", href: "/admin/services", icon: <Workflow size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_SERVICES" },
             { label: "HORIZONTAL SCROLL", href: "/admin/horizontal-scroll", icon: <Layers size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_HORIZONTAL_SCROLL" },
             { label: "MANAGE BLOGS", href: "/admin/blogs", icon: <FileText size={20} strokeWidth={1.8} />, permissionKey: "MANAGE_BLOGS" },
@@ -104,9 +104,7 @@ function NavItemComponent({ item, sidebarOpen, pathname, user, onClick }: { item
     // Role & Permission check
     // SUPER_ADMIN sees everything. Others must have the specific permissionKey (or no key meant for everyone like Logout)
     const isSuperAdmin = user?.role === 'SUPER_ADMIN' && user?.email === SUPER_ADMIN_EMAIL;
-    if (!isSuperAdmin && item.permissionKey && !user?.allowedSections?.includes(item.permissionKey)) {
-        return null;
-    }
+    const hasPermission = isSuperAdmin || !item.permissionKey || user?.allowedSections?.includes(item.permissionKey);
 
     const isActive = item.href ? (pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href))) : false;
     const isSubActive = item.subItems?.some((sub: any) => pathname.startsWith(sub.href));
@@ -114,6 +112,10 @@ function NavItemComponent({ item, sidebarOpen, pathname, user, onClick }: { item
     useEffect(() => {
         if (isSubActive) setIsOpen(true);
     }, [isSubActive]);
+
+    if (!hasPermission) {
+        return null;
+    }
 
     if (item.subItems) {
         return (
@@ -392,6 +394,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
             {/* Sidebar */}
             <aside
+                data-lenis-prevent
                 style={{
                     width: sidebarOpen ? 260 : (isMobile ? 0 : 72),
                     height: "100dvh",

@@ -2,9 +2,17 @@
 
 import Link from "next/link";
 import { Search, ShoppingBasket, User, ChevronDown, LayoutGrid, Plus, LogOut, UserCircle, Menu, X, MoreVertical } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useHomepageData } from "@/hooks/useHomepageData";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+
+function SearchParamsLoader({ onChange }: { onChange: (params: URLSearchParams) => void }) {
+    const searchParams = useSearchParams();
+    useEffect(() => {
+        onChange(new URLSearchParams(searchParams.toString()));
+    }, [searchParams, onChange]);
+    return null;
+}
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { API_BASE_URL } from "@/lib/api-config";
@@ -20,6 +28,25 @@ export default function Navbar() {
     const { data } = useHomepageData();
     const router = useRouter();
     const site = data?.content?.site || { logoText: "SPARKIIT" };
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        const query = searchQuery.trim();
+        if (query) {
+            router.push(`/courses?search=${encodeURIComponent(query)}`);
+        } else {
+            router.push(`/courses`);
+        }
+    };
+
+    const handleSearchParamsChange = useCallback((params: URLSearchParams) => {
+        const search = params.get("search");
+        if (search) {
+            setSearchQuery(search);
+        } else {
+            setSearchQuery("");
+        }
+    }, []);
 
     const { scrollY } = useScroll();
     const [hidden, setHidden] = useState(false);
@@ -115,6 +142,9 @@ export default function Navbar() {
             transition={{ duration: 0.35, ease: "easeInOut" }}
             className="fixed top-0 w-full z-50 flex items-center justify-between px-5 md:px-20 py-4 backdrop-blur-md border-b border-white/5 bg-[#050505]/50"
         >
+            <Suspense fallback={null}>
+                <SearchParamsLoader onChange={handleSearchParamsChange} />
+            </Suspense>
             {/* Left Side: Logo and Links */}
             <div className="flex items-center gap-4 md:gap-10">
                 <Link 
@@ -186,7 +216,10 @@ export default function Navbar() {
             {/* Right Side: Search and User Actions */}
             <div className="flex items-center gap-2 md:gap-6">
                 {/* Search Bar Container */}
-                <div className="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full h-11 pl-4 pr-1 focus-within:border-[#00875a]/40 transition-all duration-300">
+                <form 
+                    onSubmit={handleSearch}
+                    className="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full h-11 pl-4 pr-1 focus-within:border-[#00875a]/40 transition-all duration-300"
+                >
                     <div 
                         className="relative flex items-center gap-2 cursor-pointer group pr-3 border-r border-white/5"
                         onMouseEnter={() => setIsCategoriesDropdownOpen(true)}
@@ -242,10 +275,13 @@ export default function Navbar() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
 
-                    <button className="bg-[#00875a] hover:bg-[#00a86b] text-white w-9 h-9 rounded-full transition-transform hover:scale-105 active:scale-95 flex items-center justify-center shrink-0">
+                    <button 
+                        type="submit"
+                        className="bg-[#00875a] hover:bg-[#00a86b] text-white w-9 h-9 rounded-full transition-transform hover:scale-105 active:scale-95 flex items-center justify-center shrink-0"
+                    >
                         <Search size={16} />
                     </button>
-                </div>
+                </form>
 
                 {/* Icons */}
                 <div className="flex items-center gap-1 md:gap-2">

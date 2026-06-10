@@ -107,12 +107,12 @@ export default function BrandsPage() {
     return (
         <div className="p-8">
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-2xl font-bold text-white uppercase tracking-widest">Collaborators Management</h1>
+                <h1 className="text-2xl font-bold text-white uppercase tracking-widest">Featured In Management</h1>
                 <button 
                     onClick={openCreate}
                     className="bg-[#00875a] text-white px-6 py-2 rounded-lg font-bold hover:bg-[#006644] transition-colors"
                 >
-                    Add Collaborator
+                    Add Company
                 </button>
             </div>
 
@@ -152,7 +152,7 @@ export default function BrandsPage() {
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-6">
                     <div className="bg-[#141414] border border-white/10 p-8 rounded-2xl w-full max-w-md shadow-2xl">
                         <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-widest">
-                            {editingId ? "Edit Collaborator" : "Add Collaborator"}
+                            {editingId ? "Edit Company" : "Add Company"}
                         </h2>
                         <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2 block">Company Name</label>
                         <input 

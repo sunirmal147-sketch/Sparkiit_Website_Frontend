@@ -240,7 +240,10 @@ export default function BlogsPage() {
             {/* Modal */}
             <AnimatePresence>
                 {modalOpen && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-md overflow-y-auto pt-20 pb-20">
+                    <div 
+                        data-lenis-prevent
+                        className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-md overflow-y-auto pt-20 pb-20"
+                    >
                         <motion.div 
                             initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
                             className="relative w-full max-w-4xl bg-[#141414] border border-white/10 rounded-3xl p-8 my-auto"

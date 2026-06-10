@@ -184,7 +184,7 @@ export default function ServicesPage() {
                     <button 
                         onClick={() => {
                             setEditingId(null);
-                            setCurrentService({ title: "", description: "", thumbnailUrl: "", order: services.length });
+                            setCurrentService({ title: "", description: "", category: "", thumbnailUrl: "", link: "", order: services.length });
                             setIsFormOpen(true);
                         }}
                         style={{

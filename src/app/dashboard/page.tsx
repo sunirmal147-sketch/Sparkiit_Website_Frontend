@@ -60,6 +60,51 @@ export default function DashboardOverview() {
         { title: "STIPEND ELIGIBILITY", value: stats?.stipendEligible ? "ELIGIBLE" : "NOT ELIGIBLE", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-500/10" },
     ];
 
+    const getRelativeTime = (date: Date) => {
+        const now = new Date();
+        const diffMs = now.getTime() - date.getTime();
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMins / 60);
+        const diffDays = Math.floor(diffHours / 24);
+
+        if (diffMins < 1) return "Just now";
+        if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+        if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    };
+
+    const formatDate = (dateInput: any) => {
+        if (!dateInput) return "Recently";
+        try {
+            const date = new Date(dateInput);
+            if (isNaN(date.getTime())) return "Recently";
+            return getRelativeTime(date);
+        } catch {
+            return "Recently";
+        }
+    };
+
+    const activities: any[] = [];
+    if (stats?.tests) {
+        stats.tests.forEach((t: any) => {
+            activities.push({
+                title: `Completed assessment (Score: ${t.score}%)`,
+                date: t.date ? new Date(t.date) : new Date(),
+            });
+        });
+    }
+    if (stats?.projects) {
+        stats.projects.forEach((p: any) => {
+            const projTitle = p.projectId?.title || "Course Assignment";
+            activities.push({
+                title: `Submitted project: "${projTitle}" (Status: ${p.status.toUpperCase()})`,
+                date: p.date ? new Date(p.date) : new Date(),
+            });
+        });
+    }
+
+    activities.sort((a, b) => b.date.getTime() - a.date.getTime());
+
     return (
         <div className="space-y-12">
             <div>
@@ -90,15 +135,22 @@ export default function DashboardOverview() {
                 <div className="p-8 rounded-3xl bg-white/5 border border-white/5 min-h-[22rem]">
                      <h3 className="text-xl font-bold mb-6 uppercase">Recent Activities</h3>
                      <div className="space-y-4">
-                        {[1, 2, 3].map((_, i) => (
-                            <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5">
-                                <div className="w-2 h-2 rounded-full bg-[#00875a]" />
-                                <div className="flex-1">
-                                    <p className="font-medium">Completed module "Introduction to Web3"</p>
-                                    <p className="text-xs text-gray-500">2 hours ago</p>
+                        {activities.length > 0 ? (
+                            activities.map((act, i) => (
+                                <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5">
+                                    <div className="w-2 h-2 rounded-full bg-[#00875a]" />
+                                    <div className="flex-1">
+                                        <p className="font-medium">{act.title}</p>
+                                        <p className="text-xs text-gray-500">{formatDate(act.date)}</p>
+                                    </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="flex flex-col items-center justify-center py-12 text-center text-white/30 border border-dashed border-white/10 rounded-[2rem]">
+                                <p className="text-sm font-bold uppercase tracking-widest mb-1">No recent activities</p>
+                                <p className="text-xs">Your progress updates will appear here once you start learning.</p>
                             </div>
-                        ))}
+                        )}
                      </div>
                 </div>
             </div>

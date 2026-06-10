@@ -354,7 +354,7 @@ export default function CoursesPage() {
             {/* Modal */}
             {modalOpen && (
                 <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100 }} onClick={() => setModalOpen(false)}>
-                    <div style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 24, padding: 32, width: 700, maxHeight: "90vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+                    <div data-lenis-prevent style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 24, padding: 32, width: 700, maxHeight: "90vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
                         <h2 style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 24 }}>{editing ? "Edit Course" : "Create New Course"}</h2>
 
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>

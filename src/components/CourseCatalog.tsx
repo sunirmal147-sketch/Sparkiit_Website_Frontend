@@ -1,11 +1,19 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, RefreshCw, Clock, LayoutGrid, Workflow, X, CheckCircle2, BookOpen } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { API_BASE_URL } from "@/lib/api-config";
 import { useCart } from "@/context/CartContext";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useHomepageData } from "@/hooks/useHomepageData";
+
+function SearchParamsLoader({ onChange }: { onChange: (params: URLSearchParams) => void }) {
+    const searchParams = useSearchParams();
+    useEffect(() => {
+        onChange(new URLSearchParams(searchParams.toString()));
+    }, [searchParams, onChange]);
+    return null;
+}
 
 interface CourseCatalogProps {
     initialCategory?: string;
@@ -18,6 +26,7 @@ export default function CourseCatalog({ initialCategory, showTitle = true }: Cou
     const [courses, setCourses] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<string>("all");
+    const [searchQuery, setSearchQuery] = useState("");
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null);
     const { data: homeData } = useHomepageData();
     const domains = homeData?.services || [];
@@ -42,18 +51,32 @@ export default function CourseCatalog({ initialCategory, showTitle = true }: Cou
     useEffect(() => {
         if (initialCategory) {
             setActiveTab(initialCategory);
-        } else {
-            const searchParams = new URLSearchParams(window.location.search);
-            const category = searchParams.get("category");
-            if (category) {
-                setActiveTab(category);
-            }
         }
-    }, [initialCategory, domains]);
+    }, [initialCategory]);
 
-    const filteredCourses = activeTab === "all" 
-        ? courses 
-        : courses.filter(course => course.category === activeTab);
+    const handleSearchParamsChange = useCallback((params: URLSearchParams) => {
+        const category = params.get("category");
+        const search = params.get("search");
+        
+        if (category) {
+            setActiveTab(category);
+        } else if (!initialCategory) {
+            setActiveTab("all");
+        }
+        setSearchQuery(search || "");
+    }, [initialCategory]);
+
+    const filteredCourses = courses.filter(course => {
+        const matchesCategory = activeTab === "all" || course.category === activeTab;
+        const query = searchQuery.toLowerCase().trim();
+        const matchesSearch = !query || 
+            course.title?.toLowerCase().includes(query) ||
+            course.description?.toLowerCase().includes(query) ||
+            course.category?.toLowerCase().includes(query) ||
+            (course.tags && course.tags.some((tag: string) => tag.toLowerCase().includes(query)));
+            
+        return matchesCategory && matchesSearch;
+    });
 
     const handleBuyNow = (course: any) => {
         if (course.paymentLink) {
@@ -65,6 +88,9 @@ export default function CourseCatalog({ initialCategory, showTitle = true }: Cou
 
     return (
         <div className="max-w-7xl mx-auto">
+            <Suspense fallback={null}>
+                <SearchParamsLoader onChange={handleSearchParamsChange} />
+            </Suspense>
             {showTitle && (
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -110,6 +136,30 @@ export default function CourseCatalog({ initialCategory, showTitle = true }: Cou
                     );
                 })}
             </div>
+
+            {searchQuery && (
+                <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-8 flex items-center justify-between bg-white/5 border border-white/10 rounded-2xl px-6 py-4"
+                >
+                    <div className="flex items-center gap-3">
+                        <span className="text-[#00875a] text-xs font-black uppercase tracking-[0.2em]">Search Results</span>
+                        <span className="text-white/60 text-sm">Showing courses for &ldquo;<strong className="text-white">{searchQuery}</strong>&rdquo;</span>
+                    </div>
+                    <button 
+                        onClick={() => {
+                            const params = new URLSearchParams(window.location.search);
+                            params.delete("search");
+                            router.push(`${window.location.pathname}?${params.toString()}`);
+                        }}
+                        className="flex items-center gap-2 text-xs font-bold text-red-400 hover:text-red-300 transition-colors uppercase tracking-widest"
+                    >
+                        Clear Search
+                        <X size={14} />
+                    </button>
+                </motion.div>
+            )}
 
             {loading ? (
                 <div className="h-64 flex items-center justify-center">

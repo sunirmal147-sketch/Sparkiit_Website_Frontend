@@ -766,6 +766,7 @@ export default function ManageTeamPage() {
                     >
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            data-lenis-prevent
                             style={{ background: "#111", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 32, width: "100%", maxWidth: 800, padding: 0, position: "relative", overflow: "hidden", maxHeight: "90vh", display: "flex", flexDirection: "column" }}
                             onClick={e => e.stopPropagation()}
                         >

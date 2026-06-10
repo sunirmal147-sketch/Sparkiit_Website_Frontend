@@ -372,7 +372,11 @@ export default function CandidatesPage() {
             {/* Create/Edit Modal */}
             {modalOpen && (
                 <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100 }} onClick={() => setModalOpen(false)}>
-                    <div style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: 32, width: 480, maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+                    <div 
+                        data-lenis-prevent
+                        style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: 32, width: 480, maxHeight: "85vh", overflowY: "auto" }} 
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <h2 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 24 }}>{editing ? "Edit Candidate" : "Add New Candidate"}</h2>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -476,7 +480,11 @@ export default function CandidatesPage() {
             {/* Assign Courses Modal */}
             {assignModal && (
                 <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100 }} onClick={() => setAssignModal(null)}>
-                    <div style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: 32, width: 520, maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+                    <div 
+                        data-lenis-prevent
+                        style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: 32, width: 520, maxHeight: "85vh", overflowY: "auto" }} 
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <h2 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 4 }}>Manage Courses</h2>
                         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 24 }}>for <span style={{ color: "#00875a", fontWeight: 600 }}>{assignModal.name}</span></p>
 

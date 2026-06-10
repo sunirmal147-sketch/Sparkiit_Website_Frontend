@@ -427,7 +427,10 @@ export default function PageBuilder() {
                         <Plus size={20} />
                     </button>
                 </div>
-                <div className="flex-1 space-y-2 custom-scrollbar overflow-y-auto max-h-[calc(100vh-250px)] pr-2">
+                <div 
+                    data-lenis-prevent
+                    className="flex-1 space-y-2 custom-scrollbar overflow-y-auto max-h-[calc(100vh-250px)] pr-2"
+                >
                     {pages.map(page => (
                         <div 
                             key={page._id}
@@ -616,7 +619,10 @@ export default function PageBuilder() {
                             </button>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto pr-2 custom-editor-scrollbar scroll-smooth">
+                        <div 
+                            data-lenis-prevent
+                            className="flex-1 overflow-y-auto pr-2 custom-editor-scrollbar scroll-smooth"
+                        >
                            <SectionContentForm 
                                 section={pageData.sections[activeSection]} 
                                 onChange={(content) => updateSectionContent(activeSection, content)} 

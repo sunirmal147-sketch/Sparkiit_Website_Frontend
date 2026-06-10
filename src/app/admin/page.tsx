@@ -137,7 +137,6 @@ export default function AdminDashboard() {
     };
 
     const studentActions = [
-        { title: "USERS MANAGEMENT", desc: "Students & Metrics", icon: Users, link: "/admin/candidates", color: "#818cf8", permissionKey: "STUDENT_USERS_MANAGEMENT" },
         { title: "MANAGE PROJECTS", desc: "Assignments & Submissions", icon: Briefcase, link: "/admin/projects", color: "#c084fc", permissionKey: "MANAGE_PROJECTS" },
         { title: "STUDENT ENROLLMENTS", desc: "Manage Student Courses", icon: GraduationCap, link: "/admin/candidates", color: "#00875a", permissionKey: "STUDENT_USERS_MANAGEMENT" },
         { title: "CERT BUILDER", desc: "Design Templates", icon: Settings2, link: "/admin/certificate-builder/internship", color: "#f87171", permissionKey: "CERTIFICATE_BUILDER" },

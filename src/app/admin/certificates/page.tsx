@@ -28,6 +28,7 @@ interface Candidate {
     _id: string;
     name: string;
     email: string;
+    status?: string;
     enrolledCourses?: any[];
 }
 
@@ -234,7 +235,10 @@ export default function CertificateManagement() {
                             <h3 className="text-xl font-bold text-white">Issue Certificate</h3>
                             <button onClick={() => setEditingCert(null)} className="text-white/40 hover:text-white"><X size={24} /></button>
                         </div>
-                        <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
+                        <div 
+                            data-lenis-prevent
+                            className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar"
+                        >
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
                                     <Book size={12} /> Select Template

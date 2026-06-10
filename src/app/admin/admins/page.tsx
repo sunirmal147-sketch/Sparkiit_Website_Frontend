@@ -272,7 +272,7 @@ export default function UsersPage() {
 
             {modalOpen && (
                 <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, padding: 16 }} onClick={() => setModalOpen(false)}>
-                    <div style={{ background: "#141414", borderRadius: 24, padding: 32, width: "100%", maxWidth: 520, maxHeight: "90vh", overflowY: "auto", border: "1px solid rgba(255,255,255,0.08)" }} onClick={(e) => e.stopPropagation()}>
+                    <div data-lenis-prevent style={{ background: "#141414", borderRadius: 24, padding: 32, width: "100%", maxWidth: 520, maxHeight: "90vh", overflowY: "auto", border: "1px solid rgba(255,255,255,0.08)" }} onClick={(e) => e.stopPropagation()}>
                         <h2 style={{ fontSize: 20, color: "#fff", marginBottom: 6, fontWeight: 800 }}>{editingUserId ? "Edit Admin" : "Create New Admin"}</h2>
                         <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginBottom: 28 }}>{editingUserId ? "Update role, team assignment and permissions." : "Create a new CMS admin user."}</p>
                         
