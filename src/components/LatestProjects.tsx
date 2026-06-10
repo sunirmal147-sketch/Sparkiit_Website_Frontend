@@ -169,6 +169,7 @@ export default function RecognisedBy(props: RecognisedByContent) {
     const items = (rawItems || []).filter((item: any) => item && (item.image || item.logoUrl));
 
     const [selectedPdf, setSelectedPdf] = useState<{ url: string; name: string } | null>(null);
+    const [iframeSrc, setIframeSrc] = useState("");
 
     useEffect(() => {
         if (selectedPdf) {
@@ -179,6 +180,36 @@ export default function RecognisedBy(props: RecognisedByContent) {
         return () => {
             document.documentElement.classList.remove("modal-open");
         };
+    }, [selectedPdf]);
+
+    useEffect(() => {
+        if (selectedPdf) {
+            if (selectedPdf.url.startsWith("data:")) {
+                try {
+                    const parts = selectedPdf.url.split(';base64,');
+                    const contentType = parts[0].split(':')[1];
+                    const raw = window.atob(parts[1]);
+                    const rawLength = raw.length;
+                    const uInt8Array = new Uint8Array(rawLength);
+                    for (let i = 0; i < rawLength; ++i) {
+                        uInt8Array[i] = raw.charCodeAt(i);
+                    }
+                    const blob = new Blob([uInt8Array], { type: contentType });
+                    const blobUrl = URL.createObjectURL(blob);
+                    setIframeSrc(blobUrl);
+                    return () => {
+                        URL.revokeObjectURL(blobUrl);
+                    };
+                } catch (e) {
+                    console.error("Failed to convert base64 to Blob URL:", e);
+                    setIframeSrc(selectedPdf.url);
+                }
+            } else {
+                setIframeSrc(selectedPdf.url);
+            }
+        } else {
+            setIframeSrc("");
+        }
     }, [selectedPdf]);
 
     const targetRef = useRef(null);
@@ -248,9 +279,9 @@ export default function RecognisedBy(props: RecognisedByContent) {
 
                             {/* Modal Content */}
                             <div className="flex-1 bg-black relative" onContextMenu={(e) => e.preventDefault()}>
-                                {selectedPdf.url ? (
+                                {iframeSrc ? (
                                     <iframe 
-                                        src={`${selectedPdf.url}#toolbar=0&navpanes=0&scrollbar=1`}
+                                        src={iframeSrc.startsWith("blob:") ? iframeSrc : `${iframeSrc}#toolbar=0&navpanes=0&scrollbar=1`}
                                         title={selectedPdf.name}
                                         className="w-full h-full border-none"
                                         sandbox="allow-scripts allow-same-origin allow-forms allow-popups"

@@ -48,13 +48,18 @@ export default function BrandsPage() {
             });
             const json = await res.json();
             if (json.success) {
-                setForm(prev => ({ ...prev, logoUrl: `${API_BASE_URL}${json.data.url}` }));
+                setForm(prev => ({ ...prev, logoUrl: json.data.url }));
             } else {
-                alert(json.message || "Upload failed");
+                throw new Error(json.message || "Upload failed");
             }
         } catch (err) {
-            console.error("Logo upload error:", err);
-            alert("An error occurred while uploading the logo.");
+            console.warn("Logo server upload failed, falling back to Base64:", err);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result as string;
+                setForm(prev => ({ ...prev, logoUrl: base64String }));
+            };
+            reader.readAsDataURL(file);
         } finally {
             setUploading(false);
         }
@@ -158,7 +163,11 @@ export default function BrandsPage() {
                         <div key={item._id} className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col gap-4">
                             <div className="flex items-center gap-4">
                                 {item.logoUrl ? (
-                                    <img src={item.logoUrl} alt={item.name} className="w-12 h-12 rounded-lg object-contain bg-white/10 p-2" />
+                                    <img 
+                                        src={item.logoUrl.startsWith("/uploads") ? `${API_BASE_URL}${item.logoUrl}` : item.logoUrl} 
+                                        alt={item.name} 
+                                        className="w-12 h-12 rounded-lg object-contain bg-white/10 p-2" 
+                                    />
                                 ) : (
                                     <div className="w-12 h-12 rounded-lg bg-[#00875a]/20 flex items-center justify-center text-xl font-bold text-[#00875a]">
                                         {item.name[0]}
@@ -231,7 +240,11 @@ export default function BrandsPage() {
                             </label>
                             {form.logoUrl && (
                                 <div className="w-12 h-12 rounded-lg bg-white/10 p-2 flex items-center justify-center border border-white/10 shrink-0">
-                                    <img src={form.logoUrl} alt="Preview" className="w-full h-full object-contain" />
+                                    <img 
+                                        src={form.logoUrl.startsWith("/uploads") ? `${API_BASE_URL}${form.logoUrl}` : form.logoUrl} 
+                                        alt="Preview" 
+                                        className="w-full h-full object-contain" 
+                                    />
                                 </div>
                             )}
                         </div>

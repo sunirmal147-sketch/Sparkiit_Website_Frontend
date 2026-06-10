@@ -118,6 +118,65 @@ export interface HomepageData {
     }[];
 }
 
+const normalizeUrls = (data: HomepageData | null): HomepageData | null => {
+    if (!data) return data;
+
+    const fixUrl = (url?: string): string => {
+        if (!url) return "";
+        if (typeof url === 'string' && url.startsWith('/uploads')) {
+            return `${API_BASE_URL}${url}`;
+        }
+        return url;
+    };
+
+    const normalizeObject = (obj: any): any => {
+        if (!obj) return obj;
+        if (typeof obj === 'string') {
+            return fixUrl(obj);
+        }
+        if (Array.isArray(obj)) {
+            return obj.map(normalizeObject);
+        }
+        if (typeof obj === 'object') {
+            const newObj: any = {};
+            for (const key in obj) {
+                newObj[key] = normalizeObject(obj[key]);
+            }
+            return newObj;
+        }
+        return obj;
+    };
+
+    return {
+        ...data,
+        brands: data.brands?.map(b => ({
+            ...b,
+            logoUrl: fixUrl(b.logoUrl)
+        })) || [],
+        recognitions: data.recognitions?.map(r => ({
+            ...r,
+            logoUrl: fixUrl(r.logoUrl),
+            link: fixUrl(r.link)
+        })) || [],
+        projects: data.projects?.map(p => ({
+            ...p,
+            image: fixUrl(p.image) || ""
+        })) || [],
+        services: data.services?.map(s => ({
+            ...s,
+            thumbnailUrl: fixUrl(s.thumbnailUrl)
+        })) || [],
+        horizontalScrollItems: data.horizontalScrollItems?.map(h => ({
+            ...h,
+            image: fixUrl(h.image) || ""
+        })) || [],
+        pageStructure: data.pageStructure?.map(s => ({
+            ...s,
+            content: normalizeObject(s.content)
+        })) || []
+    };
+};
+
 export function useHomepageData() {
     const [data, setData] = useState<HomepageData | null>(null);
     const [loading, setLoading] = useState(true);
@@ -128,7 +187,7 @@ export function useHomepageData() {
         const cached = localStorage.getItem('homepage_data');
         if (cached) {
             try {
-                setData(JSON.parse(cached));
+                setData(normalizeUrls(JSON.parse(cached)));
                 setLoading(false);
             } catch (e) {
                 console.error("Failed to parse cached homepage data", e);
@@ -139,8 +198,9 @@ export function useHomepageData() {
             .then(res => res.json())
             .then(json => {
                 if (json.success) {
-                    setData(json.data);
-                    localStorage.setItem('homepage_data', JSON.stringify(json.data));
+                    const normalized = normalizeUrls(json.data);
+                    setData(normalized);
+                    localStorage.setItem('homepage_data', JSON.stringify(normalized));
                 } else {
                     setError(json.message);
                 }

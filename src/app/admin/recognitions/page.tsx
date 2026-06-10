@@ -50,13 +50,18 @@ export default function RecognitionsPage() {
             });
             const json = await res.json();
             if (json.success) {
-                setForm(prev => ({ ...prev, logoUrl: `${API_BASE_URL}${json.data.url}` }));
+                setForm(prev => ({ ...prev, logoUrl: json.data.url }));
             } else {
-                alert(json.message || "Upload failed");
+                throw new Error(json.message || "Upload failed");
             }
         } catch (err) {
-            console.error("Logo upload error:", err);
-            alert("An error occurred while uploading the logo.");
+            console.warn("Logo server upload failed, falling back to Base64:", err);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result as string;
+                setForm(prev => ({ ...prev, logoUrl: base64String }));
+            };
+            reader.readAsDataURL(file);
         } finally {
             setUploading(false);
         }
@@ -83,13 +88,18 @@ export default function RecognitionsPage() {
             });
             const json = await res.json();
             if (json.success) {
-                setForm(prev => ({ ...prev, link: `${API_BASE_URL}${json.data.url}` }));
+                setForm(prev => ({ ...prev, link: json.data.url }));
             } else {
-                alert(json.message || "Upload failed");
+                throw new Error(json.message || "Upload failed");
             }
         } catch (err) {
-            console.error("PDF upload error:", err);
-            alert("An error occurred while uploading the PDF.");
+            console.warn("PDF server upload failed, falling back to Base64:", err);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result as string;
+                setForm(prev => ({ ...prev, link: base64String }));
+            };
+            reader.readAsDataURL(file);
         } finally {
             setUploadingPdf(false);
         }
@@ -193,7 +203,11 @@ export default function RecognitionsPage() {
                         <div key={item._id} className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col gap-4">
                             <div className="flex items-center gap-4">
                                 {item.logoUrl ? (
-                                    <img src={item.logoUrl} alt={item.name} className="h-8 object-contain opacity-60 hover:opacity-100 grayscale hover:grayscale-0 transition-all" />
+                                    <img 
+                                        src={item.logoUrl.startsWith("/uploads") ? `${API_BASE_URL}${item.logoUrl}` : item.logoUrl} 
+                                        alt={item.name} 
+                                        className="h-8 object-contain opacity-60 hover:opacity-100 grayscale hover:grayscale-0 transition-all" 
+                                    />
                                 ) : (
                                     <div className="h-8 min-w-[40px] flex items-center justify-center text-sm font-black text-white/20 uppercase">
                                         {item.name}
@@ -265,7 +279,11 @@ export default function RecognitionsPage() {
                             </label>
                             {form.logoUrl && (
                                 <div className="w-12 h-12 rounded-lg bg-white/10 p-2 flex items-center justify-center border border-white/10 shrink-0">
-                                    <img src={form.logoUrl} alt="Preview" className="w-full h-full object-contain" />
+                                    <img 
+                                        src={form.logoUrl.startsWith("/uploads") ? `${API_BASE_URL}${form.logoUrl}` : form.logoUrl} 
+                                        alt="Preview" 
+                                        className="w-full h-full object-contain" 
+                                    />
                                 </div>
                             )}
                         </div>
@@ -303,7 +321,7 @@ export default function RecognitionsPage() {
                                     disabled={uploadingPdf}
                                 />
                             </label>
-                            {form.link && form.link.endsWith(".pdf") && (
+                            {form.link && (form.link.endsWith(".pdf") || form.link.startsWith("data:application/pdf")) && (
                                 <div className="text-[10px] bg-[#00875a]/20 border border-[#00875a]/30 text-[#00875a] px-3 py-2 rounded-lg font-bold uppercase tracking-wider shrink-0 flex items-center gap-1">
                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
